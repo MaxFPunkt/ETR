@@ -26,6 +26,13 @@ public class Level implements Drawable,Timer{
 			.sorted(Comparator.comparing(Object::getZ))
 			.forEachOrdered(o->o.draw(gc,windowWidth,windowHeight,xOffsetWindow));
 	}
+
+	public void mouseClicked(double x, double y) {
+		for(Object o:objects){
+			o.ifHit(x,y);
+		}
+	}
+	
 	@Override
 	public void update(double pastTime) {
 		objects.stream()

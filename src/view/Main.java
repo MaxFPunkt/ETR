@@ -1,7 +1,10 @@
 package view;
+
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.event.Event;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -39,6 +42,11 @@ public class Main extends Application{
 		
 		stage.setScene(mainScene);
 		stage.show();
+		
+		stage.addEventHandler(MouseEvent.MOUSE_CLICKED, ( e) -> {
+			System.out.println("ScreenX: "+e.getSceneX());			
+			content.mouseClick(e.getSceneX(), e.getSceneY());
+		});
 		
 		mainLoop.start();
 	}
