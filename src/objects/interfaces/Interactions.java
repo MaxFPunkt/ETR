@@ -1,4 +1,4 @@
-package ObjektsInterfaces;
+package objects.interfaces;
 
 public interface Interactions {
 
