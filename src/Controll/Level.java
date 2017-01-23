@@ -7,8 +7,9 @@ import java.util.List;
 import javafx.scene.canvas.GraphicsContext;
 import objects.Object;
 import objects.interfaces.Drawable;
+import objects.interfaces.Timer;
 
-public class Level implements Drawable{
+public class Level implements Drawable,Timer{
 	private List<Object>  objects= new ArrayList<>();
 	
 	
@@ -30,5 +31,11 @@ public class Level implements Drawable{
 		for(Object o:objects){
 			o.ifHit(x,y);
 		}
+	}
+	
+	@Override
+	public void update(double pastTime) {
+		objects.stream()
+			.forEach(o->o.call(pastTime));
 	}
 }
