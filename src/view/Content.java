@@ -7,15 +7,18 @@ import Controll.Level;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import objects.Interface;
 
 public class Content extends Canvas{
 	private List<Level> levels;
 	private double xOffset;
+	private Interface intface;
 	int i=0;
 	public Content(){
 		super(100,100);
 		levels = new ArrayList<Level>();
 		levels.add(new Level(widthProperty(),heightProperty(),1000));
+		intface=new Interface();
 	}
 
 	public void draw() {
@@ -32,7 +35,7 @@ public class Content extends Canvas{
 		}
 		for(Level l:levels) l.draw(gc,getWidth(),getHeight(),xOffset);
 		i++;
-		
+		intface.draw(gc,  getWidth(),  getHeight(), 0);		
 	}
 
 	public void mouseClick(double x, double y) {
