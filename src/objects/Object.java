@@ -4,8 +4,9 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import objects.interfaces.Drawable;
 import objects.interfaces.Interactions;
+import objects.interfaces.Timer;
 
-public class Object implements Interactions, Drawable {
+public class Object implements Interactions,Drawable,Timer {
 
 	private double x;
 	private double y;
@@ -13,11 +14,31 @@ public class Object implements Interactions, Drawable {
 	
 	private double width;
 	private double height;
-
+	
+	/**
+	 * 
+	 * @return the x Position 
+	 */
 	public double getX() {return x;}
+	/**
+	 * 
+	 * @return the y Position 
+	 */
 	public double getY() {return y;}
+	/**
+	 * 
+	 * @return the z Position 
+	 */
 	public double getZ() {return z;}
+	/**
+	 * 
+	 * @return the width of object 
+	 */
 	public double getWidth() {return width;}
+	/**
+	 * 
+	 * @return the height of object 
+	 */
 	public double getHeight() {	return height;}
 	
 	public Object(double x, double y, double width, double height) {
