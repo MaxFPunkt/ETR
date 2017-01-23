@@ -1,0 +1,27 @@
+Struktur:
+	Fenster
+		variable Fensterdimensionen
+		FensterhHöhe skaliert das Spiel
+		Spielbreite ist fix
+	Spiel
+		Levelbasiert
+		Interface
+			Menü
+			Inventar
+			Interaktionen
+				Statisch & Shortcuts
+		Effekte
+		Sound
+			Gissinger (Redner)	
+	Logik
+		Objekte
+			Interaktionen
+				schieben
+				nehmen
+				angucken
+				kombinieren mit Objekt
+			Zeichnen
+				Achsen: X, Y, Z
+				3 Perspektiven (von l, von r, frontal)
+				
+				
