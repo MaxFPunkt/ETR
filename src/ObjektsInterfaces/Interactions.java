@@ -1,3 +1,4 @@
+package ObjektsInterfaces;
 
 public interface Interactions {
 
