@@ -2,8 +2,9 @@ package objects;
 
 import objects.interfaces.Drawable;
 import objects.interfaces.Interactions;
+import objects.interfaces.Timer;
 
-public class Object implements Interactions,Drawable {
+public class Object implements Interactions,Drawable,Timer {
 
 	private double x;
 	private double y;
