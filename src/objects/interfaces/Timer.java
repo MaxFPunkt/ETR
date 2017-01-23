@@ -4,7 +4,7 @@ public interface Timer {
 	public default void update(){}
 	/**
 	 * 
-	 * @param pastTime in Milliseconds
+	 * @param pastTime in nanoseconds
 	 */
 	public default void update(double pastTime){}
 	public default void updateThreadSave(){}
@@ -13,7 +13,7 @@ public interface Timer {
 	
 	/**
 	 * 
-	 * @param pastTime in Milliseconds
+	 * @param pastTime in nanoseconds
 	 */
 	public default void call(double pastTime) {
 		
