@@ -1,5 +1,7 @@
 package objects;
 
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 import objects.interfaces.Drawable;
 import objects.interfaces.Interactions;
 import objects.interfaces.Timer;
@@ -39,9 +41,15 @@ public class Object implements Interactions,Drawable,Timer {
 	 */
 	public double getHeight() {	return height;}
 	
-	@Override
-	public void draw() {
-		// TODO Auto-generated method stub		
+	public Object(double x, double y, double width, double height) {
+		 this.x=x;
+		 this.y=y;
+		 this.width =width;
+		 this.height = height;
 	}
-
+	
+	@Override
+	public void draw(GraphicsContext gc, double windowWidth, double windowHeight, double xOffsetWindow) {
+		gc.fillRect(x, y, width, height);
+	}
 }
