@@ -2,7 +2,6 @@ package view;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.event.Event;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -10,8 +9,7 @@ import javafx.stage.Stage;
 
 
 public class Main extends Application{
-	
-	private static final double WIDTH = 1600, HEIGHT = 900;
+
 	
 	private Scene mainScene;
 	private Pane mainPane;
@@ -31,9 +29,11 @@ public class Main extends Application{
 			}
 		};
 		mainPane = new Pane();
-		content = new Content(WIDTH, HEIGHT);
+		content = new Content();
 		mainPane.getChildren().add(content);
 		mainScene = new Scene(mainPane);
+		content.widthProperty().bind(mainScene.widthProperty());
+		content.heightProperty().bind(mainScene.heightProperty());
 	}
 	
 	@Override

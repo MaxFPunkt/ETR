@@ -12,10 +12,10 @@ public class Content extends Canvas{
 	private List<Level> levels;
 	private double xOffset;
 	int i=0;
-	public Content(double width, double height){
-		super(width,height);
+	public Content(){
+		super(100,100);
 		levels = new ArrayList<Level>();
-		levels.add(new Level(1000));
+		levels.add(new Level(widthProperty(),heightProperty(),1000));
 	}
 
 	public void draw() {
@@ -23,12 +23,13 @@ public class Content extends Canvas{
 		
 		// Bild reseten
 		gc.clearRect(0, 0, getWidth(), getHeight());
+		gc.setFill(new Color(0.5,0.5,0.5, 1));
+		gc.fillRect(0, 0, getWidth(), getHeight());
 		
 		if(i%30==0){
 			gc.setFill(new Color(Math.random(),Math.random(), Math.random(), 1));
 			i=0;
 		}
-		
 		for(Level l:levels) l.draw(gc,getWidth(),getHeight(),xOffset);
 		i++;
 		
