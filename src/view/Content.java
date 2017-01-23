@@ -33,4 +33,8 @@ public class Content extends Canvas{
 		i++;
 		
 	}
+
+	public void mouseClick(double x, double y) {
+		for(Level l:levels)l.mouseClicked(x,y);
+	}
 }

@@ -1,7 +1,7 @@
 package objects;
 
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
+//import javafx.scene.paint.Color;
 import objects.interfaces.Drawable;
 import objects.interfaces.Interactions;
 import objects.interfaces.Timer;
@@ -52,4 +52,13 @@ public class Object implements Interactions,Drawable,Timer {
 	public void draw(GraphicsContext gc, double windowWidth, double windowHeight, double xOffsetWindow) {
 		gc.fillRect(x, y, width, height);
 	}
+	
+	//y+height x+width x,y y,x x-width y-height 
+	public void ifHit(double XAxis, double YAxis){
+		if(XAxis > x && XAxis < x+width && YAxis > y && YAxis < y+height)
+		{System.out.println("getroffen");}
+//		else
+//		{System.out.println("nicht getroffen");}
+	}
 }
+

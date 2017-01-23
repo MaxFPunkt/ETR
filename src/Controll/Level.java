@@ -25,4 +25,10 @@ public class Level implements Drawable{
 			.sorted(Comparator.comparing(Object::getZ))
 			.forEachOrdered(o->o.draw(gc,windowWidth,windowHeight,xOffsetWindow));
 	}
+
+	public void mouseClicked(double x, double y) {
+		for(Object o:objects){
+			o.ifHit(x,y);
+		}
+	}
 }
