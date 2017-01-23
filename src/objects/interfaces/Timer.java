@@ -2,6 +2,11 @@ package objects.interfaces;
 
 public interface Timer {
 	public default void update(){}
+	/**
+	 * 
+	 * @param pastTime in Milliseconds
+	 */
+	public default void update(double pastTime){}
 	public default void updateThreadSave(){}
 	public default void eachSekend(){}
 	public default void eachSekendThreadSave(){}
@@ -10,7 +15,8 @@ public interface Timer {
 	 * 
 	 * @param pastTime in Milliseconds
 	 */
-	public static void call(double pastTime) {
+	public default void call(double pastTime) {
 		
 	}
+	
 }
