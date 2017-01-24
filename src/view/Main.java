@@ -24,7 +24,7 @@ public class Main extends Application{
 		mainLoop = new AnimationTimer() {
 			@Override
 			public void handle(long now) {
-				update();
+				call(now);
 				draw();
 			}
 		};
@@ -55,8 +55,8 @@ public class Main extends Application{
 		content.draw();
 	}
 	
-	private void update() {
-
+	private void call(double pastTime) {
+		content.call(pastTime);
 	}
 
 	@Override
