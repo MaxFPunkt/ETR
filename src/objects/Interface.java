@@ -10,5 +10,5 @@ public class Interface implements Drawable,Timer{
 	public void draw(GraphicsContext gc, double windowWidth, double windowHeight, double xOffsetWindow) {
 		// TODO Auto-generated method stub		
 	}
-
+	public void mouseClicked(double x, double y){}
 }

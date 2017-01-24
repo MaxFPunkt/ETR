@@ -8,8 +8,9 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import objects.Interface;
+import objects.interfaces.Timer;
 
-public class Content extends Canvas{
+public class Content extends Canvas implements Timer{
 	private List<Level> levels;
 	private double xOffset;
 	private Interface intface;
@@ -36,8 +37,8 @@ public class Content extends Canvas{
 		i++;
 		intface.draw(gc,  getWidth(),  getHeight(), 0);		
 	}
-
 	public void mouseClick(double x, double y) {
 		for(Level l:levels)l.mouseClicked(x,y);
+		intface.mouseClicked(x,y);
 	}
 }

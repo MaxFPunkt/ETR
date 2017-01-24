@@ -2,7 +2,6 @@ package view;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.event.Event;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -26,7 +25,7 @@ public class Main extends Application{
 		mainLoop = new AnimationTimer() {
 			@Override
 			public void handle(long now) {
-				update();
+				call(now);
 				draw();
 			}
 		};
@@ -55,8 +54,8 @@ public class Main extends Application{
 		content.draw();
 	}
 	
-	private void update() {
-
+	private void call(double pastTime) {
+		content.call(pastTime);
 	}
 
 	@Override
