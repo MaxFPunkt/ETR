@@ -16,7 +16,7 @@ public interface Timer {
 	 * @param pastTime in nanoseconds
 	 */
 	public default void call(double pastTime) {
-		
+		update(pastTime);
 	}
 	
 }
