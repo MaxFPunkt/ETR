@@ -62,7 +62,7 @@ public class Level implements Drawable,Timer{
 	public void update(double pastTime) {
 		objects.stream()
 			.forEach(o->o.call(pastTime));
-		if(lastXOffsetWindow!=null)lastXOffsetWindow+=(lastXOffsetWindow-toXOffsetWindow)/20.*pastTime;
+		if(lastXOffsetWindow!=null)lastXOffsetWindow+=(toXOffsetWindow-lastXOffsetWindow)/1000000000000000.*pastTime;
 	}
 
 	public void keyEvent(KeyEvent e) {
