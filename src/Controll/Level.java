@@ -26,6 +26,9 @@ public class Level implements Drawable,Timer{
 		backgrounbdWith.bind(height.divide(9).multiply(32));
 	}
 	
+	Image imgaeRoom=new Image("room.png");
+	Image imgaeBode=new Image("bode.png");
+	
 	@Override
 	public void draw(GraphicsContext gc, double windowWidth, double windowHeight, double xOffsetWindow) {
 		lastWindowHeight=windowHeight;
@@ -33,8 +36,8 @@ public class Level implements Drawable,Timer{
 		if(lastXOffsetWindow==null)
 			lastXOffsetWindow=xOffsetWindow;
 		
-		gc.drawImage(new Image("room.png"),lastXOffsetWindow/900*3200,0, windowHeight/900*3200,windowHeight);
-		gc.drawImage(new Image("bode.png"),lastXOffsetWindow/900*3200,0, windowHeight/900*3200,windowHeight);
+		gc.drawImage(imgaeRoom,lastXOffsetWindow/900*3200,0, windowHeight/900*3200,windowHeight);
+		gc.drawImage(imgaeBode,lastXOffsetWindow/900*3200,0, windowHeight/900*3200,windowHeight);
 		objects.stream()
 			.sorted((o1,o2)->{
 				return Double.compare(o2.getZ(), o1.getZ());
@@ -60,7 +63,6 @@ public class Level implements Drawable,Timer{
 		objects.stream()
 			.forEach(o->o.call(pastTime));
 		if(lastXOffsetWindow!=null)lastXOffsetWindow+=(lastXOffsetWindow-toXOffsetWindow)/20.*pastTime;
-		if(lastXOffsetWindow!=null)System.out.println(lastXOffsetWindow+"|"+(lastXOffsetWindow-toXOffsetWindow));
 	}
 
 	public void keyEvent(KeyEvent e) {

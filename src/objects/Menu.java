@@ -4,10 +4,16 @@ package objects;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 public class Menu extends Pane {
@@ -27,16 +33,17 @@ public class Menu extends Pane {
              new KeyValue( openProcen, 0 ) ) );
 	public Menu(){
 		getChildren().addAll(b1,b2,credis,exit);
-//		this.backgroundProperty().bind(Bindings.createObjectBinding(() -> {
-//		    BackgroundFill fill = new BackgroundFill(new Color(0, 0, 0, openProcen.divide(2).get()), CornerRadii.EMPTY, Insets.EMPTY);
-//		    return new Background(fill);
-//		},openProcen));
+		this.backgroundProperty().bind(Bindings.createObjectBinding(() -> {
+		    BackgroundFill fill = new BackgroundFill(new Color(0, 0, 0, openProcen.divide(2).get()), CornerRadii.EMPTY, Insets.EMPTY);
+		    return new Background(fill);
+		},openProcen));
 		for(int i=0;getChildren().size()>i;++i){
 			Button b=(Button) getChildren().get(i);
 			b.prefWidthProperty().bind(widthProperty().divide(2));
 			b.layoutXProperty().bind(widthProperty().divide(4));
 			b.layoutYProperty().bind(heightProperty().divide(getChildren().size()+1).divide(2).multiply(i+1).add(heightProperty().divide(4)).multiply(openProcen).subtract(b.heightProperty()));			
 		}
+		
 	}
 	public void open(){	
 		timelineOpen.playFromStart();
