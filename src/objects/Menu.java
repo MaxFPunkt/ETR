@@ -17,14 +17,13 @@ import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 public class Menu extends Pane {
-	enum Status{GoOpen,GoClose};
+	
 	Button exit=new Button("Exit");
 	Button credis=new Button("Credis");
 	Button b1=new Button("1");
 	Button b2=new Button("2");
 	DoubleProperty openProcen=new SimpleDoubleProperty(0);
 	
-	Status status=Status.GoOpen;
 	Timeline timelineOpen = new Timeline( new KeyFrame( Duration.millis( 500 ),
              new KeyValue( openProcen, 0 ),
              new KeyValue( openProcen, 1 ) ) );
@@ -42,8 +41,7 @@ public class Menu extends Pane {
 			b.prefWidthProperty().bind(widthProperty().divide(2));
 			b.layoutXProperty().bind(widthProperty().divide(4));
 			b.layoutYProperty().bind(heightProperty().divide(getChildren().size()+1).divide(2).multiply(i+1).add(heightProperty().divide(4)).multiply(openProcen).subtract(b.heightProperty()));			
-		}
-		
+		}		
 	}
 	public void open(){	
 		timelineOpen.playFromStart();
@@ -53,6 +51,5 @@ public class Menu extends Pane {
 	}
 	public boolean isOpen() {
 		return openProcen.isEqualTo(1).get();
-	}
-	
+	}	
 }
