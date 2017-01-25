@@ -6,6 +6,8 @@ import java.util.List;
 import Controll.Level;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import objects.Interface;
 import objects.interfaces.Timer;
@@ -41,5 +43,17 @@ public class Content extends Canvas implements Timer{
 	public void mouseClick(double x, double y) {
 		for(Level l:levels)l.mouseClicked(x,y);
 		intface.mouseClicked(x,y);
+	}
+
+	public void keyEvent(KeyEvent e) {
+		for(Level l:levels)l.keyEvent(e);
+		if(e.getCode()==KeyCode.LEFT)
+			xOffset+=100;
+		if(e.getCode()==KeyCode.RIGHT)
+			xOffset-=100;
+	}
+	@Override
+	public void update(double pastetime){
+		for(Level l:levels)l.call(pastetime);
 	}
 }

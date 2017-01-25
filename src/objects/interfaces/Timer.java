@@ -17,6 +17,7 @@ public interface Timer {
 	 */
 	public default void call(double pastTime) {
 		update(pastTime);
+		update();
 	}
 	
 }

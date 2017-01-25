@@ -55,7 +55,7 @@ public class Object implements Interactions,Drawable,Timer {
 	public double getDrawX(double windowHeight, double xOffsetWindow){
 		double i=getZ()*(29./44.);
 		double drawXNormal=i+getX()/880.*(3200-2*i);
-		return drawXNormal/1600.*windowHeight/900.*1600;
+		return (drawXNormal/1600.+xOffsetWindow)*windowHeight/900.*1600;
 	}
 	/**
 	 * 
@@ -67,7 +67,7 @@ public class Object implements Interactions,Drawable,Timer {
 		double i=getZ()/1760.*380.;
 		double k=120-getZ()/1760.*120;
 		double drawYNormal=k+ getY()/880.*(900-i-k);
-		return drawYNormal/900.*windowHeight;
+		return drawYNormal/900.*windowHeight ;
 		
 	}
 	/**
@@ -78,7 +78,8 @@ public class Object implements Interactions,Drawable,Timer {
 	 */
 	public double getDrawWidth(double windowHeight){
 		double i=getZ()*(29./44.);
-		return getWidth()/880.*(3200-2*i)/1600*(windowHeight/900*1600);
+		return getWidth()/3200.*(3200-2*i)
+				/1600*(windowHeight/900*1600);
 	}
 	/**
 	 * 
@@ -89,10 +90,14 @@ public class Object implements Interactions,Drawable,Timer {
 	public double getDrawHeight( double windowHeight){
 		double i=getZ()/1760.*380.;
 		double k=120-getZ()/1760.*120;
-		return getHeight()/880.*(900-i-k)/900*windowHeight;
-	}
-	
+		return getHeight()/900.*(900-i-k)
+				/900*windowHeight;
+	}	
 	public Object(double x, double y, double z, DoubleProperty width, DoubleProperty height, Image img) {
+		 this(x,y,z,width,height);
+		 this.img = img;
+	}
+	public Object(double x, double y, double z, double width, double height, Image img) {
 		 this(x,y,z,width,height);
 		 this.img = img;
 	}
@@ -113,8 +118,7 @@ public class Object implements Interactions,Drawable,Timer {
 	
 	@Override
 	public void draw(GraphicsContext gc, double windowWidth, double windowHeight, double xOffsetWindow) {
-		if(img==null)gc.strokeRect(getDrawX( windowHeight,xOffsetWindow), getDrawY( windowHeight), getDrawWidth(windowHeight),getDrawHeight( windowHeight));
-		gc.drawImage(img,x,y, width.get(), height.get());
+		gc.drawImage(img,getDrawX( windowHeight,xOffsetWindow), getDrawY( windowHeight), getDrawWidth(windowHeight),getDrawHeight( windowHeight));
 	}
 	
 	//y+height x+width x,y y,x x-width y-height 
@@ -129,4 +133,3 @@ public class Object implements Interactions,Drawable,Timer {
 		return  false;
 	}
 }
-
