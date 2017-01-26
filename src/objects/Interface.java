@@ -1,6 +1,10 @@
 package objects;
 
 import javafx.animation.TranslateTransition;
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -15,7 +19,10 @@ public class Interface extends Pane implements Timer{
 	private Button toggleRow, grabBt, lookBt, pushBt;
 	private boolean rowExpanded;
 	Inventory inventory=new Inventory();
-	private Action activeAction=Action.NONE;
+	private Property<Action> activeAction=new SimpleObjectProperty<Action>(Action.NONE);
+	
+	private String cssButtonAktive="-fx-background-color:#123";
+	private String cssButtonInAKtive="-fx-background-color:#321";
 	
 	public Interface() {
 
@@ -36,23 +43,23 @@ public class Interface extends Pane implements Timer{
 		grabBt.setFont(font);
 		grabBt.prefWidthProperty().bind((prefWidthProperty().multiply(inventoryScaling)).divide(4));
 		grabBt.setOnAction(e->{
-			activeAction = activeAction==Action.GRAB?Action.NONE:Action.GRAB;
+			activeAction.setValue(activeAction.getValue()==Action.GRAB?Action.NONE:Action.GRAB);
 		});
 		
 		lookBt = new Button("Ansehen");
 		lookBt.setFont(font);
 		lookBt.prefWidthProperty().bind((prefWidthProperty().multiply(inventoryScaling)).divide(4));
 		lookBt.setOnAction(e->{
-			activeAction = activeAction==Action.LOOK?Action.NONE:Action.LOOK;
+			activeAction.setValue(activeAction.getValue()==Action.LOOK?Action.NONE:Action.LOOK);
+
 		});
 		
 		pushBt = new Button("Schieben");
 		pushBt.setFont(font);
 		pushBt.prefWidthProperty().bind((prefWidthProperty().multiply(inventoryScaling)).divide(4));
 		pushBt.setOnAction(e->{
-			activeAction = activeAction==Action.PUSH?Action.NONE:Action.PUSH;
+			activeAction.setValue(activeAction.getValue()==Action.PUSH?Action.NONE:Action.PUSH);
 		});
-		
 		toggleRow = new Button("Einfahren");
 		toggleRow.setFont(font);
 		toggleRow.prefWidthProperty().bind((prefWidthProperty().multiply(inventoryScaling)).divide(4));
@@ -60,12 +67,28 @@ public class Interface extends Pane implements Timer{
 			if(rowExpanded)collapseBotRow();
 			else expandBotRow();
 		});
-		
+		activeAction.addListener(new ChangeListener<Action>() {
+			@Override
+			public void changed(ObservableValue<? extends Action> observable, Action oldValue, Action newValue) {
+				if(newValue==Action.GRAB)
+					grabBt.setStyle(cssButtonAktive);
+				else 
+					grabBt.setStyle(cssButtonInAKtive);
+				if(newValue==Action.LOOK)
+					lookBt.setStyle(cssButtonAktive);
+				else 
+					lookBt.setStyle(cssButtonInAKtive);
+				if(newValue==Action.PUSH)
+					pushBt.setStyle(cssButtonAktive);
+				else 
+					pushBt.setStyle(cssButtonInAKtive);
+			}
+		});
+		activeAction.setValue(Action.PUSH);activeAction.setValue(Action.NONE);
 		
 		botRow.getChildren().addAll(pushBt,grabBt,lookBt,toggleRow);
 		getChildren().addAll(botRow,inventory);
 	}
-	
 	public HBox collapseBotRow(){
 		TranslateTransition tt = new TranslateTransition(Duration.millis(300),botRow);
 		tt.setToX(-1*botRow.widthProperty().subtract(toggleRow.widthProperty()).doubleValue());
@@ -95,7 +118,7 @@ public class Interface extends Pane implements Timer{
 	
 	public void mouseClicked(double x, double y){}
 
-	public Action getActiveAction() {return activeAction;}
+	public Action getActiveAction() {return activeAction.getValue();}
 
 	@SuppressWarnings("incomplete-switch")
 	public boolean action(Object object) {
@@ -117,6 +140,6 @@ public class Interface extends Pane implements Timer{
 	}
 
 	public void resetActiveAction() {
-		this.activeAction = Action.NONE;
+		this.activeAction.setValue(Action.NONE);
 	}
 }

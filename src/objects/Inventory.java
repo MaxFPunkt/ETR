@@ -33,7 +33,7 @@ public class Inventory extends Pane {
 		inventoryElements.add(inventoryElement);
 		vBox.getChildren().add(inventoryElement);
 	}
-	Inventory(){
+	public Inventory(){
 
 		getChildren().addAll(scrollPane,switchButton);
 		
