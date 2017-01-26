@@ -38,6 +38,8 @@ public class Level implements Drawable,Timer{
 	@Override
 	public void draw(GraphicsContext gc, double windowWidth, double windowHeight, double xOffsetWindow) {
 		lastWindowHeight=windowHeight;
+		if(lastXOffsetWindow!=null&&toXOffsetWindow!=xOffsetWindow)
+			lastXOffsetWindow+=(xOffsetWindow-toXOffsetWindow)/3.;		
 		toXOffsetWindow=xOffsetWindow;
 		if(lastXOffsetWindow==null)
 			lastXOffsetWindow=xOffsetWindow;
@@ -57,7 +59,6 @@ public class Level implements Drawable,Timer{
 			if(object.isPresent()){
 				boolean success = parent.getIntface().action(object.get());
 				if(success) {
-					//partikelEffekts.add(new PartikelEffekt(object.get().getDrawX(lastWindowHeight, lastXOffsetWindow),object.get().getDrawY(lastWindowHeight),object.get().getDrawWidth(lastWindowHeight),object.get().getDrawHeight(lastWindowHeight)));
 					partikelEffekts.add(new PartikelEffekt(object.get(),lastWindowHeight, lastXOffsetWindow));
 					objects.remove(object.get());
 				}
@@ -78,7 +79,7 @@ public class Level implements Drawable,Timer{
 		objects.stream()
 			.forEach(o->o.call(pastTime));
 		partikelEffekts.forEach(o->o.call(pastTime));
-		if(lastXOffsetWindow!=null)lastXOffsetWindow+=(toXOffsetWindow-lastXOffsetWindow)/1000000000000000.*pastTime;
+		if(lastXOffsetWindow!=null)lastXOffsetWindow+=(toXOffsetWindow-lastXOffsetWindow)/100000000000000.*pastTime;
 	}
 
 	public void keyEvent(KeyEvent e) {
