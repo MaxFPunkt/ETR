@@ -62,8 +62,8 @@ public class Main extends Application{
 	public void start(Stage stage){
 		content.widthProperty().bind(stage.widthProperty());
 		stage.initStyle(StageStyle.UTILITY);
-		//stage.setFullScreen(true);
-		stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+		stage.setFullScreen(true);
+		stage.setFullScreenExitHint("");
 		stage.setScene(mainScene);
 		stage.show();
 		

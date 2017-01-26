@@ -10,6 +10,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import objects.Object;
+import objects.PartikelEffekt;
 import objects.interfaces.Drawable;
 import objects.interfaces.Interactions.Action;
 import objects.interfaces.Timer;
@@ -17,6 +18,7 @@ import view.Content;
 
 public class Level implements Drawable,Timer{
 	private List<Object>  objects= new ArrayList<>();
+	private List<PartikelEffekt>  partikelEffekts= new ArrayList<>();
 	private double lastWindowHeight;
 	private Double lastXOffsetWindow=null;
 	private double toXOffsetWindow;
@@ -47,13 +49,18 @@ public class Level implements Drawable,Timer{
 				return Double.compare(o2.getZ(), o1.getZ());
 			})
 			.forEachOrdered(o->o.draw(gc,windowWidth,windowHeight,lastXOffsetWindow));
+		partikelEffekts.forEach(o->o.draw(gc,windowWidth,windowHeight,lastXOffsetWindow));
 	}
 	public void mouseClicked(double x, double y) {
 		if(parent.getIntface().getActiveAction()!=Action.NONE){
 			Optional<Object> object=getClickedObjekt(x, y);
 			if(object.isPresent()){
 				boolean success = parent.getIntface().action(object.get());
-				if(success) objects.remove(object.get());
+				if(success) {
+					//partikelEffekts.add(new PartikelEffekt(object.get().getDrawX(lastWindowHeight, lastXOffsetWindow),object.get().getDrawY(lastWindowHeight),object.get().getDrawWidth(lastWindowHeight),object.get().getDrawHeight(lastWindowHeight)));
+					partikelEffekts.add(new PartikelEffekt(object.get(),lastWindowHeight, lastXOffsetWindow));
+					objects.remove(object.get());
+				}
 			}
 		}
 	}
@@ -70,6 +77,7 @@ public class Level implements Drawable,Timer{
 	public void update(double pastTime) {
 		objects.stream()
 			.forEach(o->o.call(pastTime));
+		partikelEffekts.forEach(o->o.call(pastTime));
 		if(lastXOffsetWindow!=null)lastXOffsetWindow+=(toXOffsetWindow-lastXOffsetWindow)/1000000000000000.*pastTime;
 	}
 
