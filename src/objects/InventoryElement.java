@@ -17,6 +17,9 @@ public class InventoryElement extends Pane {
 			imageView.fitWidthProperty().bind(widthProperty());
 			imageView.fitHeightProperty().bind(heightProperty());
 		}
+		setOnMouseClicked(e->{
+			System.out.println("click");
+		});
 	}
-
+	
 }
