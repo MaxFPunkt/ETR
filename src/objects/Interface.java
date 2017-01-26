@@ -1,28 +1,26 @@
 package objects;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javafx.animation.TranslateTransition;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
 import objects.interfaces.Timer;
 
 public class Interface extends Pane implements Timer{
-	
-	private List<Node> elements;
 
 	private HBox botRow;
 	private Button toggleRow, grabBt, lookBt, pushBt;
 	private boolean rowExpanded;
+	Inventory inventory=new Inventory();
 	
 	public Interface() {
-		elements = new ArrayList<Node>();
+
+
+		inventory.layoutXProperty().bind(widthProperty().divide(4).multiply(3));
+		inventory.prefWidthProperty().bind(widthProperty().divide(4));
+		inventory.prefHeightProperty().bind(heightProperty());
 		
 		botRow = new HBox();
 		botRow.layoutYProperty().bind(this.heightProperty().subtract(botRow.heightProperty()));
@@ -63,7 +61,7 @@ public class Interface extends Pane implements Timer{
 		
 		
 		botRow.getChildren().addAll(pushBt,grabBt,lookBt,toggleRow);
-		getChildren().add(botRow);
+		getChildren().addAll(botRow,inventory);
 	}
 	
 	public HBox collapseBotRow(){
