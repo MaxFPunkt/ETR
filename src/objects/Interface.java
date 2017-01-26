@@ -1,6 +1,7 @@
 package objects;
 
 import javafx.animation.Animation;
+import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
@@ -26,6 +27,7 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 	private Button toggleRow, grabBt, lookBt, pushBt;
 	private boolean rowExpanded;
 	private Label labelBox;
+	private Timeline stopDisplay;
 	Inventory inventory=new Inventory();
 	private Property<Action> activeAction=new SimpleObjectProperty<Action>(Action.NONE);
 	
@@ -102,34 +104,43 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 		labelBox.setWrapText(true);
 		labelBox.setPadding(new Insets(2,15,0,15));
 		labelBox.setFont(new Font("Calibri",25));
-		
+		stopDisplay = new Timeline(new KeyFrame( Duration.millis(3000),x->{
+			FadeTransition ft = new FadeTransition(Duration.millis(750),labelBox);
+			ft.setFromValue(1);
+			ft.setToValue(0);
+			ft.setOnFinished(eve->{
+				labelBox.setText("");
+				getChildren().remove(labelBox);
+			});
+			ft.play();
+		}));
 		labelBox.setStyle("-fx-background-radius:15; -fx-background-color: rgba(20,20,20,0.8);-fx-text-fill:white;-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 15, 0.5, 0.0, 0.0);");
 		botRow.getChildren().addAll(pushBt,grabBt,lookBt,toggleRow);
 		getChildren().addAll(botRow,inventory);
 	}
 	
 	public void displayText(String text){
-		getChildren().add(labelBox);
-		final IntegerProperty i = new SimpleIntegerProperty(0);
-		Timeline timeline = new Timeline();
-		KeyFrame keyFrame = new KeyFrame(Duration.millis(40),e->{
-			if(i.get()>text.length()){
-				timeline.stop();
-				
-				new Timeline(new KeyFrame( Duration.millis(3000),(x)->{
-					labelBox.setText("");
-					getChildren().remove(labelBox);
-				})).play();
-				
-			}
-			else {
-				labelBox.setText(text.substring(0,i.get()));
-				i.set(i.get()+1);
-			}
+		if(!getChildren().contains(labelBox))getChildren().add(labelBox);
+		FadeTransition ft = new FadeTransition(Duration.millis(750),labelBox);
+		ft.setFromValue(0);
+		ft.setToValue(1);
+		ft.play();
+		ft.setOnFinished(eve->{
+			final IntegerProperty i = new SimpleIntegerProperty(0);
+			Timeline timeline = new Timeline();
+			KeyFrame keyFrame = new KeyFrame(Duration.millis(40),e->{
+				if(i.get()>text.length()){
+					timeline.stop();
+					stopDisplay.play();
+				} else {
+					labelBox.setText(text.substring(0,i.get()));
+					i.set(i.get()+1);
+				}
+			});
+			timeline.getKeyFrames().add(keyFrame);
+			timeline.setCycleCount(Animation.INDEFINITE);
+			timeline.play();
 		});
-		timeline.getKeyFrames().add(keyFrame);
-		timeline.setCycleCount(Animation.INDEFINITE);
-		timeline.play();
 	}
 	
 	public HBox collapseBotRow(){

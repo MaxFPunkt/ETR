@@ -5,6 +5,7 @@ import objects.Interface;
 public interface Interactions {
 
 	public enum Action{NONE,PUSH,GRAB,LOOK};
+	
 	/**
 	 * 
 	 * @return true if the Object can be pushed.
@@ -40,3 +41,4 @@ public interface Interactions {
 	public default void look(){}
 	
 }
+

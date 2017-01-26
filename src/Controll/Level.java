@@ -30,6 +30,7 @@ public class Level implements Drawable,Timer{
 		DoubleProperty backgrounbdWith=new SimpleDoubleProperty(0);
 		backgrounbdWith.bind(height.divide(9).multiply(32));
 		objects.add(new Object(0, 0, 0, 100, 100,new Image("001.png")));
+		objects.add(new Object(120, 50, 0, 100, 100,new Image("001.png")));
 	}
 	
 	Image imgaeRoom=new Image("room.png");

@@ -138,4 +138,8 @@ public class Object implements Interactions,Drawable,Timer {
 		intface.inventory.add(this);
 		intface.resetActiveAction();
 	}
+
+	public void setGrabText(String text) {
+		this.grabText = "";
+	}
 }
