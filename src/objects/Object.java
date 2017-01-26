@@ -120,16 +120,15 @@ public class Object implements Interactions,Drawable,Timer {
 	public void draw(GraphicsContext gc, double windowWidth, double windowHeight, double xOffsetWindow) {
 		gc.drawImage(img,getDrawX( windowHeight,xOffsetWindow), getDrawY( windowHeight), getDrawWidth(windowHeight),getDrawHeight( windowHeight));
 	}
-	
-	//y+height x+width x,y y,x x-width y-height 
 	public boolean ifHit(double XAxis, double YAxis, double windowHeight, double xOffsetWindow){
 		if(XAxis > getDrawX( windowHeight,xOffsetWindow) 
 				&& XAxis < getDrawX( windowHeight,xOffsetWindow)+getDrawWidth(windowHeight) 
 				&& YAxis > getDrawY( windowHeight) 
 				&& YAxis < getDrawY( windowHeight)+getDrawHeight( windowHeight)){
-			System.out.println("hit");
 			return true;
 		}
 		return  false;
 	}
+	@Override
+	public boolean canGrab(){return true;}
 }

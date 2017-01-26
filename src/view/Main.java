@@ -40,27 +40,29 @@ public class Main extends Application{
 		mainPane = new Pane();
 		mainScene = new Scene(mainPane);
 
-		content = new Content();
+
+		intface = new Interface(); 
+		content = new Content(intface);
 		content.widthProperty().bind(mainScene.widthProperty());
 		content.heightProperty().bind(mainScene.heightProperty());
 		mainPane.getChildren().add(content);
+
+		intface.prefWidthProperty().bind(mainScene.widthProperty());
+		intface.prefHeightProperty().bind(mainScene.heightProperty());
+		mainPane.getChildren().add(intface);
 		
 		menu=new Menu();
 		menu.prefWidthProperty().bind(mainScene.widthProperty());
 		menu.prefHeightProperty().bind(mainScene.heightProperty());
-		mainPane.getChildren().add(menu);
+		//mainPane.getChildren().add(menu);
 		
-		intface = new Interface(); 
-		intface.prefWidthProperty().bind(mainScene.widthProperty());
-		intface.prefHeightProperty().bind(mainScene.heightProperty());
-		mainPane.getChildren().add(intface);
 	}
 	
 	@Override
 	public void start(Stage stage){
 		content.widthProperty().bind(stage.widthProperty());
 		stage.initStyle(StageStyle.UTILITY);
-		stage.setFullScreen(true);
+		//stage.setFullScreen(true);
 		stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
 		stage.setScene(mainScene);
 		stage.show();
