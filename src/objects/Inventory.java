@@ -18,7 +18,7 @@ public class Inventory extends Pane{
 	private List<InventoryElement> inventoryElements=new ArrayList<>();
 	private Button switchButton = new Button("Inventory");
 	private ScrollPane scrollPane =new ScrollPane();
-	private VBox vBox=new VBox();
+	private VBox vBox=new VBox(10);
 	DoubleProperty openProcen=new SimpleDoubleProperty(0);
 	
 	Timeline timelineOpen = new Timeline( new KeyFrame( Duration.millis( 200 ),
@@ -49,12 +49,12 @@ public class Inventory extends Pane{
 			if(openProcen.isEqualTo(0).get()){
 				timelineOpen.playFromStart();
 			}else if(openProcen.isEqualTo(1).get()){
-				timelineClose.playFromStart();
-				
+				timelineClose.playFromStart();				
 			}
 		});
 		
-		vBox.prefWidthProperty().bind(widthProperty());
+		vBox.prefWidthProperty().bind(widthProperty().subtract(15));
+		
 		vBox.setStyle("-fx-padding: 5px;");
 		
 	}
