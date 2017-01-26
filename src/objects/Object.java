@@ -55,7 +55,7 @@ public class Object implements Interactions,Drawable,Timer {
 	public double getDrawX(double windowHeight, double xOffsetWindow){
 		double i=getZ()*(29./44.);
 		double drawXNormal=i+getX()/880.*(3200-2*i);
-		return (drawXNormal/1600.+xOffsetWindow)*windowHeight/900.*1600;
+		return (drawXNormal/1600.)*windowHeight/900.*1600+xOffsetWindow/900*3200;
 	}
 	/**
 	 * 

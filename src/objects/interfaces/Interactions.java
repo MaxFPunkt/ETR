@@ -4,7 +4,7 @@ import objects.Interface;
 
 public interface Interactions {
 
-	public enum Action{NONE,PUSH,GRAB,LOOK};
+	public enum Action{NONE,PUSH,GRAB,LOOK,USE};
 	/**
 	 * 
 	 * @return true if the Object can be pushed.

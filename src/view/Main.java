@@ -4,7 +4,6 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -62,8 +61,8 @@ public class Main extends Application{
 	public void start(Stage stage){
 		content.widthProperty().bind(stage.widthProperty());
 		stage.initStyle(StageStyle.UTILITY);
-		//stage.setFullScreen(true);
-		stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+		stage.setFullScreen(true);
+		stage.setFullScreenExitHint("");
 		stage.setScene(mainScene);
 		stage.show();
 		
