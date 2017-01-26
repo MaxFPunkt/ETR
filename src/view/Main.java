@@ -39,7 +39,7 @@ public class Main extends Application{
 
 		mainPane = new Pane();
 		mainScene = new Scene(mainPane);
-
+		mainPane.getStylesheets().add("style.css");
 
 		intface = new Interface(); 
 		content = new Content(intface);
