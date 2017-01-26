@@ -24,7 +24,7 @@ import objects.interfaces.Interactions.Action;
 public class Interface extends Pane implements objects.interfaces.Timer{
 
 	private HBox botRow;
-	private Button toggleRow, grabBt, lookBt, pushBt;
+	private Button toggleRow, grabBt, lookBt, pushBt,useBT;
 	private boolean rowExpanded;
 	private Label labelBox;
 	private Timeline stopDisplay;
@@ -36,7 +36,7 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 	
 	public Interface() {
 		
-		double inventoryScaling = 0.8; 
+		double inventoryScaling = 0.85; 
 		inventory.layoutXProperty().bind(widthProperty().multiply(inventoryScaling));
 		inventory.prefWidthProperty().bind(widthProperty().multiply(1-inventoryScaling));
 
@@ -51,27 +51,34 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 		
 		grabBt = new Button("Nehmen");
 		grabBt.setFont(font);
-		grabBt.prefWidthProperty().bind((prefWidthProperty().multiply(inventoryScaling)).divide(4));
+		grabBt.prefWidthProperty().bind((prefWidthProperty().multiply(inventoryScaling)).divide(7));
 		grabBt.setOnAction(e->{
 			activeAction.setValue(activeAction.getValue()==Action.GRAB?Action.NONE:Action.GRAB);
 		});
 		
 		lookBt = new Button("Ansehen");
 		lookBt.setFont(font);
-		lookBt.prefWidthProperty().bind((prefWidthProperty().multiply(inventoryScaling)).divide(4));
+		lookBt.prefWidthProperty().bind((prefWidthProperty().multiply(inventoryScaling)).divide(7));
 		lookBt.setOnAction(e->{
 			activeAction.setValue(activeAction.getValue()==Action.LOOK?Action.NONE:Action.LOOK);
 		});
 		
 		pushBt = new Button("Schieben");
 		pushBt.setFont(font);
-		pushBt.prefWidthProperty().bind((prefWidthProperty().multiply(inventoryScaling)).divide(4));
+		pushBt.prefWidthProperty().bind((prefWidthProperty().multiply(inventoryScaling)).divide(7));
 		pushBt.setOnAction(e->{
 			activeAction.setValue(activeAction.getValue()==Action.PUSH?Action.NONE:Action.PUSH);
 		});
-		toggleRow = new Button("Einfahren");
+		useBT = new Button("Use");
+		useBT.setFont(font);
+		useBT.prefWidthProperty().bind((prefWidthProperty().multiply(inventoryScaling)).divide(7));
+		useBT.setOnAction(e->{
+			activeAction.setValue(activeAction.getValue()==Action.USE?Action.NONE:Action.USE);
+		});
+		toggleRow = new Button("❰");
 		toggleRow.setFont(font);
-		toggleRow.prefWidthProperty().bind((prefWidthProperty().multiply(inventoryScaling)).divide(4));
+		//toggleRow.prefWidthProperty().bind((prefWidthProperty().multiply(inventoryScaling)).divide(7));
+		toggleRow.prefWidth(50);
 		toggleRow.setOnAction(e->{
 			if(rowExpanded)collapseBotRow();
 			else expandBotRow();
@@ -91,6 +98,10 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 					pushBt.setStyle(cssButtonAktive);
 				else 
 					pushBt.setStyle(cssButtonInAKtive);
+				if(newValue==Action.USE)
+					useBT.setStyle(cssButtonAktive);
+				else 
+					useBT.setStyle(cssButtonInAKtive);
 			}
 		});
 		activeAction.setValue(Action.PUSH);activeAction.setValue(Action.NONE);
@@ -115,7 +126,7 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 			ft.play();
 		}));
 		labelBox.setStyle("-fx-background-radius:15; -fx-background-color: rgba(20,20,20,0.8);-fx-text-fill:white;-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 15, 0.5, 0.0, 0.0);");
-		botRow.getChildren().addAll(pushBt,grabBt,lookBt,toggleRow);
+		botRow.getChildren().addAll(pushBt,grabBt,lookBt,useBT,toggleRow);
 		getChildren().addAll(botRow,inventory);
 	}
 	
@@ -150,7 +161,7 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 		tt.setCycleCount(1);
 		tt.play();
 		
-		toggleRow.setText("Ausfahren");
+		toggleRow.setText("❱");
 		
 		rowExpanded = false;
 		return botRow;
@@ -164,7 +175,7 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 		tt.setCycleCount(1);
 		tt.play();
 		
-		toggleRow.setText("Einfahren");
+		toggleRow.setText("❰");
 
 		rowExpanded = true;
 		return botRow;

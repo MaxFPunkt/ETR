@@ -4,8 +4,7 @@ import objects.Interface;
 
 public interface Interactions {
 
-	public enum Action{NONE,PUSH,GRAB,LOOK};
-	
+	public enum Action{NONE,PUSH,GRAB,LOOK,USE};
 	/**
 	 * 
 	 * @return true if the Object can be pushed.
@@ -31,6 +30,8 @@ public interface Interactions {
 		case GRAB:
 			return canGrab();
 		case LOOK:
+			return canLook();
+		case USE:
 			return canLook();
 		default:return false;
 		}
