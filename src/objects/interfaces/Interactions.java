@@ -21,7 +21,13 @@ public interface Interactions {
 	 * 
 	 * @return true if the Object can be looked at.
 	 */
-	public default boolean canLook(){return false;}
+	public default boolean canLook(){return false;}	
+	
+	/**
+	 * 
+	 * @return true if the Object can be looked at.
+	 */
+	public default boolean canUse(){return false;}
 	
 	public default boolean can(Action action){
 		switch (action) {
@@ -32,11 +38,12 @@ public interface Interactions {
 		case LOOK:
 			return canLook();
 		case USE:
-			return canLook();
+			return canUse();
 		default:return false;
 		}
 	}
 	
+
 	public default void push(){}
 	public default void grab(Interface intface){}
 	public default void look(){}
