@@ -36,21 +36,21 @@ public class Interface extends Pane implements Timer{
 		grabBt.setFont(font);
 		grabBt.prefWidthProperty().bind((prefWidthProperty().multiply(inventoryScaling)).divide(4));
 		grabBt.setOnAction(e->{
-			activeAction = Action.GRAB;
+			activeAction = activeAction==Action.GRAB?Action.NONE:Action.GRAB;
 		});
 		
 		lookBt = new Button("Ansehen");
 		lookBt.setFont(font);
 		lookBt.prefWidthProperty().bind((prefWidthProperty().multiply(inventoryScaling)).divide(4));
 		lookBt.setOnAction(e->{
-			activeAction = Action.LOOK;
+			activeAction = activeAction==Action.LOOK?Action.NONE:Action.LOOK;
 		});
 		
 		pushBt = new Button("Schieben");
 		pushBt.setFont(font);
 		pushBt.prefWidthProperty().bind((prefWidthProperty().multiply(inventoryScaling)).divide(4));
 		pushBt.setOnAction(e->{
-			activeAction = Action.PUSH;
+			activeAction = activeAction==Action.PUSH?Action.NONE:Action.PUSH;
 		});
 		
 		toggleRow = new Button("Einfahren");
