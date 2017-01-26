@@ -33,9 +33,9 @@ public class Content extends Canvas implements Timer{
 	public void keyEvent(KeyEvent e) {
 		for(Level l:levels)l.keyEvent(e);
 		if(e.getCode()==KeyCode.LEFT)
-			xOffset+=25;
+			xOffset+=50;
 		if(e.getCode()==KeyCode.RIGHT)
-			xOffset-=25;
+			xOffset-=50;
 	}
 	@Override
 	public void update(double pastetime){
