@@ -14,7 +14,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
-public class Inventory extends Pane{
+public class Inventory extends Pane {
 	private List<InventoryElement> inventoryElements=new ArrayList<>();
 	private Button switchButton = new Button("Inventory");
 	private ScrollPane scrollPane =new ScrollPane();

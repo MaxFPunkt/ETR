@@ -52,7 +52,8 @@ public class Level implements Drawable,Timer{
 		if(parent.getIntface().getActiveAction()!=Action.NONE){
 			Optional<Object> object=getClickedObjekt(x, y);
 			if(object.isPresent()){
-				parent.getIntface().action(object.get());
+				boolean success = parent.getIntface().action(object.get());
+				if(success) objects.remove(object);
 			}
 		}
 	}
