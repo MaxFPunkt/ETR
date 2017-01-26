@@ -140,7 +140,7 @@ public class Object implements Interactions,Drawable,Timer {
 		intface.resetActiveAction();
 	}
 
-	public void setGrabText(String text) {
-		this.grabText = "";
-	}
+	public void setGrabText(String text) { this.grabText = text; }
+	public void setPushText(String text) { this.pushText = text; }
+	public void setLookText(String text) { this.lookText = text; }
 }
