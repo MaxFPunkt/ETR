@@ -18,6 +18,7 @@ public class Object implements Interactions,Drawable,Timer {
 	private DoubleProperty height;
 	
 	private Image img;
+	private String grabText, pushText, lookText, useText;
 	
 	/**
 	 * 
