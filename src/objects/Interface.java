@@ -1,11 +1,17 @@
 package objects;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.Property;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
@@ -18,6 +24,7 @@ public class Interface extends Pane implements Timer{
 	private HBox botRow;
 	private Button toggleRow, grabBt, lookBt, pushBt;
 	private boolean rowExpanded;
+	private Label labelBox;
 	Inventory inventory=new Inventory();
 	private Property<Action> activeAction=new SimpleObjectProperty<Action>(Action.NONE);
 	
@@ -25,7 +32,7 @@ public class Interface extends Pane implements Timer{
 	private String cssButtonInAKtive="-fx-background-color:#321";
 	
 	public Interface() {
-
+		
 		double inventoryScaling = 0.8; 
 		inventory.layoutXProperty().bind(widthProperty().multiply(inventoryScaling));
 		inventory.prefWidthProperty().bind(widthProperty().multiply(1-inventoryScaling));
@@ -51,7 +58,6 @@ public class Interface extends Pane implements Timer{
 		lookBt.prefWidthProperty().bind((prefWidthProperty().multiply(inventoryScaling)).divide(4));
 		lookBt.setOnAction(e->{
 			activeAction.setValue(activeAction.getValue()==Action.LOOK?Action.NONE:Action.LOOK);
-
 		});
 		
 		pushBt = new Button("Schieben");
@@ -85,10 +91,33 @@ public class Interface extends Pane implements Timer{
 			}
 		});
 		activeAction.setValue(Action.PUSH);activeAction.setValue(Action.NONE);
-		
-		botRow.getChildren().addAll(pushBt,grabBt,lookBt,toggleRow);
-		getChildren().addAll(botRow,inventory);
+
+		labelBox = new Label("asdsfgjhgftdfdfg");
+		labelBox.prefWidthProperty().bind(widthProperty().multiply(0.5));
+		labelBox.prefHeightProperty().bind(heightProperty().multiply(0.1));
+		labelBox.layoutYProperty().bind(botRow.layoutYProperty().subtract(labelBox.prefHeightProperty().add(50)));
+		labelBox.layoutXProperty().bind(widthProperty().divide(2).subtract(labelBox.prefWidthProperty().divide(2)));
+		labelBox.setFont(new Font("Calibri",25));
+		labelBox.setStyle("-fx-background-color: black;-fx-text-fill:white;");
+		botRow.getChildren().addAll(pushBt,grabBt,lookBt,toggleRow );
+		getChildren().addAll(botRow,inventory,labelBox);
 	}
+	
+	public void displayText(String text){
+		final IntegerProperty i = new SimpleIntegerProperty(0);
+		Timeline timeline = new Timeline();
+		KeyFrame keyFrame = new KeyFrame(Duration.millis(40),e->{
+			if(i.get()>text.length()) timeline.stop();
+			else {
+				labelBox.setText(text.substring(0,i.get()));
+				i.set(i.get()+1);
+			}
+		});
+		timeline.getKeyFrames().add(keyFrame);
+		timeline.setCycleCount(Animation.INDEFINITE);
+		timeline.play();
+	}
+	
 	public HBox collapseBotRow(){
 		TranslateTransition tt = new TranslateTransition(Duration.millis(300),botRow);
 		tt.setToX(-1*botRow.widthProperty().subtract(toggleRow.widthProperty()).doubleValue());
@@ -126,6 +155,7 @@ public class Interface extends Pane implements Timer{
 			switch(getActiveAction()){
 			case GRAB:
 				object.grab(this);
+				displayText("Haha das ist jetzt meins!");
 				break;
 			case LOOK:
 				object.look();
