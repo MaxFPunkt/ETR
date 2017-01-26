@@ -10,6 +10,8 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -17,9 +19,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
 import objects.interfaces.Interactions.Action;
-import objects.interfaces.Timer;
 
-public class Interface extends Pane implements Timer{
+public class Interface extends Pane implements objects.interfaces.Timer{
 
 	private HBox botRow;
 	private Button toggleRow, grabBt, lookBt, pushBt;
@@ -92,22 +93,35 @@ public class Interface extends Pane implements Timer{
 		});
 		activeAction.setValue(Action.PUSH);activeAction.setValue(Action.NONE);
 
-		labelBox = new Label("asdsfgjhgftdfdfg");
+		labelBox = new Label("");
 		labelBox.prefWidthProperty().bind(widthProperty().multiply(0.5));
 		labelBox.prefHeightProperty().bind(heightProperty().multiply(0.1));
 		labelBox.layoutYProperty().bind(botRow.layoutYProperty().subtract(labelBox.prefHeightProperty().add(50)));
 		labelBox.layoutXProperty().bind(widthProperty().divide(2).subtract(labelBox.prefWidthProperty().divide(2)));
+		labelBox.setAlignment(Pos.TOP_LEFT);
+		labelBox.setWrapText(true);
+		labelBox.setPadding(new Insets(2,15,0,15));
 		labelBox.setFont(new Font("Calibri",25));
-		labelBox.setStyle("-fx-background-color: black;-fx-text-fill:white;");
-		botRow.getChildren().addAll(pushBt,grabBt,lookBt,toggleRow );
-		getChildren().addAll(botRow,inventory,labelBox);
+		
+		labelBox.setStyle("-fx-background-radius:15; -fx-background-color: rgba(20,20,20,0.8);-fx-text-fill:white;-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 15, 0.5, 0.0, 0.0);");
+		botRow.getChildren().addAll(pushBt,grabBt,lookBt,toggleRow);
+		getChildren().addAll(botRow,inventory);
 	}
 	
 	public void displayText(String text){
+		getChildren().add(labelBox);
 		final IntegerProperty i = new SimpleIntegerProperty(0);
 		Timeline timeline = new Timeline();
 		KeyFrame keyFrame = new KeyFrame(Duration.millis(40),e->{
-			if(i.get()>text.length()) timeline.stop();
+			if(i.get()>text.length()){
+				timeline.stop();
+				
+				new Timeline(new KeyFrame( Duration.millis(3000),(x)->{
+					labelBox.setText("");
+					getChildren().remove(labelBox);
+				})).play();
+				
+			}
 			else {
 				labelBox.setText(text.substring(0,i.get()));
 				i.set(i.get()+1);
