@@ -18,8 +18,9 @@ public class Interface extends Pane implements Timer{
 	public Interface() {
 
 
-		inventory.layoutXProperty().bind(widthProperty().divide(4).multiply(3));
-		inventory.prefWidthProperty().bind(widthProperty().divide(4));
+		double inventoryScaling = 0.8; 
+		inventory.layoutXProperty().bind(widthProperty().multiply(inventoryScaling));
+		inventory.prefWidthProperty().bind(widthProperty().multiply(1-inventoryScaling));
 		inventory.prefHeightProperty().bind(heightProperty());
 		
 		botRow = new HBox();
@@ -27,7 +28,6 @@ public class Interface extends Pane implements Timer{
 		
 		rowExpanded = true;
 		
-		double inventoryScaling = 0.75; 
 		Font font = new Font("Calibri",30);
 		
 		grabBt = new Button("Nehmen");
