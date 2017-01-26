@@ -10,6 +10,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import objects.Interface;
 import objects.Menu;
 
 
@@ -20,7 +21,9 @@ public class Main extends Application{
 	private Pane mainPane;
 	private Content content;
 	private AnimationTimer mainLoop;
-	private Menu menu=new Menu();
+	private Menu menu;
+	private Interface intface;
+	
 	public static void main(String[] args) { launch(); }
 
 	@Override
@@ -33,15 +36,24 @@ public class Main extends Application{
 				draw();
 			}
 		};
+
 		mainPane = new Pane();
-		content = new Content();
-		mainPane.getChildren().add(content);
-		mainPane.getChildren().add(menu);
 		mainScene = new Scene(mainPane);
+
+		content = new Content();
 		content.widthProperty().bind(mainScene.widthProperty());
 		content.heightProperty().bind(mainScene.heightProperty());
+		mainPane.getChildren().add(content);
+		
+		menu=new Menu();
 		menu.prefWidthProperty().bind(mainScene.widthProperty());
 		menu.prefHeightProperty().bind(mainScene.heightProperty());
+		mainPane.getChildren().add(menu);
+		
+		intface = new Interface(); 
+		intface.prefWidthProperty().bind(mainScene.widthProperty());
+		intface.prefHeightProperty().bind(mainScene.heightProperty());
+		mainPane.getChildren().add(intface);
 	}
 	
 	@Override
