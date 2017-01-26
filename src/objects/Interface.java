@@ -29,10 +29,11 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 	private Label labelBox;
 	private Timeline stopDisplay;
 	Inventory inventory=new Inventory();
-	private Property<Action> activeAction=new SimpleObjectProperty<Action>(Action.NONE);
 	
-	private String cssButtonAktive="-fx-background-color:#123";
-	private String cssButtonInAKtive="-fx-background-color:#321";
+	private Property<Action> activeAction=new SimpleObjectProperty<Action>(Action.NONE);	
+	private String cssButtonAktive=" -fx-effect: innershadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );";
+	private String cssButtonInAKtive="";
+	
 	
 	public Interface() {
 		
