@@ -11,19 +11,23 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import objects.Object;
 import objects.interfaces.Drawable;
+import objects.interfaces.Interactions.Action;
 import objects.interfaces.Timer;
+import view.Content;
 
 public class Level implements Drawable,Timer{
 	private List<Object>  objects= new ArrayList<>();
 	private double lastWindowHeight;
 	private Double lastXOffsetWindow=null;
 	private double toXOffsetWindow;
+	private Content parent;
 	
 	// TODO: ONLY FOR TEST
-	public Level(DoubleProperty width,DoubleProperty height,int objectAmount){
-		
+	public Level(Content content, DoubleProperty width,DoubleProperty height,int objectAmount){
+		this.parent=content;
 		DoubleProperty backgrounbdWith=new SimpleDoubleProperty(0);
 		backgrounbdWith.bind(height.divide(9).multiply(32));
+		objects.add(new Object(0, 0, 0, 100, 100,new Image("001.png")));
 	}
 	
 	Image imgaeRoom=new Image("room.png");
@@ -45,8 +49,11 @@ public class Level implements Drawable,Timer{
 			.forEachOrdered(o->o.draw(gc,windowWidth,windowHeight,lastXOffsetWindow));
 	}
 	public void mouseClicked(double x, double y) {
-		for(Object o:objects){
-			o.ifHit(x,y,lastWindowHeight,lastXOffsetWindow);
+		if(parent.getIntface().getActiveAction()!=Action.NONE){
+			Optional<Object> object=getClickedObjekt(x, y);
+			if(object.isPresent()){
+				parent.getIntface().action(object.get());
+			}
 		}
 	}
 	public Optional<Object> getClickedObjekt(double x, double y){

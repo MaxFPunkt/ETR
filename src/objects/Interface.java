@@ -6,6 +6,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
+import objects.interfaces.Interactions.Action;
 import objects.interfaces.Timer;
 
 public class Interface extends Pane implements Timer{
@@ -14,9 +15,9 @@ public class Interface extends Pane implements Timer{
 	private Button toggleRow, grabBt, lookBt, pushBt;
 	private boolean rowExpanded;
 	Inventory inventory=new Inventory();
+	private Action activeAction=Action.GRAP;
 	
 	public Interface() {
-
 
 		inventory.layoutXProperty().bind(widthProperty().divide(4).multiply(3));
 		inventory.prefWidthProperty().bind(widthProperty().divide(4));
@@ -92,4 +93,24 @@ public class Interface extends Pane implements Timer{
 	}
 	
 	public void mouseClicked(double x, double y){}
+
+	public Action getActiveAction() {return activeAction;}
+
+	@SuppressWarnings("incomplete-switch")
+	public void action(Object object) {
+		if(object.can(getActiveAction())){
+			switch(getActiveAction()){
+			case GRAP:
+				object.grab();
+				inventory.add(object);
+				break;
+			case LOOK:
+				object.look();
+				break;
+			case PUSH:
+				object.push();
+				break;			
+			}
+		}
+	}
 }

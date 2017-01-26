@@ -7,16 +7,18 @@ import Controll.Level;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import objects.Interface;
 import objects.interfaces.Timer;
 
 public class Content extends Canvas implements Timer{
 	private List<Level> levels;
 	private double xOffset;
-	
-	public Content(){
+	private Interface intface;
+	public Content(Interface intface){
 		super(100,100);
+		this.intface=intface;
 		levels = new ArrayList<Level>();
-		levels.add(new Level(widthProperty(),heightProperty(),1000));
+		levels.add(new Level(this,widthProperty(),heightProperty(),1000));
 	}
 
 	public void draw() {
@@ -39,4 +41,6 @@ public class Content extends Canvas implements Timer{
 	public void update(double pastetime){
 		for(Level l:levels)l.call(pastetime);
 	}
+
+	public Interface getIntface() {return intface;}
 }
