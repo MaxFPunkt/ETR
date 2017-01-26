@@ -131,4 +131,11 @@ public class Object implements Interactions,Drawable,Timer {
 	}
 	@Override
 	public boolean canGrab(){return true;}
+	
+	@Override
+	public void grab(Interface intface) {
+		Interactions.super.grab(intface);
+		intface.inventory.add(this);
+		intface.resetActiveAction();
+	}
 }

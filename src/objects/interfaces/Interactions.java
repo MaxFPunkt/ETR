@@ -1,8 +1,10 @@
 package objects.interfaces;
 
+import objects.Interface;
+
 public interface Interactions {
 
-	public enum Action{NONE,PUSH,GRAP,LOOK};
+	public enum Action{NONE,PUSH,GRAB,LOOK};
 	/**
 	 * 
 	 * @return true if the Object can be pushed.
@@ -25,7 +27,7 @@ public interface Interactions {
 		switch (action) {
 		case PUSH:
 			return canPush();
-		case GRAP:
+		case GRAB:
 			return canGrab();
 		case LOOK:
 			return canLook();
@@ -34,7 +36,7 @@ public interface Interactions {
 	}
 	
 	public default void push(){}
-	public default void grab(){}
+	public default void grab(Interface intface){}
 	public default void look(){}
 	
 }
