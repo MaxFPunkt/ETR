@@ -53,7 +53,7 @@ public class Main extends Application{
 		menu=new Menu();
 		menu.prefWidthProperty().bind(mainScene.widthProperty());
 		menu.prefHeightProperty().bind(mainScene.heightProperty());
-		//mainPane.getChildren().add(menu);
+		mainPane.getChildren().add(menu);
 		
 	}
 	
