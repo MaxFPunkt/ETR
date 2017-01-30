@@ -112,8 +112,8 @@ public class Object implements Interactions,Drawable,Timer {
 		 this.z=z;
 		 this.width=width;
 		 this.height=height;
-		 this.grabText = "Da ist mein Rucksack zu klein für!";
-		 this.lookText = "Das sieht sehr verdächtig aus!";
+		 this.grabText = "Da ist mein Rucksack zu klein fÃ¼r!";
+		 this.lookText = "Das sieht sehr verdÃ¤chtig aus!";
 		 this.pushText = "Das steht da eigentlich schon ganz gut. Ich lasse es lieber stehen.";
 	}
 	
