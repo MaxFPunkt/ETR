@@ -7,6 +7,7 @@ import javafx.animation.Timeline;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Background;
@@ -41,7 +42,14 @@ public class Menu extends Pane {
 			b.prefWidthProperty().bind(widthProperty().divide(2));
 			b.layoutXProperty().bind(widthProperty().divide(4));
 			b.layoutYProperty().bind(heightProperty().divide(getChildren().size()+1).divide(2).multiply(i+1).add(heightProperty().divide(4)).multiply(openProcen).subtract(b.heightProperty()));			
-		}		
+		}	
+		openProcen.addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue)->{
+			if(newValue.doubleValue()>0){
+				layoutYProperty().bind(new SimpleDoubleProperty(0));		
+			}else{
+				layoutYProperty().bind(new SimpleDoubleProperty(0).subtract(heightProperty()));	
+			}
+		});
 	}
 	public void open(){	
 		timelineOpen.playFromStart();

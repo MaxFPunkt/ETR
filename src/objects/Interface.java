@@ -31,7 +31,7 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 	Inventory inventory=new Inventory();
 	
 	private Property<Action> activeAction=new SimpleObjectProperty<Action>(Action.NONE);	
-	private String cssButtonAktive=" -fx-effect: innershadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );";
+	private String cssButtonAktive="-fx-background-insets: 0,0 0 5 0, 0 0 5 0, 0 0 5 0;";
 	private String cssButtonInAKtive="";
 	
 	
