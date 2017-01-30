@@ -51,6 +51,7 @@ public class Menu extends Pane {
 				layoutYProperty().bind(new SimpleDoubleProperty(0).subtract(heightProperty()));	
 			}
 		});
+		layoutYProperty().bind(new SimpleDoubleProperty(0).subtract(heightProperty()));	
 	}
 	public void open(){	
 		timelineOpen.playFromStart();

@@ -37,7 +37,7 @@ public class Level implements Drawable,Timer{
 		objects.add(new Object(120, 50, 0, 100, 100,new Image("001.png")));
 	}
 	
-	Image imgaeRoom=new Image("room.png");
+	Image imgaeRoom=new Image("room.jpg");
 	Image imgaeBode=new Image("bode.png");
 	
 	@Override
