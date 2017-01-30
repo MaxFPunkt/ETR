@@ -11,10 +11,6 @@
     -fx-font-size: 3em;
 }
 .button:hover{
-<<<<<<< HEAD
-	-fx-effect:innershadow(gaussian , #d86e3a, 10,0.25,5,10);
-    
-=======
 	-fx-background-insets: 0,0 0 5 0, 0 0 5 0, 0 0 5 0;
->>>>>>> fee0476f26aa4e19096ae1a1d7f88a49014b401a
+
 }
