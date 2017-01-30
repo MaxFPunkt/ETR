@@ -141,6 +141,7 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 		currentTransitions.clear();
 	}
 	public void displayText(String text){
+		if(text=="")return;
 		if(!getChildren().contains(labelBox))getChildren().add(labelBox);
 		cancelTransition();
 		FadeTransition ft = new FadeTransition(Duration.millis(750),labelBox);
