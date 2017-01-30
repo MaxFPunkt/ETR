@@ -4,6 +4,7 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -50,10 +51,7 @@ public class Main extends Application{
 		intface.prefHeightProperty().bind(mainScene.heightProperty());
 		mainPane.getChildren().add(intface);
 		
-		menu=new Menu();
-		menu.prefWidthProperty().bind(mainScene.widthProperty());
-		menu.prefHeightProperty().bind(mainScene.heightProperty());
-		mainPane.getChildren().add(menu);
+
 		
 	}
 	
@@ -63,8 +61,15 @@ public class Main extends Application{
 		stage.initStyle(StageStyle.UTILITY);
 		stage.setFullScreen(true);
 		stage.setFullScreenExitHint("");
+		stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
 		stage.setScene(mainScene);
 		stage.show();
+		
+		
+		menu=new Menu(stage);
+		menu.prefWidthProperty().bind(mainScene.widthProperty());
+		menu.prefHeightProperty().bind(mainScene.heightProperty());
+		mainPane.getChildren().add(menu);
 		
 		stage.addEventHandler(MouseEvent.MOUSE_CLICKED, ( e) -> {	
 			content.mouseClick(e.getSceneX(), e.getSceneY());

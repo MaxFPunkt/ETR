@@ -15,14 +15,14 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class Menu extends Pane {
 	
 	Button exit=new Button("Exit");
 	Button credis=new Button("Credis");
-	Button b1=new Button("1");
-	Button b2=new Button("2");
+	Button fullScreen=new Button("FullScreen");
 	DoubleProperty openProcen=new SimpleDoubleProperty(0);
 	
 	Timeline timelineOpen = new Timeline( new KeyFrame( Duration.millis( 500 ),
@@ -31,8 +31,14 @@ public class Menu extends Pane {
 	Timeline timelineClose = new Timeline( new KeyFrame( Duration.millis( 500 ),
              new KeyValue( openProcen, 1 ),
              new KeyValue( openProcen, 0 ) ) );
-	public Menu(){
-		getChildren().addAll(b1,b2,credis,exit);
+	public Menu(Stage stage){
+		getChildren().addAll(fullScreen,credis,exit);
+		fullScreen.setOnAction(e->{
+			stage.setFullScreen(!stage.isFullScreen());			
+		});
+		exit.setOnAction(e->{
+			stage.close();
+		});
 		this.backgroundProperty().bind(Bindings.createObjectBinding(() -> {
 		    BackgroundFill fill = new BackgroundFill(new Color(0, 0, 0, openProcen.divide(2).get()), CornerRadii.EMPTY, Insets.EMPTY);
 		    return new Background(fill);
