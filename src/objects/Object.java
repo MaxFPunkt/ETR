@@ -115,6 +115,7 @@ public class Object implements Interactions,Drawable,Timer {
 		 this.grabText = "Da ist mein Rucksack zu klein für!";
 		 this.lookText = "Das sieht sehr verdächtig aus!";
 		 this.pushText = "Das steht da eigentlich schon ganz gut. Ich lasse es lieber stehen.";
+		 this.useText = "Wie soll ich das den Kombinieren?";
 	}
 	
 	public void setCanGrab(boolean canGrab) { this.canGrab = canGrab; }
@@ -156,6 +157,7 @@ public class Object implements Interactions,Drawable,Timer {
 			case GRAB : return grabText;
 			case LOOK : return lookText;
 			case PUSH : return pushText;
+			case USE : return useText;
 			default : return "";
 		}
 		
