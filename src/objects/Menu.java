@@ -39,6 +39,7 @@ public class Menu extends Pane {
 		},openProcen));
 		for(int i=0;getChildren().size()>i;++i){
 			Button b=(Button) getChildren().get(i);
+			b.getStyleClass().add("menu");
 			b.prefWidthProperty().bind(widthProperty().divide(2));
 			b.layoutXProperty().bind(widthProperty().divide(4));
 			b.layoutYProperty().bind(heightProperty().divide(getChildren().size()+1).divide(2).multiply(i+1).add(heightProperty().divide(4)).multiply(openProcen).subtract(b.heightProperty()));			
