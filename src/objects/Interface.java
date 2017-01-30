@@ -217,7 +217,9 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 				object.push();
 				break;			
 			}
-			return getActiveAction();
+			Action executedAction = getActiveAction();
+			resetActiveAction();
+			return executedAction;
 		}
 		return null;
 	}

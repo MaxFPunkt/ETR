@@ -17,6 +17,7 @@ public class Object implements Interactions,Drawable,Timer {
 	private DoubleProperty width;
 	private DoubleProperty height;
 	
+	private boolean canGrab, canPush, canLook;
 	private Image img;
 	private String grabText, pushText, lookText, useText;
 	
@@ -116,6 +117,10 @@ public class Object implements Interactions,Drawable,Timer {
 		 this.pushText = "Das steht da eigentlich schon ganz gut. Ich lasse es lieber stehen.";
 	}
 	
+	public void setCanGrab(boolean canGrab) { this.canGrab = canGrab; }
+	public void setCanPush(boolean canPush) { this.canPush = canPush; }
+	public void setCanLook(boolean canLook) { this.canLook = canLook; }
+	
 	@Override
 	public void draw(GraphicsContext gc, double windowWidth, double windowHeight, double xOffsetWindow) {
 		gc.drawImage(img,getDrawX( windowHeight,xOffsetWindow), getDrawY( windowHeight), getDrawWidth(windowHeight),getDrawHeight( windowHeight));
@@ -130,13 +135,16 @@ public class Object implements Interactions,Drawable,Timer {
 		return  false;
 	}
 	@Override
-	public boolean canGrab(){return true;}
+	public boolean canGrab(){return canGrab;}
+	@Override
+	public boolean canLook(){return canLook;}
+	@Override
+	public boolean canPush(){return canPush;}
 	
 	@Override
 	public void grab(Interface intface) {
 		Interactions.super.grab(intface);
 		intface.inventory.add(this);
-		intface.resetActiveAction();
 	}
 
 	public void setGrabText(String text) { this.grabText = text; }
