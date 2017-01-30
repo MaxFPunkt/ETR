@@ -63,7 +63,6 @@ public class Level implements Drawable,Timer{
 			Optional<Object> object=getClickedObjekt(x, y);
 			if(object.isPresent()){
 				Action action = parent.getIntface().action(object.get());
-				System.out.println("Action: "+action.toString());
 				if(action!=null && action.equals(Action.GRAB)) {
 					partikelEffekts.add(new PartikelEffekt(object.get(),lastWindowHeight, lastXOffsetWindow));
 					objects.remove(object.get());
