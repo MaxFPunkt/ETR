@@ -29,7 +29,9 @@ public class Level implements Drawable,Timer{
 		this.parent=content;
 		DoubleProperty backgrounbdWith=new SimpleDoubleProperty(0);
 		backgrounbdWith.bind(height.divide(9).multiply(32));
-		objects.add(new Object(0, 0, 0, 100, 100,new Image("001.png")));
+		Object vase = new Object(0, 0, 0, 100, 100,new Image("001.png"));
+		vase.setLookText("Hm die Vase sieht sehr leicht aus.");
+		objects.add(vase);
 		objects.add(new Object(120, 50, 0, 100, 100,new Image("001.png")));
 	}
 	
@@ -58,8 +60,8 @@ public class Level implements Drawable,Timer{
 		if(parent.getIntface().getActiveAction()!=Action.NONE){
 			Optional<Object> object=getClickedObjekt(x, y);
 			if(object.isPresent()){
-				boolean success = parent.getIntface().action(object.get());
-				if(success) {
+				Action action = parent.getIntface().action(object.get());
+				if(action!=null && action.equals(Action.GRAB)) {
 					partikelEffekts.add(new PartikelEffekt(object.get(),lastWindowHeight, lastXOffsetWindow));
 					objects.remove(object.get());
 				}

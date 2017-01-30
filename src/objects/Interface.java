@@ -1,5 +1,7 @@
 package objects;
 
+import java.util.ArrayList;
+
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
@@ -28,6 +30,7 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 	private boolean rowExpanded;
 	private Label labelBox;
 	private Timeline stopDisplay;
+	private ArrayList<Animation> currentTransitions;
 	Inventory inventory=new Inventory();
 	
 	private Property<Action> activeAction=new SimpleObjectProperty<Action>(Action.NONE);	
@@ -36,7 +39,7 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 	
 	
 	public Interface() {
-		
+		currentTransitions = new ArrayList<>();
 		double inventoryScaling = 0.85; 
 		inventory.layoutXProperty().bind(widthProperty().multiply(inventoryScaling));
 		inventory.prefWidthProperty().bind(widthProperty().multiply(1-inventoryScaling));
@@ -123,6 +126,7 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 			ft.setOnFinished(eve->{
 				labelBox.setText("");
 				getChildren().remove(labelBox);
+				cancelTransition();
 			});
 			ft.play();
 		}));
@@ -130,10 +134,17 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 		botRow.getChildren().addAll(pushBt,grabBt,lookBt,useBT,toggleRow);
 		getChildren().addAll(botRow,inventory);
 	}
-	
+	public void cancelTransition(){
+		for(Animation a:currentTransitions) a.stop();
+		labelBox.setText("");
+		stopDisplay.stop();
+		currentTransitions.clear();
+	}
 	public void displayText(String text){
 		if(!getChildren().contains(labelBox))getChildren().add(labelBox);
+		cancelTransition();
 		FadeTransition ft = new FadeTransition(Duration.millis(750),labelBox);
+		currentTransitions.add(ft);
 		ft.setFromValue(0);
 		ft.setToValue(1);
 		ft.play();
@@ -152,6 +163,7 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 			timeline.getKeyFrames().add(keyFrame);
 			timeline.setCycleCount(Animation.INDEFINITE);
 			timeline.play();
+			currentTransitions.add(timeline);
 		});
 	}
 	
@@ -186,13 +198,17 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 
 	public Action getActiveAction() {return activeAction.getValue();}
 
+	
+	/**
+	 * @return null if failed, action if success
+	 */
 	@SuppressWarnings("incomplete-switch")
-	public boolean action(Object object) {
+	public Action action(Object object) {
+		displayText(object.getText(getActiveAction()));
 		if(object.can(getActiveAction())){
 			switch(getActiveAction()){
 			case GRAB:
 				object.grab(this);
-				displayText("Haha das ist jetzt meins!");
 				break;
 			case LOOK:
 				object.look();
@@ -201,9 +217,9 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 				object.push();
 				break;			
 			}
-			return true;
+			return getActiveAction();
 		}
-		return false;
+		return null;
 	}
 
 	public void resetActiveAction() {

@@ -103,11 +103,7 @@ public class Object implements Interactions,Drawable,Timer {
 		 this.img = img;
 	}
 	public Object(double x, double y, double z, double width, double height) {
-		 this.x=x;
-		 this.y=y;
-		 this.z=z;
-		 this.width= new SimpleDoubleProperty(width);
-		 this.height= new SimpleDoubleProperty(height);
+		 this(x,y,z,new SimpleDoubleProperty(width),new SimpleDoubleProperty(height));
 	}
 	public Object(double x, double y, double z, DoubleProperty width, DoubleProperty height) {
 		 this.x=x;
@@ -115,6 +111,9 @@ public class Object implements Interactions,Drawable,Timer {
 		 this.z=z;
 		 this.width=width;
 		 this.height=height;
+		 this.grabText = "Da ist mein Rucksack zu klein für!";
+		 this.lookText = "Das sieht sehr verdächtig aus!";
+		 this.pushText = "Das steht da eigentlich schon ganz gut. Ich lasse es lieber stehen.";
 	}
 	
 	@Override
@@ -143,4 +142,14 @@ public class Object implements Interactions,Drawable,Timer {
 	public void setGrabText(String text) { this.grabText = text; }
 	public void setPushText(String text) { this.pushText = text; }
 	public void setLookText(String text) { this.lookText = text; }
+
+	public String getText(Interactions.Action action) { 
+		switch(action){
+			case GRAB : return grabText;
+			case LOOK : return lookText;
+			case PUSH : return pushText;
+			default : return "";
+		}
+		
+	}
 }

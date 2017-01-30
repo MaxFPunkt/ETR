@@ -21,7 +21,7 @@ public interface Interactions {
 	 * 
 	 * @return true if the Object can be looked at.
 	 */
-	public default boolean canLook(){return false;}	
+	public default boolean canLook(){return true;}	
 	
 	/**
 	 * 
