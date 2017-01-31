@@ -10,7 +10,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import objects.CodePanel;
 import objects.Interface;
 import objects.Menu;
 
@@ -18,9 +17,9 @@ import objects.Menu;
 public class Main extends Application{
 
 	
-	private Scene mainScene;
-	private Pane mainPane;
-	private Content content;
+	public Scene mainScene;
+	public Pane mainPane;
+	public Content content;
 	private AnimationTimer mainLoop;
 	private Menu menu;
 	private Interface intface;
@@ -43,7 +42,7 @@ public class Main extends Application{
 		mainPane.getStylesheets().add("style.css");
 
 		intface = new Interface(); 
-		content = new Content(intface);
+		content = new Content(intface,this);
 		content.widthProperty().bind(mainScene.widthProperty());
 		content.heightProperty().bind(mainScene.heightProperty());
 		mainPane.getChildren().add(content);
@@ -69,18 +68,7 @@ public class Main extends Application{
 		menu.prefHeightProperty().bind(mainScene.heightProperty());
 		mainPane.getChildren().add(menu);
 		
-		CodePanel codePanel=new CodePanel("123");
-		codePanel.prefWidthProperty().bind(mainScene.widthProperty());
-		codePanel.prefHeightProperty().bind(mainScene.heightProperty());
-		codePanel.setOnClose(()->{
-			mainPane.getChildren().remove(codePanel);
-		});
-		codePanel.setOnEnter(i->{
-			if(i==true){
-				mainPane.getChildren().remove(codePanel);
-			}
-		});
-		mainPane.getChildren().add(codePanel);
+
 		
 		stage.addEventHandler(MouseEvent.MOUSE_CLICKED, ( e) -> {
 			content.mouseClick(e.getButton(),e.getSceneX(), e.getSceneY(), mainScene.widthProperty().doubleValue(), mainScene.heightProperty().doubleValue());

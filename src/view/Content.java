@@ -15,9 +15,11 @@ public class Content extends Canvas implements Timer{
 	private List<Level> levels;
 	private double xOffset;
 	private Interface intface;
-	public Content(Interface intface){
+	private Main application;
+	public Content(Interface intface,Main application){
 		super(100,100);
 		this.intface=intface;
+		this.application=application;
 		levels = new ArrayList<Level>();
 		levels.add(new Level(this,widthProperty(),heightProperty(),1000));
 	}
@@ -44,4 +46,5 @@ public class Content extends Canvas implements Timer{
 	}
 
 	public Interface getIntface() {return intface;}
+	public Main getApplication() {return application;}
 }

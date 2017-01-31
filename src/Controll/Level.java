@@ -12,6 +12,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
+import objects.CodePanel;
 import objects.Object;
 import objects.PartikelEffekt;
 import objects.interfaces.Drawable;
@@ -84,12 +85,25 @@ public class Level implements Drawable,Timer{
 			}
 			objects.add(kommode);
 		}
-		Object codePanel =new Object(520, 650, 1600, 100, 50,new Image("CodePanel.png"));
-		codePanel.setLookText("Ein elektronisches Türschloss mit Pin Code Funktion. Das sieht sehr sicher aus.");
-		codePanel.setSecondary(()->{
+		Object codePanelObject =new Object(520, 650, 1600, 100, 50,new Image("CodePanel.png"));
+		codePanelObject.setLookText("Ein elektronisches Türschloss mit Pin Code Funktion. Das sieht sehr sicher aus.");
+
+		CodePanel codePanel=new CodePanel("123");
+		codePanelObject.setSecondary(()->{
+			codePanel.prefWidthProperty().bind(content.getApplication().mainScene.widthProperty());
+			codePanel.prefHeightProperty().bind(content.getApplication().mainScene.heightProperty());
+			codePanel.setOnClose(()->{
+				content.getApplication().mainPane.getChildren().remove(codePanel);
+			});
+			codePanel.setOnEnter(i->{
+				if(i==true){
+					content.getApplication().mainPane.getChildren().remove(codePanel);
+				}
+			});
+			content.getApplication().mainPane.getChildren().add(codePanel);
 			
 		});
-		objects.add(codePanel);
+		objects.add(codePanelObject);
 	}
 	
 	Image imgaeRoom=new Image("room.jpg");
