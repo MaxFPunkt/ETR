@@ -10,7 +10,7 @@ import javafx.scene.paint.Color;
 
 public class InventoryElement extends Pane {
 
-	private static ObjectProperty<Object> aktive=new SimpleObjectProperty<>(null);
+	public static ObjectProperty<Object> aktive=new SimpleObjectProperty<>(null);
 	Object object;
     private static final DropShadow ds = new DropShadow( 20, Color.RED );
     

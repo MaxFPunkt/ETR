@@ -54,9 +54,9 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 		fadeIn.setOnFinished(e->currentTransitions.remove(fadeIn));
 		
 		fadeOut = new FadeTransition(Duration.millis(500),dark);
-		fadeIn.setToValue(0);
-		fadeIn.setCycleCount(1);
-		fadeIn.setOnFinished(e->currentTransitions.remove(fadeOut));
+		fadeOut.setToValue(0);
+		fadeOut.setCycleCount(1);
+		fadeOut.setOnFinished(e->currentTransitions.remove(fadeOut));
 		
 		currentTransitions = new ArrayList<>();
 		double inventoryScaling = 0.85; 
@@ -100,10 +100,13 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 			
 			if(!getChildren().contains(dark))getChildren().add(dark);
 
+			dark.setOpacity(0);
 			currentTransitions.add(fadeIn);
 			fadeIn.play();
-
-			dark.setOpacity(0);
+//			ChangeListener<? super Object> c=(ChangeListener<? super Object> obValue,Object old, Object newElment)->{
+//				
+//			};			
+			InventoryElement.aktive.addListener(c);
 			if(inventory.getOpenProcen().get()<=0)
 				inventory.getSwitchButton().fire();
 		});
