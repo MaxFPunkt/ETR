@@ -49,7 +49,7 @@ public class Level implements Drawable,Timer{
 		vase.setCanPush(true);
 		vase.setPushAction(()->{
 			objects.add(key);
-		vase.setZ(vase.getZ()+75);
+			vase.setZ(vase.getZ()+75);
 		});
 		objects.add(vase);
 		
@@ -96,6 +96,7 @@ public class Level implements Drawable,Timer{
 				
 				combinations.add(new Combination(schublade_unten, key, ()->{
 					schublade_unten.setPushText("Die Schublade ist mit einem ruck aufgegangen.");
+					schublade_unten.setLookText("Eine aufgeschlossende Schublade.");
 					schublade_unten.setCanPush(true);
 					schublade_unten.setPushAction(()->{
 						
