@@ -31,13 +31,6 @@ public abstract class Interactions {
 	 * @return true if the Object can be looked at.
 	 */
 	public boolean canLook(){return canLook;}
-	
-	/**
-	 * 
-	 * @return true if the Object can be looked at.
-	 */
-	public boolean canUse(){return false;}
-	
 	public boolean can(Action action){
 		switch (action) {
 		case PUSH:
@@ -46,8 +39,6 @@ public abstract class Interactions {
 			return canGrab();
 		case LOOK:
 			return canLook();
-		case USE:
-			return canUse();
 		default:return false;
 		}
 	}
@@ -61,7 +52,6 @@ public abstract class Interactions {
 	public void setGrabText(String text) { this.grabText = text; }
 	public void setPushText(String text) { this.pushText = text; }
 	public void setLookText(String text) { this.lookText = text; }
-	public void setUseText(String text) { this.useText = text; }
 	public void setSecondaryText(String string) { this.secondaryText = string;	}
 
 	public void setCanGrab(boolean canGrab) { this.canGrab = canGrab; }

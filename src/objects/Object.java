@@ -125,7 +125,6 @@ public class Object extends Interactions implements Drawable, Timer {
 		 this.grabText = "Da ist mein Rucksack zu klein für!";
 		 this.lookText = "Das sieht sehr verdächtig aus!";
 		 this.pushText = "Das steht da eigentlich schon ganz gut. Ich lasse es lieber stehen.";
-		 this.useText = "Ich glaube das kann ich so nicht benutzen.";
 		 this.canLook = true;
 		 this.canGrab = false;
 		 this.canPush = false;
