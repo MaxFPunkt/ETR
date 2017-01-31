@@ -141,21 +141,22 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 		currentTransitions.clear();
 	}
 	public void displayText(String text){
-		if(text=="")return;
+		if(text==null||text.equalsIgnoreCase(""))
+			return;
 		if(!getChildren().contains(labelBox))getChildren().add(labelBox);
 		cancelTransition();
 		FadeTransition ft = new FadeTransition(Duration.millis(750),labelBox);
 		currentTransitions.add(ft);
 		ft.setFromValue(0);
 		ft.setToValue(1);
-		ft.play();
+		ft.playFromStart();
 		ft.setOnFinished(eve->{
 			final IntegerProperty i = new SimpleIntegerProperty(0);
 			Timeline timeline = new Timeline();
 			KeyFrame keyFrame = new KeyFrame(Duration.millis(40),e->{
 				if(i.get()>text.length()){
 					timeline.stop();
-					stopDisplay.play();
+					stopDisplay.playFromStart();
 				} else {
 					labelBox.setText(text.substring(0,i.get()));
 					i.set(i.get()+1);
@@ -163,7 +164,7 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 			});
 			timeline.getKeyFrames().add(keyFrame);
 			timeline.setCycleCount(Animation.INDEFINITE);
-			timeline.play();
+			timeline.playFromStart();
 			currentTransitions.add(timeline);
 		});
 	}
