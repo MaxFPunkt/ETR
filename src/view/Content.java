@@ -7,6 +7,7 @@ import Controll.Level;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import objects.Interface;
 import objects.interfaces.Timer;
 
@@ -26,8 +27,8 @@ public class Content extends Canvas implements Timer{
 		for(Level l:levels) 
 			l.draw(getGraphicsContext2D(),getWidth(),getHeight(),xOffset);
 	}
-	public void mouseClick(double x, double y, double totalWidth, double totalHeight) {
-		for(Level l:levels)l.mouseClicked(x,y,totalWidth,totalHeight);
+	public void mouseClick(MouseButton mouseButton, double x, double y, double totalWidth, double totalHeight) {
+		for(Level l:levels)l.mouseClicked(mouseButton,x,y,totalWidth,totalHeight);
 	}
 
 	public void keyEvent(KeyEvent e) {

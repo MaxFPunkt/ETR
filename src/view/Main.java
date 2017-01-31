@@ -82,8 +82,8 @@ public class Main extends Application{
 		});
 		//mainPane.getChildren().add(codePanel);
 		
-		stage.addEventHandler(MouseEvent.MOUSE_CLICKED, ( e) -> {	
-			content.mouseClick(e.getSceneX(), e.getSceneY(), mainScene.widthProperty().doubleValue(), mainScene.heightProperty().doubleValue());
+		stage.addEventHandler(MouseEvent.MOUSE_CLICKED, ( e) -> {
+			content.mouseClick(e.getButton(),e.getSceneX(), e.getSceneY(), mainScene.widthProperty().doubleValue(), mainScene.heightProperty().doubleValue());
 		});
 		stage.addEventHandler(KeyEvent.ANY, e->{
 			content.keyEvent(e);

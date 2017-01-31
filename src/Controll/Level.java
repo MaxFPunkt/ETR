@@ -9,6 +9,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import objects.Object;
 import objects.PartikelEffekt;
 import objects.interfaces.Drawable;
@@ -63,6 +64,12 @@ public class Level implements Drawable,Timer{
 			}
 			objects.add(kommode);
 		}
+		Object codePanel =new Object(520, 650, 1600, 100, 50,new Image("CodePanel.png"));
+		codePanel.setLookText("Ein elektronisches Türschloss mit Pin Code Funktion. Das sieht sehr sicher aus.");
+		codePanel.setSecondary(()->{
+			
+		});
+		objects.add(codePanel);
 	}
 	
 	Image imgaeRoom=new Image("room.jpg");
@@ -86,16 +93,19 @@ public class Level implements Drawable,Timer{
 			.forEachOrdered(o->o.draw(gc,windowWidth,windowHeight,lastXOffsetWindow));
 		partikelEffekts.forEach(o->o.draw(gc,windowWidth,windowHeight,lastXOffsetWindow));
 	}
-	public void mouseClicked(double x, double y, double totalWidth, double totalHeight) {
-		if(parent.getIntface().getActiveAction()!=Action.NONE){
+	public void mouseClicked(MouseButton mouseButton, double x, double y, double totalWidth, double totalHeight) {
+		if(parent.getIntface().getActiveAction()!=Action.NONE||mouseButton==MouseButton.SECONDARY){
 			Optional<Object> object=getClickedObjekt(x, y);
 			if(object.isPresent()){
-				Object obj = object.get().whichChildHit(x,y,totalWidth,totalHeight,lastXOffsetWindow).get();
-				
-				Action action = parent.getIntface().action(obj);
-				if(action!=null && action.equals(Action.GRAB)) {
-					partikelEffekts.add(new PartikelEffekt(obj,lastWindowHeight, lastXOffsetWindow));
-					objects.remove(obj);
+				Object obj = object.get().whichChildHit(x,y,totalWidth,totalHeight,lastXOffsetWindow);
+				if(mouseButton==MouseButton.SECONDARY){
+					obj.secondaryAction();
+				}else{
+					Action action = parent.getIntface().action(obj);
+					if(action!=null && action.equals(Action.GRAB)) {
+						partikelEffekts.add(new PartikelEffekt(obj,lastWindowHeight, lastXOffsetWindow));
+						objects.remove(obj);
+					}
 				}
 			}
 		}
