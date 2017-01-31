@@ -7,7 +7,7 @@ import objects.Interface;
 public abstract class Interactions {
 
 	
-	protected Runnable  pushAction, lookAction;
+	protected Runnable  pushAction, lookAction,secondaryAction;
 	protected Consumer<Interface> grabAction; 
 
 	protected String grabText, pushText, lookText, useText;
@@ -55,6 +55,7 @@ public abstract class Interactions {
 	public void setPushAction(Runnable action) { this.pushAction = action; }
 	public void setLookAction(Runnable action) { this.lookAction = action; }
 	public void setGrabAction(Consumer<Interface> action) { this.grabAction = action; }
+	public void setSecondary(Runnable action) {this.secondaryAction=action;}
 
 	public void setGrabText(String text) { this.grabText = text; }
 	public void setPushText(String text) { this.pushText = text; }
@@ -78,4 +79,5 @@ public abstract class Interactions {
 	public void push(){pushAction.run();}
 	public void grab(Interface intface){grabAction.accept(intface);}
 	public void look(){lookAction.run();}
+	public void secondaryAction(){secondaryAction.run();}
 }
