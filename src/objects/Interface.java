@@ -8,6 +8,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -56,7 +57,7 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 		fadeOut = new FadeTransition(Duration.millis(500),dark);
 		fadeOut.setToValue(0);
 		fadeOut.setCycleCount(1);
-		fadeOut.setOnFinished(e->currentTransitions.remove(fadeOut));
+		fadeOut.setOnFinished(e->{currentTransitions.remove(fadeOut); getChildren().remove(dark);});
 		
 		currentTransitions = new ArrayList<>();
 		double inventoryScaling = 0.85; 
@@ -103,9 +104,14 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 			dark.setOpacity(0);
 			currentTransitions.add(fadeIn);
 			fadeIn.play();
-//			ChangeListener<? super Object> c=(ChangeListener<? super Object> obValue,Object old, Object newElment)->{
-//				
-//			};			
+			
+			ObjectProperty<ChangeListener<? super Object>> cc=new SimpleObjectProperty<>();
+			ChangeListener<? super Object> c = (ObservableValue<? extends Object> obValue, Object oldValue, Object newValue)->{
+				fadeOut.play();
+				InventoryElement.aktive.removeListener(cc.get());
+			};
+			cc.set(c);	
+			
 			InventoryElement.aktive.addListener(c);
 			if(inventory.getOpenProcen().get()<=0)
 				inventory.getSwitchButton().fire();
@@ -158,25 +164,27 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 			ft.setOnFinished(eve->{
 				labelBox.setText("");
 				getChildren().remove(labelBox);
-				cancelTransition();
+				currentTransitions.remove(ft);
 			});
+			currentTransitions.add(ft);
 			ft.play();
 		}));
+		
+		
 		labelBox.setStyle("-fx-background-radius:15; -fx-background-color: rgba(20,20,20,0.8);-fx-text-fill:white;-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 15, 0.5, 0.0, 0.0);");
 		botRow.getChildren().addAll(pushBt,grabBt,lookBt,useBT,toggleRow);
 		getChildren().addAll(botRow,inventory);
 	}
-	public void cancelTransition(){
-		for(Animation a:currentTransitions) a.stop();
+	public void cancelTransitiosn(){
+//		for(Animation a:currentTransitions) a.stop();
 		labelBox.setText("");
 		stopDisplay.stop();
-		currentTransitions.clear();
+//		currentTransitions.clear();
 	}
 	public void displayText(String text){
 		if(text==null||text.equalsIgnoreCase(""))
 			return;
 		if(!getChildren().contains(labelBox))getChildren().add(labelBox);
-		cancelTransition();
 		FadeTransition ft = new FadeTransition(Duration.millis(750),labelBox);
 		currentTransitions.add(ft);
 		ft.setFromValue(0);
@@ -185,9 +193,12 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 		ft.setOnFinished(eve->{
 			final IntegerProperty i = new SimpleIntegerProperty(0);
 			Timeline timeline = new Timeline();
-			KeyFrame keyFrame = new KeyFrame(Duration.millis(40),e->{
+			currentTransitions.add(timeline);
+			KeyFrame keyFrame = new KeyFrame(Duration.millis(25),e->{
 				if(i.get()>text.length()){
 					timeline.stop();
+					currentTransitions.remove(timeline);
+					currentTransitions.add(stopDisplay);
 					stopDisplay.playFromStart();
 				} else {
 					labelBox.setText(text.substring(0,i.get()));
@@ -197,7 +208,6 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 			timeline.getKeyFrames().add(keyFrame);
 			timeline.setCycleCount(Animation.INDEFINITE);
 			timeline.playFromStart();
-			currentTransitions.add(timeline);
 		});
 	}
 	
