@@ -60,7 +60,7 @@ public class Level implements Drawable,Timer{
 					} else {
 						tuer.setImg(new Image("türen.png"));
 						if(!foundCard.get()){
-							parent.getIntface().getInventory().add();
+							parent.getIntface().getInventory().add(new Object(0,0,0,240,240,new Image("keycard.jpg")));
 							foundCard.set(true);
 						}else{
 							tuer.setSecondaryText("Schade immer noch leer...");
