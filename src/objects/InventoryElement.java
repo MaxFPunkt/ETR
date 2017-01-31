@@ -7,6 +7,7 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import objects.interfaces.Interactions.Action;
 
 public class InventoryElement extends Pane {
 
@@ -14,7 +15,7 @@ public class InventoryElement extends Pane {
 	Object object;
     private static final DropShadow ds = new DropShadow( 20, Color.RED );
     
-	public InventoryElement(Object object) {
+	public InventoryElement(Object object,Inventory inventory) {
 		this.object=object;
 		setStyle("-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 15, 0.5, 0.0, 0.0);" +
         "-fx-background-color: white;-fx-margin:20;");
@@ -34,6 +35,7 @@ public class InventoryElement extends Pane {
 			});
 		}
 		setOnMouseClicked(e->{
+			if(inventory.intface.getActiveAction()!=Action.USE)return;
 			if(aktive.get()==object){
 				aktive.set(null);
 			}else
