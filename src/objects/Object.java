@@ -44,10 +44,14 @@ public class Object extends Interactions implements Drawable, Timer {
 	 * @return the z Position 
 	 */
 	public double getZ() {return z;}
+	public void setX(double x) {this.x = x;}
+	public void setY(double y) {this.y = y;}
+	public void setZ(double z) {this.z = z;}
 	/**
 	 * 
 	 * @return the width of object 
 	 */
+	
 	public double getWidth() {return width.get();}
 	/**
 	 * 
@@ -112,7 +116,6 @@ public class Object extends Interactions implements Drawable, Timer {
 	public Object(double x, double y, double z, double width, double height) {
 		 this(x,y,z,new SimpleDoubleProperty(width),new SimpleDoubleProperty(height));
 	}
-
 	public Object(double x, double y, double z, DoubleProperty width, DoubleProperty height) {
 		 this.x=x;
 		 this.y=y;
