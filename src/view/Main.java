@@ -10,6 +10,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import objects.CodePanel;
 import objects.Interface;
 import objects.Menu;
 
@@ -68,8 +69,21 @@ public class Main extends Application{
 		menu.prefHeightProperty().bind(mainScene.heightProperty());
 		mainPane.getChildren().add(menu);
 		
-		stage.addEventHandler(MouseEvent.MOUSE_CLICKED, ( e) -> {	
-			content.mouseClick(e.getSceneX(), e.getSceneY(), mainScene.widthProperty().doubleValue(), mainScene.heightProperty().doubleValue());
+		CodePanel codePanel=new CodePanel("123");
+		codePanel.prefWidthProperty().bind(mainScene.widthProperty());
+		codePanel.prefHeightProperty().bind(mainScene.heightProperty());
+		codePanel.setOnClose(()->{
+			mainPane.getChildren().remove(codePanel);
+		});
+		codePanel.setOnEnter(i->{
+			if(i==true){
+				mainPane.getChildren().remove(codePanel);
+			}
+		});
+		//mainPane.getChildren().add(codePanel);
+		
+		stage.addEventHandler(MouseEvent.MOUSE_CLICKED, ( e) -> {
+			content.mouseClick(e.getButton(),e.getSceneX(), e.getSceneY(), mainScene.widthProperty().doubleValue(), mainScene.heightProperty().doubleValue());
 		});
 		stage.addEventHandler(KeyEvent.ANY, e->{
 			content.keyEvent(e);
