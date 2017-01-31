@@ -99,7 +99,7 @@ public class Level implements Drawable,Timer{
 		if(parent.getIntface().getActiveAction()!=Action.NONE||mouseButton==MouseButton.SECONDARY){
 			Optional<Object> object=getClickedObjekt(x, y);
 			if(object.isPresent()){
-				Object obj = object.get().whichChildHit(x,y,totalWidth,totalHeight,lastXOffsetWindow);
+				Object obj = object.get().whichChildHit(x,y,totalHeight,lastXOffsetWindow);
 				if(mouseButton==MouseButton.SECONDARY){
 					obj.secondaryAction();
 				}else{
