@@ -228,4 +228,7 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 	public void resetActiveAction() {
 		this.activeAction.setValue(Action.NONE);
 	}
+	public Inventory getInventory() {
+		return inventory;
+	}
 }

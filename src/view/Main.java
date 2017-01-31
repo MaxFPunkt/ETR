@@ -80,23 +80,17 @@ public class Main extends Application{
 				mainPane.getChildren().remove(codePanel);
 			}
 		});
-		//mainPane.getChildren().add(codePanel);
+		mainPane.getChildren().add(codePanel);
 		
 		stage.addEventHandler(MouseEvent.MOUSE_CLICKED, ( e) -> {
 			content.mouseClick(e.getButton(),e.getSceneX(), e.getSceneY(), mainScene.widthProperty().doubleValue(), mainScene.heightProperty().doubleValue());
 		});
 		stage.addEventHandler(KeyEvent.ANY, e->{
 			content.keyEvent(e);
-			if(e.getEventType()==KeyEvent.KEY_RELEASED){
-				if(e.getCode()==KeyCode.ESCAPE){				
-					if(!menu.isOpen()){						
-						menu.open();
-					}
-					else{
-						menu.close();
-					}
-				}
-			}
+			if(e.getEventType()==KeyEvent.KEY_RELEASED)
+				if(e.getCode()==KeyCode.ESCAPE)			
+					if(!menu.isOpen()) menu.open();
+					else menu.close();
 		});
 		
 		mainLoop.start();

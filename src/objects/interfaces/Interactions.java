@@ -10,9 +10,9 @@ public abstract class Interactions {
 	protected Runnable  pushAction, lookAction, useAction,secondaryAction;
 	protected Consumer<Interface> grabAction; 
 
-	protected String grabText, pushText, lookText, useText;
+	protected String grabText, pushText, lookText, useText, secondaryText;
 	protected boolean canGrab, canPush, canLook;
-	
+
 	public enum Action{NONE,PUSH,GRAB,LOOK,USE};
 	/**
 	 * 
@@ -62,6 +62,7 @@ public abstract class Interactions {
 	public void setPushText(String text) { this.pushText = text; }
 	public void setLookText(String text) { this.lookText = text; }
 	public void setUseText(String text) { this.useText = text; }
+	public void setSecondaryText(String string) { this.secondaryText = string;	}
 
 	public void setCanGrab(boolean canGrab) { this.canGrab = canGrab; }
 	public void setCanPush(boolean canPush) { this.canPush = canPush; }
@@ -77,8 +78,10 @@ public abstract class Interactions {
 		}
 	}
 	
-	public void push(){pushAction.run();}
-	public void grab(Interface intface){grabAction.accept(intface);}
-	public void look(){lookAction.run();}
-	public void secondaryAction(){secondaryAction.run();}
+	public String getSecondaryText(){ return secondaryText; }
+	
+	public void push(){if(pushAction!=null)pushAction.run();}
+	public void grab(Interface intface){if(grabAction!=null)grabAction.accept(intface);}
+	public void look(){if(lookAction!=null)lookAction.run();}
+	public void secondaryAction(){if(secondaryAction!=null)secondaryAction.run();}
 }

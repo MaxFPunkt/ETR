@@ -149,8 +149,6 @@ public class Object extends Interactions implements Drawable, Timer {
 	public void draw(GraphicsContext gc, double windowWidth, double windowHeight, double xOffsetWindow) {
 		gc.drawImage(img,getDrawX( windowHeight,xOffsetWindow), getDrawY( windowHeight), getDrawWidth(windowHeight),getDrawHeight( windowHeight));
 		for(Object child:childs) child.draw(gc, windowWidth, windowHeight, xOffsetWindow);
-		
-		gc.strokeRect(getDrawX( windowHeight,xOffsetWindow), getDrawY( windowHeight), getDrawWidth(windowHeight),getDrawHeight( windowHeight));
 	}
 	public boolean ifHit(double XAxis, double YAxis, double windowHeight, double xOffsetWindow){
 		if(XAxis > getDrawX( windowHeight,xOffsetWindow) 

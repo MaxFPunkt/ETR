@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -44,12 +46,28 @@ public class Level implements Drawable,Timer{
 			kommode.setLookText("Eine Kommode... Die Schubladen scheinen verschlossen zu sein.");
 			kommode.setPushText("Die steht da ganz gut. Außerdem ist die viel zu schwer!");
 			{// childs
+				BooleanProperty tuerOpen = new SimpleBooleanProperty(false);
+				BooleanProperty foundCard = new SimpleBooleanProperty(false);
 				Object tuer = new Object(kommode.getX(), kommode.getY(), kommode.getZ(), kommode.getWidth(), kommode.getHeight(), new Image("türen_zu.png"));
 				tuer.setLookText("Die Türen sind nicht verschlossen!");
-				tuer.setUseText("Offen! Oh in der Kommode lag eine Schlüsselkarte. Für die finde ich bestimmt noch das richtige Schloss.");
+				tuer.setSecondaryText("Offen! Oh in der Kommode lag eine Schlüsselkarte. Für die finde ich bestimmt noch das richtige Schloss.");
 				tuer.setPushText("So funktioniert das nicht.. Wenn ich nur wüsste, wie ich Türen *benutzen* kannn!");
-				tuer.setUseAction(()->{
-					tuer.setImg(new Image("türen.png"));
+				tuer.setSecondary(()->{
+					
+					if(tuerOpen.get()){ 
+						tuer.setImg(new Image("türen_zu.png"));
+						tuer.setSecondaryText("Und wieder zu.");
+					} else {
+						tuer.setImg(new Image("türen.png"));
+						if(!foundCard.get()){
+							parent.getIntface().getInventory().add();
+							foundCard.set(true);
+						}else{
+							tuer.setSecondaryText("Schade immer noch leer...");
+						}
+					}
+					
+					tuerOpen.set(!tuerOpen.get());
 				});
 				Object schublade_oben = new Object(kommode.getX(), kommode.getY(), kommode.getZ(), kommode.getWidth(), kommode.getHeight(), new Image("schublade_oben.png"));
 				schublade_oben.setLookText("Die Schublade ist mit einem Hängeschloss verschlossen!");
@@ -102,6 +120,7 @@ public class Level implements Drawable,Timer{
 				Object obj = object.get().whichChildHit(x,y,totalWidth,totalHeight,lastXOffsetWindow);
 				if(mouseButton==MouseButton.SECONDARY){
 					obj.secondaryAction();
+					parent.getIntface().displayText(obj.getSecondaryText());
 				}else{
 					Action action = parent.getIntface().action(obj);
 					if(action!=null && action.equals(Action.GRAB)) {
@@ -117,9 +136,7 @@ public class Level implements Drawable,Timer{
 				.filter(o->o.ifHit(x,y,lastWindowHeight,lastXOffsetWindow))
 				.sorted((o1,o2)->{
 					return Double.compare(o2.getZ(), o1.getZ());
-				})
-				.sorted()
-				.findFirst();
+				}).sorted().findFirst();
 	}
 	@Override
 	public void update(double pastTime) {
