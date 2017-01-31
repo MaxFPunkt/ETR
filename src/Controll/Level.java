@@ -34,12 +34,20 @@ public class Level implements Drawable,Timer{
 		DoubleProperty backgrounbdWith=new SimpleDoubleProperty(0);
 		backgrounbdWith.bind(height.divide(9).multiply(32));
 		
+		Object key = new Object(500,850,700,40,40,new Image("keycard.jpg"));
+		key.setCanGrab(true);
+		key.setGrabText("Den kann ich später bestimmt noch gut gebrauchen.");
+		
 		Object vase = new Object(500, 800, 700, 100, 100,new Image("001.png"));
 		vase.setLookText("Hm die Vase sieht sehr leicht aus.");
 		vase.setGrabText("Viel zu sperrig. Die nehme ich nicht mit!");
-		vase.setPushText("Oh da war ein Schlüssel unter der Vase! Den kann ich später bestimmt noch gut gebrauchen.");
+		vase.setPushText("Oh da war ein Schlüssel unter der Vase!");
 		vase.setUseText("Die ist so nutzlos wie der Staub auf meinem Boden");
 		vase.setCanPush(true);
+		vase.setPushAction(()->{
+			objects.add(key);
+			vase.setZ(vase.getZ()+75);
+		});
 		objects.add(vase);
 		
 		{ // Kommode
@@ -85,9 +93,23 @@ public class Level implements Drawable,Timer{
 			}
 			objects.add(kommode);
 		}
+		Object toyBriegeA= new Object(0, 0, 0, 20, 20,new Image("CodePanel.png"));objects.add(toyBriegeA);
+		Object toyBriegeB= new Object(10, 0, 0, 20, 20,new Image("CodePanel.png"));objects.add(toyBriegeB);
+		Object toyBriegeC= new Object(20, 0, 0, 20, 20,new Image("CodePanel.png"));objects.add(toyBriegeC);
+		Object toyBriegeD= new Object(30, 0, 0, 20, 20,new Image("CodePanel.png"));objects.add(toyBriegeD);
+		Object toyBriegeE= new Object(40, 0, 0, 20, 20,new Image("CodePanel.png"));objects.add(toyBriegeE);
+		Object toyBriegeF= new Object(50, 0, 0, 20, 20,new Image("CodePanel.png"));objects.add(toyBriegeF);
+		Object[] toyBricks={toyBriegeA,toyBriegeB,toyBriegeC,toyBriegeD,toyBriegeE,toyBriegeF};
+		for(Object toyBrick: toyBricks){
+			toyBrick.setGrabText("Ein neuer Bauklotz für meine Sammlung.");
+			toyBrick.setLookText("So einen wollte ich schon immer mal haben.");
+			toyBrick.setUseText("Nicht jetzt, mir lauft die Zeit doch schon weg.");
+			toyBrick.setCanGrab(true);
+		}
+		
 		Object codePanelObject =new Object(520, 650, 1600, 100, 50,new Image("CodePanel.png"));
 		codePanelObject.setLookText("Ein elektronisches Türschloss mit Pin Code Funktion. Das sieht sehr sicher aus.");
-
+		
 		CodePanel codePanel=new CodePanel("123");
 		codePanelObject.setSecondary(()->{
 			codePanel.prefWidthProperty().bind(content.getApplication().mainScene.widthProperty());
