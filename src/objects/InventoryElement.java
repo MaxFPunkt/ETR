@@ -28,7 +28,7 @@ public class InventoryElement extends Pane {
 			aktive.addListener((ObservableValue<? extends Object> observable, Object oldValue, Object newValue)->{
 				if(newValue==object){
 					imageView.setEffect( ds );
-				}else{
+				}else{					
 					imageView.setEffect( null );
 				}
 			});

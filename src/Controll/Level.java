@@ -28,7 +28,7 @@ public class Level implements Drawable,Timer{
 	private double lastWindowHeight;
 	private Double lastXOffsetWindow=null;
 	private double toXOffsetWindow;
-	private Content parent;
+	public Content parent;
 	
 	private List<Combination> combinations=new ArrayList<>();
 	
@@ -106,7 +106,7 @@ public class Level implements Drawable,Timer{
 			}
 			objects.add(kommode);
 		}
-		Object toyBriegeA= new Object(0, 0, 0, 20, 20,new Image("CodePanel.png"));objects.add(toyBriegeA);
+		Object toyBriegeA= new Object( 0, 0, 0, 20, 20,new Image("CodePanel.png"));objects.add(toyBriegeA);
 		Object toyBriegeB= new Object(10, 0, 0, 20, 20,new Image("CodePanel.png"));objects.add(toyBriegeB);
 		Object toyBriegeC= new Object(20, 0, 0, 20, 20,new Image("CodePanel.png"));objects.add(toyBriegeC);
 		Object toyBriegeD= new Object(30, 0, 0, 20, 20,new Image("CodePanel.png"));objects.add(toyBriegeD);
@@ -123,7 +123,7 @@ public class Level implements Drawable,Timer{
 		Object codePanelObject =new Object(520, 650, 1600, 100, 50,new Image("CodePanel.png"));
 		codePanelObject.setLookText("Ein elektronisches Türschloss mit Pin Code Funktion. Das sieht sehr sicher aus.");
 		
-		CodePanel codePanel=new CodePanel("123");
+		CodePanel codePanel=new CodePanel("888");
 		codePanelObject.setSecondary(()->{
 			codePanel.prefWidthProperty().bind(content.getApplication().mainScene.widthProperty());
 			codePanel.prefHeightProperty().bind(content.getApplication().mainScene.heightProperty());

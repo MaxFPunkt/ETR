@@ -3,6 +3,7 @@ package objects;
 import java.util.ArrayList;
 import java.util.List;
 
+import Controll.Level;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -33,7 +34,7 @@ public class Inventory extends Pane {
 		inventoryElements.add(inventoryElement);
 		vBox.getChildren().add(inventoryElement);
 	}
-	public Inventory(){
+	public Inventory(Interface intface){
 
 		getChildren().addAll(scrollPane,switchButton);
 		
@@ -49,7 +50,9 @@ public class Inventory extends Pane {
 			if(openProcen.isEqualTo(0).get()){
 				timelineOpen.playFromStart();
 			}else if(openProcen.isEqualTo(1).get()){
-				timelineClose.playFromStart();				
+				timelineClose.playFromStart();
+				InventoryElement.aktive.set(null);
+				intface.getUseBT().fire();
 			}
 		});
 		
