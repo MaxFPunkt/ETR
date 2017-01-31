@@ -41,7 +41,6 @@ public class Level implements Drawable,Timer{
 		Object key = new Object(500,850,700,40,40,new Image("keycard.jpg"));
 		key.setCanGrab(true);
 		key.setGrabText("Den kann ich später bestimmt noch gut gebrauchen.");
-		
 		Object vase = new Object(500, 800, 700, 100, 100,new Image("001.png"));
 		vase.setLookText("Hm die Vase sieht sehr leicht aus.");
 		vase.setGrabText("Viel zu sperrig. Die nehme ich nicht mit!");

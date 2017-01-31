@@ -8,6 +8,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -32,6 +33,7 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 	private Timeline stopDisplay;
 	private ArrayList<Animation> currentTransitions;
 	Inventory inventory=new Inventory(this);
+	private ArrayList<Animation> currentTextTransitions;
 	
 	private Property<Action> activeAction=new SimpleObjectProperty<Action>(Action.NONE);	
 	private String cssButtonAktive="-fx-background-insets: 0,0 0 5 0, 0 0 5 0, 0 0 5 0;";
@@ -43,22 +45,9 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 	private FadeTransition fadeOut;
 	
 	public Interface() {
-		dark = new Pane();
-		dark.prefWidthProperty().bind(prefWidthProperty().subtract(inventory.prefWidthProperty()));
-		dark.prefHeightProperty().bind(prefHeightProperty());
-		dark.setStyle("-fx-background-color: rgba(20,20,20,0.7)");
-		
-		fadeIn = new FadeTransition(Duration.millis(500),dark);
-		fadeIn.setToValue(1);
-		fadeIn.setCycleCount(1);
-		fadeIn.setOnFinished(e->currentTransitions.remove(fadeIn));
-		
-		fadeOut = new FadeTransition(Duration.millis(500),dark);
-		fadeIn.setToValue(0);
-		fadeIn.setCycleCount(1);
-		fadeIn.setOnFinished(e->currentTransitions.remove(fadeOut));
 		
 		currentTransitions = new ArrayList<>();
+		currentTextTransitions = new ArrayList<>();
 		double inventoryScaling = 0.85; 
 		inventory.layoutXProperty().bind(widthProperty().multiply(inventoryScaling));
 		inventory.prefWidthProperty().bind(widthProperty().multiply(1-inventoryScaling));
@@ -69,7 +58,7 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 		botRow.layoutYProperty().bind(this.heightProperty().subtract(botRow.heightProperty()));
 		
 		rowExpanded = true;
-		
+
 		Font font = new Font("Calibri",30);
 		
 		grabBt = new Button("Nehmen");
@@ -98,14 +87,26 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 		useBT.setOnAction(e->{
 			activeAction.setValue(activeAction.getValue()==Action.USE?Action.NONE:Action.USE);
 			
-			if(!getChildren().contains(dark))getChildren().add(dark);
+			if(activeAction.getValue()==Action.USE){
+				if(!getChildren().contains(dark))getChildren().add(dark);
 
-			currentTransitions.add(fadeIn);
-			fadeIn.play();
-
-			dark.setOpacity(0);
-			if(inventory.getOpenProcen().get()<=0)
-				inventory.getSwitchButton().fire();
+				dark.setOpacity(0);
+				currentTransitions.add(fadeIn);
+				fadeIn.play();
+				
+				ObjectProperty<ChangeListener<? super Object>> cc=new SimpleObjectProperty<>();
+				ChangeListener<? super Object> c = (ObservableValue<? extends Object> obValue, Object oldValue, Object newValue)->{
+					fadeOut.play();
+					InventoryElement.aktive.removeListener(cc.get());
+				};
+				cc.set(c);	
+				
+				InventoryElement.aktive.addListener(c);
+				if(inventory.getOpenProcen().get()<=0)
+					inventory.getSwitchButton().fire();
+			}else{
+				getChildren().remove(dark);
+			}
 		});
 		
 		toggleRow = new Button("❰");
@@ -155,36 +156,58 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 			ft.setOnFinished(eve->{
 				labelBox.setText("");
 				getChildren().remove(labelBox);
-				cancelTransition();
+				currentTextTransitions.remove(ft);
+				cancelTransitiosn();
 			});
+			currentTransitions.add(ft);
 			ft.play();
 		}));
+		
 		labelBox.setStyle("-fx-background-radius:15; -fx-background-color: rgba(20,20,20,0.8);-fx-text-fill:white;-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 15, 0.5, 0.0, 0.0);");
 		botRow.getChildren().addAll(pushBt,grabBt,lookBt,useBT,toggleRow);
+		
+		dark = new Pane();
+		dark.prefWidthProperty().bind(prefWidthProperty().subtract(inventory.prefWidthProperty()));
+		dark.prefHeightProperty().bind(prefHeightProperty().subtract(botRow.heightProperty()));
+		dark.setStyle("-fx-background-color: rgba(20,20,20,0.7)");
+
+		fadeIn = new FadeTransition(Duration.millis(500),dark);
+		fadeIn.setToValue(1);
+		fadeIn.setCycleCount(1);
+		fadeIn.setOnFinished(e->currentTransitions.remove(fadeIn));
+		
+		fadeOut = new FadeTransition(Duration.millis(500),dark);
+		fadeOut.setToValue(0);
+		fadeOut.setCycleCount(1);
+		fadeOut.setOnFinished(e->{currentTransitions.remove(fadeOut); getChildren().remove(dark);});
+		
 		getChildren().addAll(botRow,inventory);
 	}
-	public void cancelTransition(){
-		for(Animation a:currentTransitions) a.stop();
+	public void cancelTransitiosn(){
+		for(Animation a:currentTextTransitions) a.stop();
 		labelBox.setText("");
 		stopDisplay.stop();
-		currentTransitions.clear();
+		currentTextTransitions.clear();
 	}
 	public void displayText(String text){
 		if(text==null||text.equalsIgnoreCase(""))
 			return;
 		if(!getChildren().contains(labelBox))getChildren().add(labelBox);
-		cancelTransition();
+		cancelTransitiosn();
 		FadeTransition ft = new FadeTransition(Duration.millis(750),labelBox);
-		currentTransitions.add(ft);
+		currentTextTransitions.add(ft);
 		ft.setFromValue(0);
 		ft.setToValue(1);
 		ft.playFromStart();
 		ft.setOnFinished(eve->{
 			final IntegerProperty i = new SimpleIntegerProperty(0);
 			Timeline timeline = new Timeline();
-			KeyFrame keyFrame = new KeyFrame(Duration.millis(40),e->{
+			currentTextTransitions.add(timeline);
+			KeyFrame keyFrame = new KeyFrame(Duration.millis(25),e->{
 				if(i.get()>text.length()){
 					timeline.stop();
+					currentTextTransitions.remove(timeline);
+					currentTextTransitions.add(stopDisplay);
 					stopDisplay.playFromStart();
 				} else {
 					labelBox.setText(text.substring(0,i.get()));
@@ -194,7 +217,6 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 			timeline.getKeyFrames().add(keyFrame);
 			timeline.setCycleCount(Animation.INDEFINITE);
 			timeline.playFromStart();
-			currentTransitions.add(timeline);
 		});
 	}
 	
