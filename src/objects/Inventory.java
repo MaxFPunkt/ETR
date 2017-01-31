@@ -58,4 +58,6 @@ public class Inventory extends Pane {
 		vBox.setStyle("-fx-padding: 5px;");
 		
 	}
+	public DoubleProperty getOpenProcen() { return openProcen; }
+	public Button getSwitchButton() { return switchButton;	}
 }
