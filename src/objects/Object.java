@@ -110,13 +110,14 @@ public class Object extends Interactions implements Drawable, Timer {
 		 this(x,y,z,new SimpleDoubleProperty(width),new SimpleDoubleProperty(height));
 	}
 	
-	public Optional<Object> whichChildHit(double x, double y, double totalWidth, double totalHeight,double xOffsetWindow){
+	public Object whichChildHit(double x, double y, double totalWidth, double totalHeight,double xOffsetWindow){
 		int localX= (int) ((x-getDrawX(totalHeight, xOffsetWindow))*getDrawWidth(totalHeight)/getWidth());
 		int localY= (int) ((y-getDrawY(totalHeight))*getDrawHeight(totalHeight)/getHeight());
 		
-		return childs.stream()
+		Optional<Object> optional= childs.stream()
 			.filter(c->c.isPixelSet(localX,localY))
 			.findAny();
+		return optional.isPresent()?optional.get():this;
 	}
 	
 	private boolean isPixelSet(int localX, int localY) {
