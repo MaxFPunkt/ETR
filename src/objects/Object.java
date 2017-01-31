@@ -23,12 +23,16 @@ public class Object extends Interactions implements Drawable, Timer {
 	private DoubleProperty height;
 	private Image img;
 	
+
+	public Image getImage(){ return img; }
+	public void setImg(Image image) { this.img = image; }
+	
+	public ArrayList<Object> getChilds(){ return childs; }
+	
 	/**
 	 * 
 	 * @return the x Position 
 	 */
-	public Image getImage(){ return img; }
-	
 	public double getX() {return x;}
 	/**
 	 * 
@@ -96,32 +100,17 @@ public class Object extends Interactions implements Drawable, Timer {
 		double k=120-getZ()/1760.*120;
 		return getHeight()/900.*(900-i-k)
 				/900*windowHeight;
-	}	
+	}
 	public Object(double x, double y, double z, DoubleProperty width, DoubleProperty height, Image img) {
 		 this(x,y,z,width,height);
 		 this.img = img;
 	}
 	public Object(double x, double y, double z, double width, double height, Image img) {
-		 //this(x,y,z,img.getWidth()*2,img.getHeight()*2);
 		this(x,y,z,width,height);
 		this.img = img;
 	}
 	public Object(double x, double y, double z, double width, double height) {
 		 this(x,y,z,new SimpleDoubleProperty(width),new SimpleDoubleProperty(height));
-	}
-	
-	public Object whichChildHit(double x, double y, double totalWidth, double totalHeight,double xOffsetWindow){
-		int localX= (int) ((x-getDrawX(totalHeight, xOffsetWindow))*getImage().getWidth()/getDrawWidth(totalHeight));
-		int localY= (int) ((y-getDrawY(totalHeight))*getImage().getHeight()/getDrawHeight(totalHeight));
-		
-		Optional<Object> optional= childs.stream()
-			.filter(c->c.isPixelSet(localX,localY))
-			.findAny();
-		return optional.isPresent()?optional.get():this;
-	}
-	
-	private boolean isPixelSet(int localX, int localY) {
-		return this.img.getPixelReader().getColor(localX, localY).getOpacity() > 0;
 	}
 
 	public Object(double x, double y, double z, DoubleProperty width, DoubleProperty height) {
@@ -142,14 +131,50 @@ public class Object extends Interactions implements Drawable, Timer {
 		 
 		 childs = new ArrayList<>();
 	}
+	/**
+	 * 
+	 * @param x mouse coordinate x
+	 * @param y mouse coordinate y
+	 * @param totalHeight height of the window
+	 * @param xOffsetWindow the offset of the level
+	 * @return the element it self if no child exist of no child hit, otherwise it will return the any object witch is hit.
+	 */
+	public Object whichChildHit(double x, double y, double totalHeight,double xOffsetWindow){
+		if(childs.isEmpty())return this;
+		int localX= (int) ((x-getDrawX(totalHeight, xOffsetWindow))*getImage().getWidth()/getDrawWidth(totalHeight));
+		int localY= (int) ((y-getDrawY(totalHeight))*getImage().getHeight()/getDrawHeight(totalHeight));
+		
+		Optional<Object> optional= childs.stream()
+			.filter(c->c.isPixelSet(localX,localY))
+			.findAny();
+		return optional.isPresent()?optional.get():this;
+	}
+	/**
+	 * 
+	 * @param localX describe the x position
+	 * @param localY describe the y position
+	 * @return return true if a Pixel on x,y has an opacity greater then 0 
+	 */	
+	private boolean isPixelSet(int localX, int localY) {
+		return this.img.getPixelReader().getColor(localX, localY).getOpacity() > 0;
+	}
 	
-	public ArrayList<Object> getChilds(){ return childs; }
-	
+	/**
+	 *  draw the object
+	 */
 	@Override
 	public void draw(GraphicsContext gc, double windowWidth, double windowHeight, double xOffsetWindow) {
 		gc.drawImage(img,getDrawX( windowHeight,xOffsetWindow), getDrawY( windowHeight), getDrawWidth(windowHeight),getDrawHeight( windowHeight));
 		for(Object child:childs) child.draw(gc, windowWidth, windowHeight, xOffsetWindow);
 	}
+	/**
+	 * 
+	 * @param XAxis mouse coordinate x
+	 * @param YAxis mouse coordinate y
+	 * @param windowHeight height of the window
+	 * @param xOffsetWindow the offset of the level
+	 * @return return true if the mouse is in the rectangle, define by the x,y,width,height of the object
+	 */
 	public boolean ifHit(double XAxis, double YAxis, double windowHeight, double xOffsetWindow){
 		if(XAxis > getDrawX( windowHeight,xOffsetWindow) 
 				&& XAxis < getDrawX( windowHeight,xOffsetWindow)+getDrawWidth(windowHeight) 
@@ -159,6 +184,4 @@ public class Object extends Interactions implements Drawable, Timer {
 		}
 		return  false;
 	}
-
-	public void setImg(Image image) { this.img = image; }
 }
