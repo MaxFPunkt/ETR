@@ -13,6 +13,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import objects.CodePanel;
+import objects.Combination;
 import objects.Object;
 import objects.PartikelEffekt;
 import objects.interfaces.Drawable;
@@ -27,6 +28,8 @@ public class Level implements Drawable,Timer{
 	private Double lastXOffsetWindow=null;
 	private double toXOffsetWindow;
 	private Content parent;
+	
+	private List<Combination> combinations=new ArrayList<>();
 	
 	// TODO: ONLY FOR TEST
 	public Level(Content content, DoubleProperty width,DoubleProperty height,int objectAmount){
@@ -131,6 +134,11 @@ public class Level implements Drawable,Timer{
 	Image imgaeRoom=new Image("room.jpg");
 	Image imgaeBode=new Image("bode.png");
 	
+	public Optional<Combination> getCombination(Object a,Object b){
+		return combinations.stream()
+			.filter(c->(c.a==a&&c.b==b)||(c.a==b&&c.b==a))
+			.findAny();
+	}
 	@Override
 	public void draw(GraphicsContext gc, double windowWidth, double windowHeight, double xOffsetWindow) {
 		lastWindowHeight=windowHeight;
