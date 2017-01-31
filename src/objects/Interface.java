@@ -37,8 +37,27 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 	private String cssButtonAktive="-fx-background-insets: 0,0 0 5 0, 0 0 5 0, 0 0 5 0;";
 	private String cssButtonInAKtive="";
 	
+	private Pane dark;
+	
+	private FadeTransition fadeIn;
+	private FadeTransition fadeOut;
 	
 	public Interface() {
+		dark = new Pane();
+		dark.prefWidthProperty().bind(prefWidthProperty().subtract(inventory.prefWidthProperty()));
+		dark.prefHeightProperty().bind(prefHeightProperty());
+		dark.setStyle("-fx-background-color: rgba(20,20,20,0.7)");
+		
+		fadeIn = new FadeTransition(Duration.millis(500),dark);
+		fadeIn.setToValue(1);
+		fadeIn.setCycleCount(1);
+		fadeIn.setOnFinished(e->currentTransitions.remove(fadeIn));
+		
+		fadeOut = new FadeTransition(Duration.millis(500),dark);
+		fadeIn.setToValue(0);
+		fadeIn.setCycleCount(1);
+		fadeIn.setOnFinished(e->currentTransitions.remove(fadeOut));
+		
 		currentTransitions = new ArrayList<>();
 		double inventoryScaling = 0.85; 
 		inventory.layoutXProperty().bind(widthProperty().multiply(inventoryScaling));
@@ -78,7 +97,17 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 		useBT.prefWidthProperty().bind((prefWidthProperty().multiply(inventoryScaling)).divide(7));
 		useBT.setOnAction(e->{
 			activeAction.setValue(activeAction.getValue()==Action.USE?Action.NONE:Action.USE);
+			
+			if(!getChildren().contains(dark))getChildren().add(dark);
+
+			currentTransitions.add(fadeIn);
+			fadeIn.play();
+
+			dark.setOpacity(0);
+			if(inventory.getOpenProcen().get()<=0)
+				inventory.getSwitchButton().fire();
 		});
+		
 		toggleRow = new Button("❰");
 		toggleRow.setFont(font);
 		//toggleRow.prefWidthProperty().bind((prefWidthProperty().multiply(inventoryScaling)).divide(7));
