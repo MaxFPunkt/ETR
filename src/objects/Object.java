@@ -161,4 +161,6 @@ public class Object extends Interactions implements Drawable, Timer {
 		}
 		return  false;
 	}
+
+	public void setImg(Image image) { this.img = image; }
 }
