@@ -99,8 +99,12 @@ public class Level implements Drawable,Timer{
 					schublade_unten.setLookText("Eine aufgeschlossende Schublade.");
 					schublade_unten.setCanPush(true);
 					schublade_unten.setPushAction(()->{
-						
+						schublade_unten.setImg(new Image(""));
 					});
+					
+					// Wenn die aktive Aktion immer noch use ist, resete es, weil use *hier* zu ende ist
+					if(parent.getIntface().getActiveAction()==Action.USE)
+						parent.getIntface().getUseBT().fire();
 				}, "Das Vorhängeschloss ist jetzt offen!"));
 			}
 			objects.add(kommode);
