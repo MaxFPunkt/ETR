@@ -3,7 +3,6 @@ package objects;
 import java.util.ArrayList;
 import java.util.List;
 
-import Controll.Level;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -21,6 +20,7 @@ public class Inventory extends Pane {
 	private ScrollPane scrollPane =new ScrollPane();
 	private VBox vBox=new VBox(10);
 	DoubleProperty openProcen=new SimpleDoubleProperty(0);
+	public Interface intface;
 	
 	Timeline timelineOpen = new Timeline( new KeyFrame( Duration.millis( 200 ),
             new KeyValue( openProcen, 0 ),
@@ -30,12 +30,12 @@ public class Inventory extends Pane {
             new KeyValue( openProcen, 0 ) ) );
 	
 	public void add(Object object){
-		InventoryElement inventoryElement=new InventoryElement(object);
+		InventoryElement inventoryElement=new InventoryElement(object,this);
 		inventoryElements.add(inventoryElement);
 		vBox.getChildren().add(inventoryElement);
 	}
 	public Inventory(Interface intface){
-
+		this.intface=intface;
 		getChildren().addAll(scrollPane,switchButton);
 		
 		layoutYProperty().bind(heightProperty().multiply(-1).add(switchButton.heightProperty()).multiply(new SimpleDoubleProperty(1).subtract(openProcen)));
