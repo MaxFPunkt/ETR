@@ -39,15 +39,17 @@ public class Level implements Drawable,Timer{
 		objects.add(vase);
 		
 		{ // Kommode
-			Object kommode = new Object(-50, 650, 1300, 169*2, 139*2,new Image("kommode_2.png"));
+			Object kommode = new Object(-50, 650, 1300, 169*2, 139*2,new Image("kommode_1.png"));
 			kommode.setLookText("Eine Kommode... Die Schubladen scheinen verschlossen zu sein.");
 			kommode.setPushText("Die steht da ganz gut. Außerdem ist die viel zu schwer!");
 			{// childs
-				Object tuer = new Object(kommode.getX(), kommode.getY(), kommode.getZ(), kommode.getWidth(), kommode.getHeight(), new Image("türen.png"));
+				Object tuer = new Object(kommode.getX(), kommode.getY(), kommode.getZ(), kommode.getWidth(), kommode.getHeight(), new Image("türen_zu.png"));
 				tuer.setLookText("Die Türen sind nicht verschlossen!");
 				tuer.setUseText("Offen! Oh in der Kommode lag eine Schlüsselkarte. Für die finde ich bestimmt noch das richtige Schloss.");
 				tuer.setPushText("So funktioniert das nicht.. Wenn ich nur wüsste, wie ich Türen *benutzen* kannn!");
-				
+				tuer.setUseAction(()->{
+					tuer.setImg(new Image("türen.png"));
+				});
 				Object schublade_oben = new Object(kommode.getX(), kommode.getY(), kommode.getZ(), kommode.getWidth(), kommode.getHeight(), new Image("schublade_oben.png"));
 				schublade_oben.setLookText("Die Schublade ist mit einem Hängeschloss verschlossen!");
 				schublade_oben.setGrabText("Ich habe schon genug Schubladen zu hause.");
