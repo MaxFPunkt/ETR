@@ -50,7 +50,7 @@ public class Level implements Drawable,Timer{
 		vase.setCanPush(true);
 		vase.setPushAction(()->{
 			objects.add(key);
-			vase.setZ(vase.getZ()+75);
+		vase.setZ(vase.getZ()+75);
 		});
 		objects.add(vase);
 		
@@ -94,6 +94,14 @@ public class Level implements Drawable,Timer{
 				kommode.getChilds().add(schublade_oben);
 				kommode.getChilds().add(schublade_unten);
 				kommode.getChilds().add(tuer);
+				
+				combinations.add(new Combination(schublade_unten, key, ()->{
+					schublade_unten.setPushText("Die Schublade ist mit einem ruck aufgegangen.");
+					schublade_unten.setCanPush(true);
+					schublade_unten.setPushAction(()->{
+						
+					});
+				}, "Das Vorhängeschloss ist jetzt offen!"));
 			}
 			objects.add(kommode);
 		}
@@ -191,9 +199,7 @@ public class Level implements Drawable,Timer{
 	public Optional<Object> getClickedObjekt(double x, double y){
 		return objects.stream()
 				.filter(o->o.ifHit(x,y,lastWindowHeight,lastXOffsetWindow))
-				.sorted((o1,o2)->{
-					return Double.compare(o2.getZ(), o1.getZ());
-				}).sorted().findFirst();
+				.sorted().findFirst();
 	}
 	@Override
 	public void update(double pastTime) {

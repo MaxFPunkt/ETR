@@ -12,7 +12,7 @@ import objects.interfaces.Interactions;
 import objects.interfaces.Timer;
 
 
-public class Object extends Interactions implements Drawable, Timer {
+public class Object extends Interactions implements Drawable, Timer, Comparable<Object> {
 	private double x;
 	private double y;
 	private double z;
@@ -185,5 +185,9 @@ public class Object extends Interactions implements Drawable, Timer {
 			return true;
 		}
 		return  false;
+	}
+	@Override
+	public int compareTo(Object obj) {
+		return Double.compare(obj.getZ(), getZ());
 	}
 }
