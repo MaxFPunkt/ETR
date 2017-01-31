@@ -51,9 +51,6 @@ public class Main extends Application{
 		intface.prefWidthProperty().bind(mainScene.widthProperty());
 		intface.prefHeightProperty().bind(mainScene.heightProperty());
 		mainPane.getChildren().add(intface);
-		
-
-		
 	}
 	
 	@Override
@@ -86,7 +83,7 @@ public class Main extends Application{
 		//mainPane.getChildren().add(codePanel);
 		
 		stage.addEventHandler(MouseEvent.MOUSE_CLICKED, ( e) -> {	
-			content.mouseClick(e.getSceneX(), e.getSceneY());
+			content.mouseClick(e.getSceneX(), e.getSceneY(), mainScene.widthProperty().doubleValue(), mainScene.heightProperty().doubleValue());
 		});
 		stage.addEventHandler(KeyEvent.ANY, e->{
 			content.keyEvent(e);

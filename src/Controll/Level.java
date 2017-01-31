@@ -29,12 +29,40 @@ public class Level implements Drawable,Timer{
 		this.parent=content;
 		DoubleProperty backgrounbdWith=new SimpleDoubleProperty(0);
 		backgrounbdWith.bind(height.divide(9).multiply(32));
-		Object vase = new Object(0, 0, 0, 100, 100,new Image("001.png"));
+		
+		Object vase = new Object(500, 800, 700, 100, 100,new Image("001.png"));
 		vase.setLookText("Hm die Vase sieht sehr leicht aus.");
-		vase.setGrabText("Haha die gehört jetzt mir!");
-		vase.setCanGrab(true);
+		vase.setGrabText("Viel zu sperrig. Die nehme ich nicht mit!");
+		vase.setPushText("Oh da war ein Schlüssel unter der Vase! Den kann ich später bestimmt noch gut gebrauchen.");
+		vase.setUseText("Die ist so nutzlos wie der Staub auf meinem Boden");
+		vase.setCanPush(true);
 		objects.add(vase);
-		objects.add(new Object(120, 50, 0, 100, 100,new Image("001.png")));
+		
+		{ // Kommode
+			Object kommode = new Object(-50, 650, 1300, 169*2, 139*2,new Image("kommode_2.png"));
+			kommode.setLookText("Eine Kommode... Die Schubladen scheinen verschlossen zu sein.");
+			kommode.setPushText("Die steht da ganz gut. Außerdem ist die viel zu schwer!");
+			{// childs
+				Object tuer = new Object(kommode.getX(), kommode.getY(), kommode.getZ(), kommode.getWidth(), kommode.getHeight(), new Image("türen.png"));
+				tuer.setLookText("Die Türen sind nicht verschlossen!");
+				tuer.setUseText("Offen! Oh in der Kommode lag eine Schlüsselkarte. Für die finde ich bestimmt noch das richtige Schloss.");
+				tuer.setPushText("So funktioniert das nicht.. Wenn ich nur wüsste, wie ich Türen *benutzen* kannn!");
+				
+				Object schublade_oben = new Object(kommode.getX(), kommode.getY(), kommode.getZ(), kommode.getWidth(), kommode.getHeight(), new Image("schublade_oben.png"));
+				schublade_oben.setLookText("Die Schublade ist mit einem Hängeschloss verschlossen!");
+				schublade_oben.setGrabText("Ich habe schon genug Schubladen zu hause.");
+				schublade_oben.setPushText("So funktioniert das nicht..");
+				schublade_oben.setUseText("*rüttel* *rüttel*\nVerschlossen.");
+				
+				Object schublade_unten = new Object(kommode.getX(), kommode.getY(), kommode.getZ(), kommode.getWidth(), kommode.getHeight(), new Image("schublade_unten.png"));
+				schublade_unten.setLookText("Da ist ein Vorhängeschloss vor!");
+				
+				kommode.getChilds().add(schublade_oben);
+				kommode.getChilds().add(schublade_unten);
+				kommode.getChilds().add(tuer);
+			}
+			objects.add(kommode);
+		}
 	}
 	
 	Image imgaeRoom=new Image("room.jpg");
@@ -58,14 +86,16 @@ public class Level implements Drawable,Timer{
 			.forEachOrdered(o->o.draw(gc,windowWidth,windowHeight,lastXOffsetWindow));
 		partikelEffekts.forEach(o->o.draw(gc,windowWidth,windowHeight,lastXOffsetWindow));
 	}
-	public void mouseClicked(double x, double y) {
+	public void mouseClicked(double x, double y, double totalWidth, double totalHeight) {
 		if(parent.getIntface().getActiveAction()!=Action.NONE){
 			Optional<Object> object=getClickedObjekt(x, y);
 			if(object.isPresent()){
-				Action action = parent.getIntface().action(object.get());
+				Object obj = object.get().whichChildHit(x,y,totalWidth,totalHeight,lastXOffsetWindow).get();
+				
+				Action action = parent.getIntface().action(obj);
 				if(action!=null && action.equals(Action.GRAB)) {
-					partikelEffekts.add(new PartikelEffekt(object.get(),lastWindowHeight, lastXOffsetWindow));
-					objects.remove(object.get());
+					partikelEffekts.add(new PartikelEffekt(obj,lastWindowHeight, lastXOffsetWindow));
+					objects.remove(obj);
 				}
 			}
 		}

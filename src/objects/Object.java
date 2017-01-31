@@ -1,5 +1,8 @@
 package objects;
 
+import java.util.ArrayList;
+import java.util.Optional;
+
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.canvas.GraphicsContext;
@@ -8,18 +11,17 @@ import objects.interfaces.Drawable;
 import objects.interfaces.Interactions;
 import objects.interfaces.Timer;
 
-public class Object implements Interactions,Drawable,Timer {
 
+public class Object extends Interactions implements Drawable, Timer {
 	private double x;
 	private double y;
 	private double z;
 	
+	private ArrayList<Object> childs;
+	
 	private DoubleProperty width;
 	private DoubleProperty height;
-	
-	private boolean canGrab, canPush, canLook;
 	private Image img;
-	private String grabText, pushText, lookText, useText;
 	
 	/**
 	 * 
@@ -100,12 +102,27 @@ public class Object implements Interactions,Drawable,Timer {
 		 this.img = img;
 	}
 	public Object(double x, double y, double z, double width, double height, Image img) {
-		 this(x,y,z,width,height);
-		 this.img = img;
+		 //this(x,y,z,img.getWidth()*2,img.getHeight()*2);
+		this(x,y,z,width,height);
+		this.img = img;
 	}
 	public Object(double x, double y, double z, double width, double height) {
 		 this(x,y,z,new SimpleDoubleProperty(width),new SimpleDoubleProperty(height));
 	}
+	
+	public Optional<Object> whichChildHit(double x, double y, double totalWidth, double totalHeight,double xOffsetWindow){
+		int localX= (int) ((x-getDrawX(totalHeight, xOffsetWindow))*getDrawWidth(totalHeight)/getWidth());
+		int localY= (int) ((y-getDrawY(totalHeight))*getDrawHeight(totalHeight)/getHeight());
+		
+		return childs.stream()
+			.filter(c->c.isPixelSet(localX,localY))
+			.findAny();
+	}
+	
+	private boolean isPixelSet(int localX, int localY) {
+		return this.img.getPixelReader().getColor(localX, localY).getOpacity() > 0;
+	}
+
 	public Object(double x, double y, double z, DoubleProperty width, DoubleProperty height) {
 		 this.x=x;
 		 this.y=y;
@@ -115,16 +132,24 @@ public class Object implements Interactions,Drawable,Timer {
 		 this.grabText = "Da ist mein Rucksack zu klein für!";
 		 this.lookText = "Das sieht sehr verdächtig aus!";
 		 this.pushText = "Das steht da eigentlich schon ganz gut. Ich lasse es lieber stehen.";
-		 this.useText = "Wie soll ich das den Kombinieren?";
+		 this.useText = "Ich glaube das kann ich so nicht benutzen.";
+		 this.canLook = true;
+		 this.canGrab = false;
+		 this.canPush = false;
+		 
+		 grabAction = intface->intface.inventory.add(this);
+		 
+		 childs = new ArrayList<>();
 	}
 	
-	public void setCanGrab(boolean canGrab) { this.canGrab = canGrab; }
-	public void setCanPush(boolean canPush) { this.canPush = canPush; }
-	public void setCanLook(boolean canLook) { this.canLook = canLook; }
+	public ArrayList<Object> getChilds(){ return childs; }
 	
 	@Override
 	public void draw(GraphicsContext gc, double windowWidth, double windowHeight, double xOffsetWindow) {
 		gc.drawImage(img,getDrawX( windowHeight,xOffsetWindow), getDrawY( windowHeight), getDrawWidth(windowHeight),getDrawHeight( windowHeight));
+		for(Object child:childs) child.draw(gc, windowWidth, windowHeight, xOffsetWindow);
+		
+		gc.strokeRect(getDrawX( windowHeight,xOffsetWindow), getDrawY( windowHeight), getDrawWidth(windowHeight),getDrawHeight( windowHeight));
 	}
 	public boolean ifHit(double XAxis, double YAxis, double windowHeight, double xOffsetWindow){
 		if(XAxis > getDrawX( windowHeight,xOffsetWindow) 
@@ -134,32 +159,5 @@ public class Object implements Interactions,Drawable,Timer {
 			return true;
 		}
 		return  false;
-	}
-	@Override
-	public boolean canGrab(){return canGrab;}
-	@Override
-	public boolean canLook(){return canLook;}
-	@Override
-	public boolean canPush(){return canPush;}
-	
-	@Override
-	public void grab(Interface intface) {
-		Interactions.super.grab(intface);
-		intface.inventory.add(this);
-	}
-
-	public void setGrabText(String text) { this.grabText = text; }
-	public void setPushText(String text) { this.pushText = text; }
-	public void setLookText(String text) { this.lookText = text; }
-
-	public String getText(Interactions.Action action) { 
-		switch(action){
-			case GRAB : return grabText;
-			case LOOK : return lookText;
-			case PUSH : return pushText;
-			case USE : return useText;
-			default : return "";
-		}
-		
 	}
 }

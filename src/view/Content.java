@@ -26,8 +26,8 @@ public class Content extends Canvas implements Timer{
 		for(Level l:levels) 
 			l.draw(getGraphicsContext2D(),getWidth(),getHeight(),xOffset);
 	}
-	public void mouseClick(double x, double y) {
-		for(Level l:levels)l.mouseClicked(x,y);
+	public void mouseClick(double x, double y, double totalWidth, double totalHeight) {
+		for(Level l:levels)l.mouseClicked(x,y,totalWidth,totalHeight);
 	}
 
 	public void keyEvent(KeyEvent e) {
