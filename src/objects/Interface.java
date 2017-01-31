@@ -26,6 +26,9 @@ import objects.interfaces.Interactions.Action;
 
 public class Interface extends Pane implements objects.interfaces.Timer{
 
+	public Button getUseBT() {
+		return useBT;
+	}
 	private HBox botRow;
 	private Button toggleRow, grabBt, lookBt, pushBt,useBT;
 	private boolean rowExpanded;
