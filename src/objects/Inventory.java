@@ -14,6 +14,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
+import objects.interfaces.Interactions.Action;
 
 public class Inventory extends Pane {
 	private List<InventoryElement> inventoryElements=new ArrayList<>();
@@ -52,7 +53,8 @@ public class Inventory extends Pane {
 			}else if(openProcen.isEqualTo(1).get()){
 				timelineClose.playFromStart();
 				InventoryElement.aktive.set(null);
-				intface.getUseBT().fire();
+				if(intface.getActiveAction()==Action.USE)
+					intface.getUseBT().fire();
 			}
 		});
 		
