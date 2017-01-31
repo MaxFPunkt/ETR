@@ -14,6 +14,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import objects.CodePanel;
 import objects.Combination;
+import objects.InventoryElement;
 import objects.Object;
 import objects.PartikelEffekt;
 import objects.interfaces.Drawable;
@@ -45,11 +46,11 @@ public class Level implements Drawable,Timer{
 		vase.setLookText("Hm die Vase sieht sehr leicht aus.");
 		vase.setGrabText("Viel zu sperrig. Die nehme ich nicht mit!");
 		vase.setPushText("Oh da war ein Schlüssel unter der Vase!");
-		vase.setUseText("Die ist so nutzlos wie der Staub auf meinem Boden");
+		//vase.setUseText("Die ist so nutzlos wie der Staub auf meinem Boden");
 		vase.setCanPush(true);
 		vase.setPushAction(()->{
 			objects.add(key);
-			vase.setZ(vase.getZ()+75);
+		vase.setZ(vase.getZ()+75);
 		});
 		objects.add(vase);
 		
@@ -85,7 +86,7 @@ public class Level implements Drawable,Timer{
 				schublade_oben.setLookText("Die Schublade ist mit einem Hängeschloss verschlossen!");
 				schublade_oben.setGrabText("Ich habe schon genug Schubladen zu hause.");
 				schublade_oben.setPushText("So funktioniert das nicht..");
-				schublade_oben.setUseText("*rüttel* *rüttel*\nVerschlossen.");
+				//schublade_oben.setUseText("*rüttel* *rüttel*\nVerschlossen.");
 				
 				Object schublade_unten = new Object(kommode.getX(), kommode.getY(), kommode.getZ(), kommode.getWidth(), kommode.getHeight(), new Image("schublade_unten.png"));
 				schublade_unten.setLookText("Da ist ein Vorhängeschloss vor!");
@@ -93,6 +94,14 @@ public class Level implements Drawable,Timer{
 				kommode.getChilds().add(schublade_oben);
 				kommode.getChilds().add(schublade_unten);
 				kommode.getChilds().add(tuer);
+				
+				combinations.add(new Combination(schublade_unten, key, ()->{
+					schublade_unten.setPushText("Die Schublade ist mit einem ruck aufgegangen.");
+					schublade_unten.setCanPush(true);
+					schublade_unten.setPushAction(()->{
+						
+					});
+				}, "Das Vorhängeschloss ist jetzt offen!"));
 			}
 			objects.add(kommode);
 		}
@@ -106,7 +115,7 @@ public class Level implements Drawable,Timer{
 		for(Object toyBrick: toyBricks){
 			toyBrick.setGrabText("Ein neuer Bauklotz für meine Sammlung.");
 			toyBrick.setLookText("So einen wollte ich schon immer mal haben.");
-			toyBrick.setUseText("Nicht jetzt, mir lauft die Zeit doch schon weg.");
+			//toyBrick.setUseText("Nicht jetzt, mir lauft die Zeit doch schon weg.");
 			toyBrick.setCanGrab(true);
 		}
 		
@@ -166,10 +175,22 @@ public class Level implements Drawable,Timer{
 					obj.secondaryAction();
 					parent.getIntface().displayText(obj.getSecondaryText());
 				}else{
-					Action action = parent.getIntface().action(obj);
-					if(action!=null && action.equals(Action.GRAB)) {
-						partikelEffekts.add(new PartikelEffekt(obj,lastWindowHeight, lastXOffsetWindow));
-						objects.remove(obj);
+					if(parent.getIntface().getActiveAction()==Action.USE){
+						if(getCombination(InventoryElement.aktive.get(),obj).isPresent()){
+							parent.getIntface().displayText(getCombination(InventoryElement.aktive.get(),obj).get().text);
+							if(getCombination(InventoryElement.aktive.get(),obj).get().f!=null)getCombination(InventoryElement.aktive.get(),obj).get().f.run();
+						}else{
+							if(InventoryElement.aktive.get()!=null)
+								parent.getIntface().displayText("Ich glaube das kann ich so nicht benutzen.");
+							else
+								parent.getIntface().displayText("Nichts mit etwas zu verbinden, bleibt etwas!");								
+						}
+					}else{
+						Action action = parent.getIntface().action(obj);
+						if(action!=null && action.equals(Action.GRAB)) {
+							partikelEffekts.add(new PartikelEffekt(obj,lastWindowHeight, lastXOffsetWindow));
+							objects.remove(obj);
+						}
 					}
 				}
 			}
@@ -178,9 +199,7 @@ public class Level implements Drawable,Timer{
 	public Optional<Object> getClickedObjekt(double x, double y){
 		return objects.stream()
 				.filter(o->o.ifHit(x,y,lastWindowHeight,lastXOffsetWindow))
-				.sorted((o1,o2)->{
-					return Double.compare(o2.getZ(), o1.getZ());
-				}).sorted().findFirst();
+				.sorted().findFirst();
 	}
 	@Override
 	public void update(double pastTime) {
