@@ -182,7 +182,14 @@ public class Object extends Interactions implements Drawable, Timer, Comparable<
 				&& XAxis < getDrawX( windowHeight,xOffsetWindow)+getDrawWidth(windowHeight) 
 				&& YAxis > getDrawY( windowHeight) 
 				&& YAxis < getDrawY( windowHeight)+getDrawHeight( windowHeight)){
-			return true;
+			
+			if(whichChildHit(XAxis,YAxis,windowHeight,xOffsetWindow)!=this)
+				return true;
+
+			int localX= (int) ((XAxis-getDrawX(windowHeight, xOffsetWindow))*getImage().getWidth()/getDrawWidth(windowHeight));
+			int localY= (int) ((YAxis-getDrawY(windowHeight))*getImage().getHeight()/getDrawHeight(windowHeight));
+			
+			return isPixelSet(localX,localY);
 		}
 		return  false;
 	}
