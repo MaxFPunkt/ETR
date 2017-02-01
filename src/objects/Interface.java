@@ -2,6 +2,7 @@ package objects;
 
 import java.util.ArrayList;
 
+import de.cossijns.LibJavaFxMC.FontController;
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
