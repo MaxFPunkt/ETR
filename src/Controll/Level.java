@@ -58,6 +58,13 @@ public class Level implements Drawable,Timer{
 		});
 		objects.add(vase);
 		
+		Object door = new Object(430,522,1600,250,300, new Image("tuer/tuer_flucht.png"));
+		objects.add(door);
+		door.setSecondary(()->{
+			door.setImg(new Image("tuer/tuer_flucht_auf.png"));
+		});
+		
+		
 		Object vase2 = new Object(60, 750, 1600, 100, 100,new Image("Vase.png"));
 		vase2.setLookText("Hm die Vase sieht sehr leicht aus.");
 		vase2.setGrabText("Viel zu sperrig. Die nehme ich nicht mit!");
