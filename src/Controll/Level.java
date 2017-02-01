@@ -38,7 +38,7 @@ public class Level implements Drawable,Timer{
 		DoubleProperty backgrounbdWith=new SimpleDoubleProperty(0);
 		backgrounbdWith.bind(height.divide(9).multiply(32));
 		
-		Object key = new Object(500,850,700,40,40,new Image("keycard.jpg"));
+		Object key = new Object(500,850,700,40,40,new Image("keycard.png"));
 		key.setCanGrab(true);
 		key.setGrabText("Den kann ich später bestimmt noch gut gebrauchen.");
 		
@@ -58,8 +58,9 @@ public class Level implements Drawable,Timer{
 		vase2.setLookText("Hm die Vase sieht sehr leicht aus.");
 		vase2.setGrabText("Viel zu sperrig. Die nehme ich nicht mit!");
 		vase2.setPushText("Oh ich habe die Vase bewegt. Und jetzt?");
+		vase2.setCanPush(true);
 		vase2.setPushAction(()->{
-			vase2.setX(vase2.getX()+75);
+			vase2.setX(vase2.getX()+25);
 		});
 		objects.add(vase2);
 		
