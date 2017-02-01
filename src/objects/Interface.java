@@ -54,8 +54,10 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 		double inventoryScaling = 0.85; 
 		inventory.layoutXProperty().bind(widthProperty().multiply(inventoryScaling));
 		inventory.prefWidthProperty().bind(widthProperty().multiply(1-inventoryScaling));
+		inventory.minWidthProperty().bind(widthProperty().multiply(1-inventoryScaling));
 
 		inventory.prefHeightProperty().bind(heightProperty());
+		inventory.minHeightProperty().bind(heightProperty());
 		
 		botRow = new HBox();
 		botRow.layoutYProperty().bind(this.heightProperty().subtract(botRow.heightProperty()));
@@ -65,26 +67,25 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 		Font font = new Font("Calibri",30);
 		
 		grabBt = new Button("Nehmen");
-		grabBt.setFont(font);
-		//grabBt.fontProperty().bind((new FontController("Arial",grabBt.textProperty() , grabBt.widthProperty(), grabBt.heightProperty())).getFontProperty());
-		grabBt.prefWidthProperty().bind((prefWidthProperty().multiply(inventoryScaling)).divide(7));
-		//grabBt.prefHeightProperty().bind();
+		grabBt.fontProperty().bind((new FontController("Calibri",grabBt.textProperty() , (widthProperty().multiply(inventoryScaling)).divide(7), heightProperty().multiply(.05))).getFontProperty());
+		grabBt.minWidthProperty().bind((widthProperty().multiply(inventoryScaling)).divide(7));
+		grabBt.minHeightProperty().bind(heightProperty().multiply(0.05));
 		grabBt.setOnAction(e->{
 			activeAction.setValue(activeAction.getValue()==Action.GRAB?Action.NONE:Action.GRAB);
 		});
 		
 		lookBt = new Button("Ansehen");
-		lookBt.setFont(font);
-		//lookBt.fontProperty().bind((new FontController("Arial",lookBt.textProperty() , lookBt.widthProperty(), lookBt.heightProperty())).getFontProperty());		
-		lookBt.prefWidthProperty().bind((prefWidthProperty().multiply(inventoryScaling)).divide(7));
+		lookBt.fontProperty().bind((new FontController("Calibri",lookBt.textProperty() , (widthProperty().multiply(inventoryScaling)).divide(7),  heightProperty().multiply(.05))).getFontProperty());
+		lookBt.minHeightProperty().bind(heightProperty().multiply(0.1));
+		lookBt.minWidthProperty().bind((widthProperty().multiply(inventoryScaling)).divide(7));
 		lookBt.setOnAction(e->{
 			activeAction.setValue(activeAction.getValue()==Action.LOOK?Action.NONE:Action.LOOK);
 		});
 		
 		pushBt = new Button("Schieben");
-		pushBt.setFont(font);
-		//pushBt.fontProperty().bind((new FontController("Arial",pushBt.textProperty() , pushBt.widthProperty(), pushBt.heightProperty())).getFontProperty());
-		pushBt.prefWidthProperty().bind((prefWidthProperty().multiply(inventoryScaling)).divide(7));
+		pushBt.minWidthProperty().bind((widthProperty().multiply(inventoryScaling)).divide(7));
+		pushBt.minHeightProperty().bind(heightProperty().multiply(0.1));	
+		pushBt.fontProperty().bind((new FontController("Calibri",pushBt.textProperty() , (widthProperty().multiply(inventoryScaling)).divide(7),  heightProperty().multiply(.05))).getFontProperty());
 		pushBt.setOnAction(e->{
 			activeAction.setValue(activeAction.getValue()==Action.PUSH?Action.NONE:Action.PUSH);
 		});
@@ -114,17 +115,18 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 		};
 		
 		useBT = new Button("Kombinieren");
-		useBT.setFont(font);
-		//useBT.fontProperty().bind((new FontController("Arial",useBT.textProperty() , useBT.widthProperty(), useBT.heightProperty())).getFontProperty());
-		useBT.prefWidthProperty().bind((prefWidthProperty().multiply(inventoryScaling)).divide(5));
+		useBT.minHeightProperty().bind(heightProperty().multiply(0.1));
+		useBT.fontProperty().bind((new FontController("Calibri",useBT.textProperty() , (widthProperty().multiply(inventoryScaling)).divide(5),  heightProperty().multiply(.05))).getFontProperty());
+		useBT.minWidthProperty().bind((widthProperty().multiply(inventoryScaling)).divide(5));
 		useBT.setOnAction(e->{
 			activeAction.setValue(activeAction.getValue()==Action.USE?Action.NONE:Action.USE);
 			useDarkOpen.run();			
 		});
 		
 		interactBT = new Button("Interagieren");
-		interactBT.setFont(font);
-		interactBT.prefWidthProperty().bind((prefWidthProperty().multiply(inventoryScaling)).divide(5));
+		interactBT.fontProperty().bind((new FontController("Calibri",interactBT.textProperty() , (prefWidthProperty().multiply(inventoryScaling)).divide(5),  heightProperty().multiply(.05))).getFontProperty());
+		interactBT.minHeightProperty().bind(heightProperty().multiply(0.1));
+		interactBT.minWidthProperty().bind((widthProperty().multiply(inventoryScaling)).divide(5));
 		interactBT.setOnAction(e->{
 			activeAction.setValue(activeAction.getValue()==Action.INTERACT?Action.NONE:Action.INTERACT);		
 		});
@@ -135,6 +137,7 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 		toggleRow = new Button("❰");
 		toggleRow.setFont(font);
 		toggleRow.prefWidth(50);
+		toggleRow.prefHeightProperty().bind(interactBT.heightProperty());
 		toggleRow.setOnAction(e->{
 			if(rowExpanded)collapseBotRow();
 			else expandBotRow();
