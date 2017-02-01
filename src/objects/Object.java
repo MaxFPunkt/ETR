@@ -2,7 +2,6 @@ package objects;
 
 import java.util.ArrayList;
 import java.util.Optional;
-
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.canvas.GraphicsContext;

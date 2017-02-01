@@ -135,7 +135,6 @@ public class Level implements Drawable,Timer{
 				tuer.setSecondaryText("Offen! Oh in der Kommode lag eine Schlüsselkarte. Für die finde ich bestimmt noch das richtige Schloss.");
 				tuer.setPushText("So funktioniert das nicht.. Wenn ich nur wüsste, wie ich Türen *benutzen* kannn!");
 				tuer.setSecondary(()->{
-					System.out.println("KOMMODE SECONDARY");
 					if(tuerOpen.get()){ 
 						tuer.setImg(new Image("schrank/tuer_zu.png"));
 						tuer.setSecondaryText("Und wieder zu.");

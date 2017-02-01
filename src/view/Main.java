@@ -13,10 +13,7 @@ import javafx.stage.StageStyle;
 import objects.Interface;
 import objects.Menu;
 
-
 public class Main extends Application{
-
-	
 	public Scene mainScene;
 	public Pane mainPane;
 	public Content content;
@@ -62,13 +59,10 @@ public class Main extends Application{
 		stage.setScene(mainScene);
 		stage.show();
 		
-		
 		menu=new Menu(stage);
 		menu.prefWidthProperty().bind(mainScene.widthProperty());
 		menu.prefHeightProperty().bind(mainScene.heightProperty());
 		mainPane.getChildren().add(menu);
-		
-
 		
 		stage.addEventHandler(MouseEvent.MOUSE_CLICKED, ( e) -> {
 			content.mouseClick(e.getButton(),e.getSceneX(), e.getSceneY(), mainScene.widthProperty().doubleValue(), mainScene.heightProperty().doubleValue());
@@ -84,13 +78,8 @@ public class Main extends Application{
 		mainLoop.start();
 	}
 
-	private void draw() {
-		content.draw();
-	}
-	
-	private void call(double pastTime) {
-		content.call(pastTime);
-	}
+	private void draw() { content.draw(); }
+	private void call(double pastTime) { content.call(pastTime); }
 
 	@Override
 	public void stop() throws Exception {

@@ -2,7 +2,6 @@ package objects;
 
 import java.util.ArrayList;
 
-import de.cossijns.LibJavaFxMC.FontController;
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
@@ -130,14 +129,11 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 			activeAction.setValue(activeAction.getValue()==Action.INTERACT?Action.NONE:Action.INTERACT);		
 		});
 		InventoryElement.aktive.addListener((ObservableValue<? extends Object> obValue, Object oldValue, Object newValue)->{
-			if(newValue==null){
-				useDarkOpen.run();				
-			}
+			if(newValue==null){ useDarkOpen.run(); }
 		});
 		
 		toggleRow = new Button("❰");
 		toggleRow.setFont(font);
-		//toggleRow.prefWidthProperty().bind((prefWidthProperty().multiply(inventoryScaling)).divide(7));
 		toggleRow.prefWidth(50);
 		toggleRow.setOnAction(e->{
 			if(rowExpanded)collapseBotRow();
@@ -288,7 +284,6 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 	@SuppressWarnings("incomplete-switch")
 	public Action action(Object object) {
 		displayText(object.getText(getActiveAction()));
-		System.out.println("HALLO: "+getActiveAction().toString());
 		if(object.can(getActiveAction())){
 			switch(getActiveAction()){
 			case GRAB:
@@ -301,7 +296,6 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 				object.push();
 				break;
 			case INTERACT:
-				System.out.println("INTERACT");
 				object.secondaryAction();
 				break;
 			}
