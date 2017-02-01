@@ -41,7 +41,8 @@ public class Level implements Drawable,Timer{
 		Object key = new Object(500,850,700,40,40,new Image("keycard.jpg"));
 		key.setCanGrab(true);
 		key.setGrabText("Den kann ich später bestimmt noch gut gebrauchen.");
-		Object vase = new Object(500, 800, 700, 100, 100,new Image("001.png"));
+		
+		Object vase = new Object(800, 800, 700, 100, 100,new Image("Vase.png"));
 		vase.setLookText("Hm die Vase sieht sehr leicht aus.");
 		vase.setGrabText("Viel zu sperrig. Die nehme ich nicht mit!");
 		vase.setPushText("Oh da war ein Schlüssel unter der Vase!");
@@ -53,24 +54,33 @@ public class Level implements Drawable,Timer{
 		});
 		objects.add(vase);
 		
+		Object vase2 = new Object(50, 750, 1600, 100, 100,new Image("Vase.png"));
+		vase2.setLookText("Hm die Vase sieht sehr leicht aus.");
+		vase2.setGrabText("Viel zu sperrig. Die nehme ich nicht mit!");
+		vase2.setPushText("Oh ich habe die Vase bewegt. Und jetzt?");
+		vase2.setPushAction(()->{
+			vase2.setX(vase2.getX()+75);
+		});
+		objects.add(vase2);
+		
 		{ // Kommode
-			Object kommode = new Object(-50, 650, 1300, 169*2, 139*2,new Image("kommode_1.png"));
+			Object kommode = new Object(-50, 650, 1300, 169*2, 139*2,new Image("schrank/schrank.png"));
 			kommode.setLookText("Eine Kommode... Die Schubladen scheinen verschlossen zu sein.");
 			kommode.setPushText("Die steht da ganz gut. Außerdem ist die viel zu schwer!");
 			{// childs
 				BooleanProperty tuerOpen = new SimpleBooleanProperty(false);
 				BooleanProperty foundCard = new SimpleBooleanProperty(false);
-				Object tuer = new Object(kommode.getX(), kommode.getY(), kommode.getZ(), kommode.getWidth(), kommode.getHeight(), new Image("türen_zu.png"));
+				Object tuer = new Object(kommode.getX(), kommode.getY(), kommode.getZ(), kommode.getWidth(), kommode.getHeight(), new Image("schrank/tuer_zu.png"));
 				tuer.setLookText("Die Türen sind nicht verschlossen!");
 				tuer.setSecondaryText("Offen! Oh in der Kommode lag eine Schlüsselkarte. Für die finde ich bestimmt noch das richtige Schloss.");
 				tuer.setPushText("So funktioniert das nicht.. Wenn ich nur wüsste, wie ich Türen *benutzen* kannn!");
 				tuer.setSecondary(()->{
 					
 					if(tuerOpen.get()){ 
-						tuer.setImg(new Image("türen_zu.png"));
+						tuer.setImg(new Image("schrank/tuer_zu.png"));
 						tuer.setSecondaryText("Und wieder zu.");
 					} else {
-						tuer.setImg(new Image("türen.png"));
+						tuer.setImg(new Image("schrank/tuer_auf.png"));
 						if(!foundCard.get()){
 							parent.getIntface().getInventory().add(new Object(0,0,0,240,240,new Image("keycard.jpg")));
 							foundCard.set(true);
@@ -81,13 +91,13 @@ public class Level implements Drawable,Timer{
 					
 					tuerOpen.set(!tuerOpen.get());
 				});
-				Object schublade_oben = new Object(kommode.getX(), kommode.getY(), kommode.getZ(), kommode.getWidth(), kommode.getHeight(), new Image("schublade_oben.png"));
+				Object schublade_oben = new Object(kommode.getX(), kommode.getY(), kommode.getZ(), kommode.getWidth(), kommode.getHeight(), new Image("schrank/schub_zu1.png"));
 				schublade_oben.setLookText("Die Schublade ist mit einem Hängeschloss verschlossen!");
 				schublade_oben.setGrabText("Ich habe schon genug Schubladen zu hause.");
 				schublade_oben.setPushText("So funktioniert das nicht..");
 				//schublade_oben.setUseText("*rüttel* *rüttel*\nVerschlossen.");
 				
-				Object schublade_unten = new Object(kommode.getX(), kommode.getY(), kommode.getZ(), kommode.getWidth(), kommode.getHeight(), new Image("schublade_unten.png"));
+				Object schublade_unten = new Object(kommode.getX(), kommode.getY(), kommode.getZ(), kommode.getWidth(), kommode.getHeight(), new Image("schrank/schub_zu2.png"));
 				schublade_unten.setLookText("Da ist ein Vorhängeschloss vor!");
 				
 				kommode.getChilds().add(schublade_oben);
