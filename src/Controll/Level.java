@@ -38,7 +38,7 @@ public class Level implements Drawable,Timer{
 		DoubleProperty backgrounbdWith=new SimpleDoubleProperty(0);
 		backgrounbdWith.bind(height.divide(9).multiply(32));
 		
-		Object key = new Object(500,850,700,40,40,new Image("keycard.png"));
+		Object key = new Object(850, 850, 700, 40,40,new Image("keycard.png"));
 		key.setCanGrab(true);
 		key.setGrabText("Den kann ich später bestimmt noch gut gebrauchen.");
 
@@ -53,7 +53,7 @@ public class Level implements Drawable,Timer{
 		vase.setCanPush(true);
 		vase.setPushAction(()->{
 			objects.add(key);
-			vase.setZ(vase.getZ()+75);
+			vase.setX(vase.getX()-25);
 		});
 		objects.add(vase);
 		
@@ -86,7 +86,7 @@ public class Level implements Drawable,Timer{
 					} else {
 						tuer.setImg(new Image("schrank/tuer_auf.png"));
 						if(!foundCard.get()){
-							parent.getIntface().getInventory().add(new Object(0,0,0,240,240,new Image("keycard.jpg")));
+							parent.getIntface().getInventory().add(new Object(0,0,0,240,240,new Image("keycard.png")));
 							foundCard.set(true);
 						}else{
 							tuer.setSecondaryText("Schade immer noch leer...");
@@ -100,6 +100,9 @@ public class Level implements Drawable,Timer{
 				schublade_oben.setGrabText("Ich habe schon genug Schubladen zu hause.");
 				schublade_oben.setPushText("So funktioniert das nicht..");
 				//schublade_oben.setUseText("*rüttel* *rüttel*\nVerschlossen.");
+				schublade_oben.setSecondary(()->{
+					
+				});
 				
 				Object schublade_unten = new Object(kommode.getX(), kommode.getY(), kommode.getZ(), kommode.getWidth(), kommode.getHeight(), new Image("schrank/schub_zu2.png"));
 				schublade_unten.setLookText("Da ist ein Vorhängeschloss vor!");
@@ -113,7 +116,7 @@ public class Level implements Drawable,Timer{
 					schublade_unten.setLookText("Eine aufgeschlossende Schublade.");
 					schublade_unten.setCanPush(true);
 					schublade_unten.setPushAction(()->{
-						schublade_unten.setImg(new Image(""));
+						schublade_unten.setImg(new Image("schrank/schub_auf2.png"));
 					});
 					
 					// Wenn die aktive Aktion immer noch use ist, resete es, weil use *hier* zu ende ist

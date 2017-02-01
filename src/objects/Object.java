@@ -188,6 +188,6 @@ public class Object extends Interactions implements Drawable, Timer, Comparable<
 	}
 	@Override
 	public int compareTo(Object obj) {
-		return Double.compare(obj.getZ(), getZ());
+		return Double.compare(getZ(), obj.getZ());
 	}
 }
