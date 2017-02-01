@@ -58,14 +58,26 @@ public class Level implements Drawable,Timer{
 		});
 		objects.add(vase);
 		
-		Object door = new Object(430,522,1600,250,300, new Image("tuer/tuer_flucht.png"));
+		Object door = new Object(410,548,1600,375,300, new Image("tuer/tuer_flucht.png"));
 		objects.add(door);
-		door.setSecondary(()->{
-			door.setImg(new Image("tuer/tuer_flucht_auf.png"));
-		});
 		
-		Object codePanel2 = new Object(550, 650, 1600, 100, 50,new Image("keycard_schlitz.png"));
+		Object keycard = new Object(0,0,0,240,240,new Image("keycard.png"));
+		
+		Object codePanel2 = new Object(550, 650, 1600, 80, 62,new Image("keycard_schlitz.png"));
 		objects.add(codePanel2);
+		
+		BooleanProperty isCodeTrue = new SimpleBooleanProperty(false);
+		BooleanProperty isKeyCardTrue = new SimpleBooleanProperty(false);
+		
+		combinations.add(new Combination(codePanel2,keycard,()->{
+			if(isCodeTrue.get()){
+				door.setSecondary(()->{
+					door.setImg(new Image("tuer/tuer_flucht_auf.png"));
+				});
+			}else{
+				isKeyCardTrue.set(true);
+			}
+		},"Der Kartenschlitz hat einen zustimmenden *Piep* von sich gegeben."));
 		
 		Object vase2 = new Object(60, 750, 1600, 100, 100,new Image("Vase.png"));
 		vase2.setLookText("Hm die Vase sieht sehr leicht aus.");
@@ -77,7 +89,27 @@ public class Level implements Drawable,Timer{
 		});
 		objects.add(vase2);
 		
-
+		Object paper = new Object(0,0,0,100,100,new Image("CodePanel.png"));
+		paper.setSecondaryText("TEST TEXT");
+		
+		BooleanProperty lampOn = new SimpleBooleanProperty(false);
+		
+		Object lamp = new Object(tisch.getX()+40, 650, tisch.getZ()-60, 37, 32,new Image(""));
+		lamp.setSecondary(()->{
+			lampOn.set(!lampOn.get());
+			lamp.setImg(new Image("lamp_"+(lampOn.get()?"on":"off")+".png"));
+		});
+		
+		combinations.add(new Combination(
+			lamp,
+			paper,
+			()->{
+				return lampOn.get();
+			},
+			"Hmm also auf dem Zettel steht:\n\"Welches Jahr vor 2002 war da letzte Jahr was nur gerade Zahlen beinhaltet?\"\nWozu soll das denn bitte nützlich sein?", 
+			"Damit es hell genug ist zum lesen, müsste die schon an sein!"
+		));
+		
 		Object toyBriegeA= new Object( tisch.getX()+40, 650, tisch.getZ()-60, 37, 32,new Image("klotz/klotzA.png"));objects.add(toyBriegeA);
 		Object toyBriegeB= new Object( tisch.getX()+60, 650, tisch.getZ()-20, 37, 32,new Image("klotz/klotzD.png"));objects.add(toyBriegeB);
 		Object toyBriegeC= new Object( tisch.getX()+30, 650, tisch.getZ()-30, 37, 32,new Image("klotz/klotzF.png"));objects.add(toyBriegeC);
@@ -92,7 +124,6 @@ public class Level implements Drawable,Timer{
 			//toyBrick.setUseText("Nicht jetzt, mir lauft die Zeit doch schon weg.");
 			toyBrick.setCanGrab(true);
 		}
-		
 		{ // Kommode
 			Object kommode = new Object(-50, 650, 1300, 169*2, 139*2,new Image("schrank/schrank.png"));
 			kommode.setLookText("Eine Kommode... Die Schubladen scheinen verschlossen zu sein.");
@@ -112,7 +143,7 @@ public class Level implements Drawable,Timer{
 					} else {
 						tuer.setImg(new Image("schrank/tuer_auf.png"));
 						if(!foundCard.get()){
-							parent.getIntface().getInventory().add(new Object(0,0,0,240,240,new Image("keycard.png")));
+							parent.getIntface().getInventory().add(keycard);
 							foundCard.set(true);
 						}else{
 							tuer.setSecondaryText("Schade immer noch leer...");
@@ -138,12 +169,12 @@ public class Level implements Drawable,Timer{
 						if(i==true){
 							content.getApplication().mainPane.getChildren().remove(codeAlphabetPanel);
 							//toyBriegeF
-							schublade_oben.setPushText("Die Schublade ist mit einem ruck aufgegangen.");
+							schublade_oben.setPushText("Die Schublade ist mit einem ruck aufgegangen. In der Schublade war ein Zettel! Mal sehen was steht da drauf?");
 							schublade_oben.setLookText("Eine aufgeschlossende Schublade.");
 							schublade_oben.setCanPush(true);
 							schublade_oben.setPushAction(()->{
 								schublade_oben.setImg(new Image("schrank/schub_auf1.png"));
-								parent.getIntface().getInventory().add(toyBriegeF);
+								parent.getIntface().getInventory().add(paper);
 							});
 							schublade_oben.setSecondary(()->{});
 							schublade_oben.setSecondaryText("");
@@ -161,11 +192,12 @@ public class Level implements Drawable,Timer{
 				kommode.getChilds().add(tuer);
 				
 				combinations.add(new Combination(schublade_unten, key, ()->{
-					schublade_unten.setPushText("Die Schublade ist mit einem ruck aufgegangen.");
+					schublade_unten.setPushText("Die Schublade ist mit einem ruck aufgegangen.\nOh da war ein weiterer Bauklotz drin! Ab ins Inventar damit.");
 					schublade_unten.setLookText("Eine aufgeschlossende Schublade.");
 					schublade_unten.setCanPush(true);
 					schublade_unten.setPushAction(()->{
 						schublade_unten.setImg(new Image("schrank/schub_auf2.png"));
+						parent.getIntface().getInventory().add(toyBriegeF);
 					});
 					
 					// Wenn die aktive Aktion immer noch use ist, resete es, weil use *hier* zu ende ist
@@ -176,7 +208,8 @@ public class Level implements Drawable,Timer{
 			objects.add(kommode);
 		}
 		
-		Object codePanelObject =new Object(520, 650, 1600, 100, 50,new Image("CodePanel.png"));
+		
+		Object codePanelObject =new Object(520, 650, 1600,  80, 62,new Image("CodePanel.png"));
 		codePanelObject.setLookText("Ein elektronisches Türschloss mit Pin Code Funktion. Das sieht sehr sicher aus.");
 		
 		CodePanel codePanel=new CodePanel("888");
@@ -189,6 +222,13 @@ public class Level implements Drawable,Timer{
 			codePanel.setOnEnter(i->{
 				if(i==true){
 					content.getApplication().mainPane.getChildren().remove(codePanel);
+					if(isKeyCardTrue.get()){
+						door.setSecondary(()->{
+							door.setImg(new Image("tuer/tuer_flucht_auf.png"));
+						});
+					}else{
+						isCodeTrue.set(true);
+					}
 				}
 			});
 			content.getApplication().mainPane.getChildren().add(codePanel);
