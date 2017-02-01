@@ -39,7 +39,6 @@ public class Content extends Canvas implements Timer{
 			if(xOffset<0)xOffset+=50;
 		if(e.getCode()==KeyCode.RIGHT)
 			if(xOffset>(-500))xOffset-=50;
-		System.out.println(xOffset);
 	}
 	@Override
 	public void update(double pastetime){
