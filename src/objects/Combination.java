@@ -13,6 +13,7 @@ public class Combination {
 		this.f = f;
 		this.success = success;
 		this.error = error;
+		this.condition = condition;
 	}
 	public Combination(Object a, Object b, Runnable f, String success){
 		this(a,b,f,()->{return true;},success,"");

@@ -39,7 +39,7 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 	private ArrayList<Animation> currentTextTransitions;
 	
 	private Property<Action> activeAction=new SimpleObjectProperty<Action>(Action.NONE);	
-	private String cssButtonAktive="-fx-background-insets: 0,0 0 5 0, 0 0 5 0, 0 0 5 0;";
+	private String cssButtonAktive="-fx-background-insets: 0,0 0 5 0, 0 0 5 0, 0 0 5 0;-fx-background-color:linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),#9d4024";
 	private String cssButtonInAKtive="";
 	
 	private Pane dark;
@@ -84,13 +84,11 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 		pushBt.setOnAction(e->{
 			activeAction.setValue(activeAction.getValue()==Action.PUSH?Action.NONE:Action.PUSH);
 		});
-		useBT = new Button("Use");
+		useBT = new Button("Kombinieren");
 		useBT.setFont(font);
-		useBT.prefWidthProperty().bind((prefWidthProperty().multiply(inventoryScaling)).divide(7));
-		useBT.setOnAction(e->{
-			activeAction.setValue(activeAction.getValue()==Action.USE?Action.NONE:Action.USE);
-			
-			if(activeAction.getValue()==Action.USE){
+		useBT.prefWidthProperty().bind((prefWidthProperty().multiply(inventoryScaling)).divide(6));
+		Runnable useDarkOpen=()->{
+			if(activeAction.getValue()==Action.USE&&!inventory.isOneElementAktive()){
 				if(!getChildren().contains(dark))getChildren().add(dark);
 
 				dark.setOpacity(0);
@@ -109,9 +107,18 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 					inventory.getSwitchButton().fire();
 			}else{
 				getChildren().remove(dark);
+				InventoryElement.aktive.set(null);
+			}
+		};
+		useBT.setOnAction(e->{
+			activeAction.setValue(activeAction.getValue()==Action.USE?Action.NONE:Action.USE);
+			useDarkOpen.run();			
+		});
+		InventoryElement.aktive.addListener((ObservableValue<? extends Object> obValue, Object oldValue, Object newValue)->{
+			if(newValue==null){
+				useDarkOpen.run();				
 			}
 		});
-		
 		toggleRow = new Button("❰");
 		toggleRow.setFont(font);
 		//toggleRow.prefWidthProperty().bind((prefWidthProperty().multiply(inventoryScaling)).divide(7));

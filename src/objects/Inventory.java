@@ -35,6 +35,9 @@ public class Inventory extends Pane {
 		inventoryElements.add(inventoryElement);
 		vBox.getChildren().add(inventoryElement);
 	}
+	public boolean isOneElementAktive(){
+		return InventoryElement.aktive.isNotNull().get();
+	}
 	public Inventory(Interface intface){
 		this.intface=intface;
 		getChildren().addAll(scrollPane,switchButton);
