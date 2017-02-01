@@ -171,11 +171,11 @@ public class Level implements Drawable,Timer{
 							schublade_oben.setPushText("Die Schublade ist mit einem ruck aufgegangen. In der Schublade war ein Zettel! Mal sehen was steht da drauf? Viel zu dunkel! Ich kann hier nichts erkennen!");
 							schublade_oben.setLookText("Eine aufgeschlossende Schublade.");
 							schublade_oben.setCanPush(true);
-							schublade_oben.setPushAction(()->{
+							schublade_oben.setSecondary(()->{
 								schublade_oben.setImg(new Image("schrank/schub_auf1.png"));
 								parent.getIntface().getInventory().add(paper);
 							});
-							schublade_oben.setSecondary(()->{});
+//							schublade_oben.setSecondary(()->{});
 							schublade_oben.setSecondaryText("");
 						}
 					});
