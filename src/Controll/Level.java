@@ -168,7 +168,7 @@ public class Level implements Drawable,Timer{
 						if(i==true){
 							content.getApplication().mainPane.getChildren().remove(codeAlphabetPanel);
 							//toyBriegeF
-							schublade_oben.setPushText("Die Schublade ist mit einem ruck aufgegangen. In der Schublade war ein Zettel! Mal sehen was steht da drauf?");
+							schublade_oben.setPushText("Die Schublade ist mit einem ruck aufgegangen. In der Schublade war ein Zettel! Mal sehen was steht da drauf? Viel zu dunkel! Ich kann hier nichts erkennen!");
 							schublade_oben.setLookText("Eine aufgeschlossende Schublade.");
 							schublade_oben.setCanPush(true);
 							schublade_oben.setPushAction(()->{
