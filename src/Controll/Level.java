@@ -41,7 +41,8 @@ public class Level implements Drawable,Timer{
 		Object key = new Object(500,850,700,40,40,new Image("keycard.jpg"));
 		key.setCanGrab(true);
 		key.setGrabText("Den kann ich später bestimmt noch gut gebrauchen.");
-		Object vase = new Object(500, 800, 700, 100, 100,new Image("Vase.png"));
+		
+		Object vase = new Object(800, 800, 700, 100, 100,new Image("Vase.png"));
 		vase.setLookText("Hm die Vase sieht sehr leicht aus.");
 		vase.setGrabText("Viel zu sperrig. Die nehme ich nicht mit!");
 		vase.setPushText("Oh da war ein Schlüssel unter der Vase!");
@@ -52,6 +53,15 @@ public class Level implements Drawable,Timer{
 			vase.setZ(vase.getZ()+75);
 		});
 		objects.add(vase);
+		
+		Object vase2 = new Object(50, 750, 1600, 100, 100,new Image("Vase.png"));
+		vase2.setLookText("Hm die Vase sieht sehr leicht aus.");
+		vase2.setGrabText("Viel zu sperrig. Die nehme ich nicht mit!");
+		vase2.setPushText("Oh ich habe die Vase bewegt. Und jetzt?");
+		vase2.setPushAction(()->{
+			vase2.setX(vase2.getX()+75);
+		});
+		objects.add(vase2);
 		
 		{ // Kommode
 			Object kommode = new Object(-50, 650, 1300, 169*2, 139*2,new Image("schrank/schrank.png"));
