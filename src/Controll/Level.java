@@ -12,6 +12,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
+import objects.CodeAlphabetPanel;
 import objects.CodePanel;
 import objects.Combination;
 import objects.InventoryElement;
@@ -100,9 +101,22 @@ public class Level implements Drawable,Timer{
 				schublade_oben.setGrabText("Ich habe schon genug Schubladen zu hause.");
 				schublade_oben.setPushText("So funktioniert das nicht..");
 				//schublade_oben.setUseText("*rüttel* *rüttel*\nVerschlossen.");
-				schublade_oben.setSecondary(()->{
-					
+
+				CodeAlphabetPanel codeAlphabetPanel=new CodeAlphabetPanel("BDF");
+				schublade_oben.setSecondary(()->{					
+					codeAlphabetPanel.prefWidthProperty().bind(content.getApplication().mainScene.widthProperty());
+					codeAlphabetPanel.prefHeightProperty().bind(content.getApplication().mainScene.heightProperty());
+					codeAlphabetPanel.setOnClose(()->{
+						content.getApplication().mainPane.getChildren().remove(codeAlphabetPanel);
+					});
+					codeAlphabetPanel.setOnEnter(i->{
+						if(i==true){
+							content.getApplication().mainPane.getChildren().remove(codeAlphabetPanel);
+						}
+					});
+					content.getApplication().mainPane.getChildren().add(codeAlphabetPanel);
 				});
+				schublade_oben.setSecondaryText("Ein rotes panel hat sich geöffnet!");
 				
 				Object schublade_unten = new Object(kommode.getX(), kommode.getY(), kommode.getZ(), kommode.getWidth(), kommode.getHeight(), new Image("schrank/schub_zu2.png"));
 				schublade_unten.setLookText("Da ist ein Vorhängeschloss vor!");
