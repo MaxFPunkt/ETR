@@ -144,8 +144,7 @@ public class Level implements Drawable,Timer{
 		objects.add(codePanelObject);
 	}
 	
-	Image imgaeRoom=new Image("room.jpg");
-	Image imgaeBode=new Image("bode.png");
+	Image imgaeRoom=new Image("room.png");
 	
 	public Optional<Combination> getCombination(Object a,Object b){
 		return combinations.stream()
@@ -162,7 +161,6 @@ public class Level implements Drawable,Timer{
 			lastXOffsetWindow=xOffsetWindow;
 		
 		gc.drawImage(imgaeRoom,lastXOffsetWindow/900*3200,0, windowHeight/900*3200,windowHeight);
-		gc.drawImage(imgaeBode,lastXOffsetWindow/900*3200,0, windowHeight/900*3200,windowHeight);
 		objects.stream()
 			.sorted((o1,o2)->{
 				return Double.compare(o2.getZ(), o1.getZ());
