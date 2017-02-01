@@ -58,7 +58,7 @@ public class Level implements Drawable,Timer{
 		});
 		objects.add(vase);
 		
-		Object vase2 = new Object(50, 750, 1600, 100, 100,new Image("Vase.png"));
+		Object vase2 = new Object(60, 750, 1600, 100, 100,new Image("Vase.png"));
 		vase2.setLookText("Hm die Vase sieht sehr leicht aus.");
 		vase2.setGrabText("Viel zu sperrig. Die nehme ich nicht mit!");
 		vase2.setPushText("Oh ich habe die Vase bewegt. Und jetzt?");
@@ -67,6 +67,22 @@ public class Level implements Drawable,Timer{
 			vase2.setX(vase2.getX()+25);
 		});
 		objects.add(vase2);
+		
+
+		Object toyBriegeA= new Object( tisch.getX()+40, 650, tisch.getZ()-60, 37, 32,new Image("klotz/klotzA.png"));objects.add(toyBriegeA);
+		Object toyBriegeB= new Object( tisch.getX()+60, 650, tisch.getZ()-20, 37, 32,new Image("klotz/klotzD.png"));objects.add(toyBriegeB);
+		Object toyBriegeC= new Object( tisch.getX()+30, 650, tisch.getZ()-30, 37, 32,new Image("klotz/klotzF.png"));objects.add(toyBriegeC);
+		
+		Object toyBriegeD= new Object(110, 800, 1500, 37, 32,new Image("klotz/klotzE.png"));objects.add(toyBriegeD);
+		Object toyBriegeE= new Object(-20, 640, 1299, 37, 32,new Image("klotz/klotzC.png"));objects.add(toyBriegeE);
+		Object toyBriegeF= new Object( tisch.getX(), 300, tisch.getZ(), 20, 20,new Image("klotz/klotzB.png"));
+		Object[] toyBricks={toyBriegeA,toyBriegeB,toyBriegeC,toyBriegeD,toyBriegeE,toyBriegeF};
+		for(Object toyBrick: toyBricks){
+			toyBrick.setGrabText("Ein neuer Bauklotz für meine Sammlung.");
+			toyBrick.setLookText("Ein Bauklotz mit einem Buchstaben drauf. So einen wollten ich schon immer mal haben!");
+			//toyBrick.setUseText("Nicht jetzt, mir lauft die Zeit doch schon weg.");
+			toyBrick.setCanGrab(true);
+		}
 		
 		{ // Kommode
 			Object kommode = new Object(-50, 650, 1300, 169*2, 139*2,new Image("schrank/schrank.png"));
@@ -112,6 +128,16 @@ public class Level implements Drawable,Timer{
 					codeAlphabetPanel.setOnEnter(i->{
 						if(i==true){
 							content.getApplication().mainPane.getChildren().remove(codeAlphabetPanel);
+							//toyBriegeF
+							schublade_oben.setPushText("Die Schublade ist mit einem ruck aufgegangen.");
+							schublade_oben.setLookText("Eine aufgeschlossende Schublade.");
+							schublade_oben.setCanPush(true);
+							schublade_oben.setPushAction(()->{
+								schublade_oben.setImg(new Image("schrank/schub_auf1.png"));
+								parent.getIntface().getInventory().add(toyBriegeF);
+							});
+							schublade_oben.setSecondary(()->{});
+							schublade_oben.setSecondaryText("");
 						}
 					});
 					content.getApplication().mainPane.getChildren().add(codeAlphabetPanel);
@@ -120,9 +146,9 @@ public class Level implements Drawable,Timer{
 				
 				Object schublade_unten = new Object(kommode.getX(), kommode.getY(), kommode.getZ(), kommode.getWidth(), kommode.getHeight(), new Image("schrank/schub_zu2.png"));
 				schublade_unten.setLookText("Da ist ein Vorhängeschloss vor!");
-				
-				kommode.getChilds().add(schublade_oben);
+
 				kommode.getChilds().add(schublade_unten);
+				kommode.getChilds().add(schublade_oben);
 				kommode.getChilds().add(tuer);
 				
 				combinations.add(new Combination(schublade_unten, key, ()->{
@@ -139,20 +165,6 @@ public class Level implements Drawable,Timer{
 				}, "Das Vorhängeschloss ist jetzt offen!"));
 			}
 			objects.add(kommode);
-		}
-		Object toyBriegeA= new Object( tisch.getX()+40, 650, tisch.getZ()-60, 37, 32,new Image("klotz/klotzA.png"));objects.add(toyBriegeA);
-		Object toyBriegeB= new Object( tisch.getX()+60, 650, tisch.getZ()-20, 37, 32,new Image("klotz/klotzD.png"));objects.add(toyBriegeB);
-		Object toyBriegeC= new Object( tisch.getX()+30, 650, tisch.getZ()-30, 37, 32,new Image("klotz/klotzF.png"));objects.add(toyBriegeC);
-		
-//		Object toyBriegeD= new Object( tisch.getX(), 300, tisch.getZ(), 20, 20,new Image("CodePanel.png"));objects.add(toyBriegeD);
-//		Object toyBriegeE= new Object( tisch.getX(), 300, tisch.getZ(), 20, 20,new Image("CodePanel.png"));objects.add(toyBriegeE);
-//		Object toyBriegeF= new Object( tisch.getX(), 300, tisch.getZ(), 20, 20,new Image("CodePanel.png"));objects.add(toyBriegeF);
-		Object[] toyBricks={toyBriegeA,toyBriegeB,toyBriegeC};//toyBriegeD,toyBriegeE,toyBriegeF};
-		for(Object toyBrick: toyBricks){
-			toyBrick.setGrabText("Ein neuer Bauklotz für meine Sammlung.");
-			toyBrick.setLookText("Ein Bauklotz mit einem Buchstaben drauf. So einen wollten ich schon immer mal haben!");
-			//toyBrick.setUseText("Nicht jetzt, mir lauft die Zeit doch schon weg.");
-			toyBrick.setCanGrab(true);
 		}
 		
 		Object codePanelObject =new Object(520, 650, 1600, 100, 50,new Image("CodePanel.png"));
