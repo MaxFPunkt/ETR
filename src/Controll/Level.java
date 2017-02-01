@@ -58,8 +58,9 @@ public class Level implements Drawable,Timer{
 		vase2.setLookText("Hm die Vase sieht sehr leicht aus.");
 		vase2.setGrabText("Viel zu sperrig. Die nehme ich nicht mit!");
 		vase2.setPushText("Oh ich habe die Vase bewegt. Und jetzt?");
+		vase2.setCanPush(true);
 		vase2.setPushAction(()->{
-			vase2.setX(vase2.getX()+75);
+			vase2.setX(vase2.getX()+25);
 		});
 		objects.add(vase2);
 		
