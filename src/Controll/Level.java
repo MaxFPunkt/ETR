@@ -64,6 +64,8 @@ public class Level implements Drawable,Timer{
 			door.setImg(new Image("tuer/tuer_flucht_auf.png"));
 		});
 		
+		Object codePanel2 = new Object(550, 650, 1600, 100, 50,new Image("keycard_schlitz.png"));
+		objects.add(codePanel2);
 		
 		Object vase2 = new Object(60, 750, 1600, 100, 100,new Image("Vase.png"));
 		vase2.setLookText("Hm die Vase sieht sehr leicht aus.");
