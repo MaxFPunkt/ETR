@@ -3,6 +3,7 @@ package objects;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -13,25 +14,24 @@ public class InventoryElement extends Pane {
 
 	public static ObjectProperty<Object> aktive=new SimpleObjectProperty<>(null);
 	Object object;
-    private static final DropShadow ds = new DropShadow( 20, Color.RED );
+	private static DropShadow ds1 = new DropShadow(BlurType.GAUSSIAN,Color.RED,3,20,0.,0.);
+	private static DropShadow ds2 = new DropShadow(5,4.,4.,Color.gray(0.4));
     
 	public InventoryElement(Object object,Inventory inventory) {
 		this.object=object;
-		setStyle("-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 15, 0.5, 0.0, 0.0);" +
-        "-fx-background-color: white;-fx-margin:20;");
+		setStyle("-fx-background-color: white;-fx-margin:20;");
 		prefHeightProperty().set(100);
+        setEffect(ds2);
 		if(object.getImage() != null){
 			ImageView imageView=new ImageView(object.getImage());
 			getChildren().add(imageView);
 			imageView.fitWidthProperty().bind(widthProperty());
 			imageView.fitHeightProperty().bind(heightProperty());
-			
 			aktive.addListener((ObservableValue<? extends Object> observable, Object oldValue, Object newValue)->{
-				if(newValue==object){
-					imageView.setEffect( ds );
-				}else{					
-					imageView.setEffect( null );
-				}
+				if(newValue==object)
+			        setEffect(ds1);
+				else
+			        setEffect(ds2);
 			});
 		}
 		setOnMouseClicked(e->{
