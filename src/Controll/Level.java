@@ -94,22 +94,21 @@ public class Level implements Drawable,Timer{
 		
 		BooleanProperty lampOn = new SimpleBooleanProperty(false);
 		
-		Object lamp = new Object(tisch.getX()+40, 650, tisch.getZ()-60, 37, 32,new Image(""));
+		Object lamp = new Object(tisch.getX()+60, 590, tisch.getZ()-75, 200, 150,new Image("lamp/lamp_off.png"));
 		lamp.setSecondary(()->{
 			lampOn.set(!lampOn.get());
-			lamp.setImg(new Image("lamp_"+(lampOn.get()?"on":"off")+".png"));
+			lamp.setImg(new Image("lamp/lamp_"+(lampOn.get()?"on":"off")+".png"));
 		});
 		
 		combinations.add(new Combination(
 			lamp,
 			paper,
-			()->{
-				return lampOn.get();
-			},
+			()->{},
+			()->lampOn.get(),
 			"Hmm also auf dem Zettel steht:\n\"Welches Jahr vor 2002 war da letzte Jahr was nur gerade Zahlen beinhaltet?\"\nWozu soll das denn bitte nützlich sein?", 
 			"Damit es hell genug ist zum lesen, müsste die schon an sein!"
 		));
-		
+		objects.add(lamp);
 		Object toyBriegeA= new Object( tisch.getX()+40, 650, tisch.getZ()-60, 37, 32,new Image("klotz/klotzA.png"));objects.add(toyBriegeA);
 		Object toyBriegeB= new Object( tisch.getX()+60, 650, tisch.getZ()-20, 37, 32,new Image("klotz/klotzD.png"));objects.add(toyBriegeB);
 		Object toyBriegeC= new Object( tisch.getX()+30, 650, tisch.getZ()-30, 37, 32,new Image("klotz/klotzF.png"));objects.add(toyBriegeC);
