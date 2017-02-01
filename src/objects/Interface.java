@@ -2,6 +2,7 @@ package objects;
 
 import java.util.ArrayList;
 
+import de.cossijns.LibJavaFxMC.FontController;
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
@@ -66,13 +67,16 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 		
 		grabBt = new Button("Nehmen");
 		grabBt.setFont(font);
+		//grabBt.fontProperty().bind((new FontController("Arial",grabBt.textProperty() , grabBt.widthProperty(), grabBt.heightProperty())).getFontProperty());
 		grabBt.prefWidthProperty().bind((prefWidthProperty().multiply(inventoryScaling)).divide(7));
+		//grabBt.prefHeightProperty().bind();
 		grabBt.setOnAction(e->{
 			activeAction.setValue(activeAction.getValue()==Action.GRAB?Action.NONE:Action.GRAB);
 		});
 		
 		lookBt = new Button("Ansehen");
 		lookBt.setFont(font);
+		//lookBt.fontProperty().bind((new FontController("Arial",lookBt.textProperty() , lookBt.widthProperty(), lookBt.heightProperty())).getFontProperty());		
 		lookBt.prefWidthProperty().bind((prefWidthProperty().multiply(inventoryScaling)).divide(7));
 		lookBt.setOnAction(e->{
 			activeAction.setValue(activeAction.getValue()==Action.LOOK?Action.NONE:Action.LOOK);
@@ -80,6 +84,7 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 		
 		pushBt = new Button("Schieben");
 		pushBt.setFont(font);
+		//pushBt.fontProperty().bind((new FontController("Arial",pushBt.textProperty() , pushBt.widthProperty(), pushBt.heightProperty())).getFontProperty());
 		pushBt.prefWidthProperty().bind((prefWidthProperty().multiply(inventoryScaling)).divide(7));
 		pushBt.setOnAction(e->{
 			activeAction.setValue(activeAction.getValue()==Action.PUSH?Action.NONE:Action.PUSH);
@@ -111,6 +116,7 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 		
 		useBT = new Button("Kombinieren");
 		useBT.setFont(font);
+		//useBT.fontProperty().bind((new FontController("Arial",useBT.textProperty() , useBT.widthProperty(), useBT.heightProperty())).getFontProperty());
 		useBT.prefWidthProperty().bind((prefWidthProperty().multiply(inventoryScaling)).divide(5));
 		useBT.setOnAction(e->{
 			activeAction.setValue(activeAction.getValue()==Action.USE?Action.NONE:Action.USE);
