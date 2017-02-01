@@ -39,7 +39,7 @@ public class Level implements Drawable,Timer{
 		DoubleProperty backgrounbdWith=new SimpleDoubleProperty(0);
 		backgrounbdWith.bind(height.divide(9).multiply(32));
 		
-		Object key = new Object(850, 850, 700, 40,40,new Image("keycard.png"));
+		Object key = new Object(850, 885, 700, 98/3,29/3,new Image("key.png"));
 		key.setCanGrab(true);
 		key.setGrabText("Den kann ich später bestimmt noch gut gebrauchen.");
 
