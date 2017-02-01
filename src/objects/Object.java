@@ -79,7 +79,6 @@ public class Object extends Interactions implements Drawable, Timer, Comparable<
 		double k=120-getZ()/1760.*120;
 		double drawYNormal=k+ getY()/880.*(900-i-k);
 		return drawYNormal/900.*windowHeight ;
-		
 	}
 	/**
 	 * 

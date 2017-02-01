@@ -38,5 +38,4 @@ public class PartikelEffekt implements Drawable,Timer {
 		});
 		partikels.removeIf(p->p.livetime<0);
 	}
-
 }

@@ -74,7 +74,6 @@ public class Main extends Application{
 					if(!menu.isOpen()) menu.open();
 					else menu.close();
 		});
-		
 		mainLoop.start();
 	}
 
@@ -82,7 +81,5 @@ public class Main extends Application{
 	private void call(double pastTime) { content.call(pastTime); }
 
 	@Override
-	public void stop() throws Exception {
-		super.stop();		
-	}
+	public void stop() throws Exception { super.stop(); }
 }

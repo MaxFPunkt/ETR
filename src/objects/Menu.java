@@ -58,13 +58,7 @@ public class Menu extends Pane {
 		});
 		layoutYProperty().bind(new SimpleDoubleProperty(0).subtract(heightProperty()));	
 	}
-	public void open(){	
-		timelineOpen.playFromStart();
-	}
-	public void close(){
-		timelineClose.playFromStart();
-	}
-	public boolean isOpen() {
-		return openProcen.isEqualTo(1).get();
-	}	
+	public void open(){ timelineOpen.playFromStart(); }
+	public void close(){ timelineClose.playFromStart(); }
+	public boolean isOpen() { return openProcen.isEqualTo(1).get(); }	
 }

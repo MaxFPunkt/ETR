@@ -28,10 +28,8 @@ public class InventoryElement extends Pane {
 			imageView.fitWidthProperty().bind(widthProperty());
 			imageView.fitHeightProperty().bind(heightProperty());
 			aktive.addListener((ObservableValue<? extends Object> observable, Object oldValue, Object newValue)->{
-				if(newValue==object)
-			        setEffect(ds1);
-				else
-			        setEffect(ds2);
+				if(newValue==object) setEffect(ds1);
+				else setEffect(ds2);
 			});
 		}
 		setOnMouseClicked(e->{
@@ -42,5 +40,4 @@ public class InventoryElement extends Pane {
 				aktive.set(object);
 		});
 	}
-	
 }

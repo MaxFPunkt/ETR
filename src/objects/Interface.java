@@ -280,7 +280,6 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 	public void mouseClicked(double x, double y){}
 
 	public Action getActiveAction() {return activeAction.getValue();}
-
 	
 	/**
 	 * @return null if failed, action if success
