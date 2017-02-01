@@ -126,16 +126,16 @@ public class Level implements Drawable,Timer{
 			}
 			objects.add(kommode);
 		}
-		Object toyBriegeA= new Object( 0, 0, 0, 20, 20,new Image("CodePanel.png"));objects.add(toyBriegeA);
-		Object toyBriegeB= new Object(10, 0, 0, 20, 20,new Image("CodePanel.png"));objects.add(toyBriegeB);
-		Object toyBriegeC= new Object(20, 0, 0, 20, 20,new Image("CodePanel.png"));objects.add(toyBriegeC);
-		Object toyBriegeD= new Object(30, 0, 0, 20, 20,new Image("CodePanel.png"));objects.add(toyBriegeD);
-		Object toyBriegeE= new Object(40, 0, 0, 20, 20,new Image("CodePanel.png"));objects.add(toyBriegeE);
-		Object toyBriegeF= new Object(50, 0, 0, 20, 20,new Image("CodePanel.png"));objects.add(toyBriegeF);
-		Object[] toyBricks={toyBriegeA,toyBriegeB,toyBriegeC,toyBriegeD,toyBriegeE,toyBriegeF};
+		Object toyBriegeA= new Object( tisch.getX()+40, 650, tisch.getZ()-60, 20, 20,new Image("CodePanel.png"));objects.add(toyBriegeA);
+		Object toyBriegeB= new Object( tisch.getX()+60, 650, tisch.getZ()-20, 20, 20,new Image("CodePanel.png"));objects.add(toyBriegeB);
+		Object toyBriegeC= new Object( tisch.getX()+30, 650, tisch.getZ()-30, 20, 20,new Image("CodePanel.png"));objects.add(toyBriegeC);
+//		Object toyBriegeD= new Object( tisch.getX(), 300, tisch.getZ(), 20, 20,new Image("CodePanel.png"));objects.add(toyBriegeD);
+//		Object toyBriegeE= new Object( tisch.getX(), 300, tisch.getZ(), 20, 20,new Image("CodePanel.png"));objects.add(toyBriegeE);
+//		Object toyBriegeF= new Object( tisch.getX(), 300, tisch.getZ(), 20, 20,new Image("CodePanel.png"));objects.add(toyBriegeF);
+		Object[] toyBricks={toyBriegeA};//,toyBriegeB,toyBriegeC,toyBriegeD,toyBriegeE,toyBriegeF};
 		for(Object toyBrick: toyBricks){
 			toyBrick.setGrabText("Ein neuer Bauklotz für meine Sammlung.");
-			toyBrick.setLookText("So einen wollte ich schon immer mal haben.");
+			toyBrick.setLookText("Ein Bauklotz mit einem Buchstaben drauf. So einen wollten ich schon immer mal haben!");
 			//toyBrick.setUseText("Nicht jetzt, mir lauft die Zeit doch schon weg.");
 			toyBrick.setCanGrab(true);
 		}
