@@ -232,8 +232,13 @@ public class Level implements Drawable,Timer{
 				}else{
 					if(parent.getIntface().getActiveAction()==Action.USE){
 						if(getCombination(InventoryElement.aktive.get(),obj).isPresent()){
-							parent.getIntface().displayText(getCombination(InventoryElement.aktive.get(),obj).get().text);
-							if(getCombination(InventoryElement.aktive.get(),obj).get().f!=null)getCombination(InventoryElement.aktive.get(),obj).get().f.run();
+							Combination combination=getCombination(InventoryElement.aktive.get(),obj).get();
+							if(combination.condition.get()){
+								parent.getIntface().displayText(combination.success);
+								if(combination.f!=null)combination.f.run();								
+							}else{
+								parent.getIntface().displayText(combination.error);
+							}
 						}else{
 							if(InventoryElement.aktive.get()!=null)
 								parent.getIntface().displayText("Ich glaube das kann ich so nicht benutzen.");
