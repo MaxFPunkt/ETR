@@ -89,7 +89,7 @@ public class Level implements Drawable,Timer{
 		});
 		objects.add(vase2);
 		
-		Object paper = new Object(0,0,0,100,100,new Image("CodePanel.png"));
+		Object paper = new Object(0,0,0,100,100,new Image("zettel.png"));
 		paper.setSecondaryText("TEST TEXT");
 		
 		BooleanProperty lampOn = new SimpleBooleanProperty(false);
