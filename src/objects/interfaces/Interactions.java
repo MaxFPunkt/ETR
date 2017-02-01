@@ -11,9 +11,9 @@ public abstract class Interactions {
 	protected Consumer<Interface> grabAction; 
 
 	protected String grabText, pushText, lookText, useText, secondaryText;
-	protected boolean canGrab, canPush, canLook;
+	protected boolean canGrab, canPush, canLook, canInteract;
 
-	public enum Action{NONE,PUSH,GRAB,LOOK,USE};
+	public enum Action{NONE,PUSH,GRAB,LOOK,USE,INTERACT};
 	/**
 	 * 
 	 * @return true if the Object can be pushed.
@@ -31,6 +31,12 @@ public abstract class Interactions {
 	 * @return true if the Object can be looked at.
 	 */
 	public boolean canLook(){return canLook;}
+	/**
+	 * 
+	 * @return true if the Object can be interacted.
+	 */
+	public boolean canInteract(){return canInteract;}
+	
 	public boolean can(Action action){
 		switch (action) {
 		case PUSH:
@@ -39,6 +45,8 @@ public abstract class Interactions {
 			return canGrab();
 		case LOOK:
 			return canLook();
+		case INTERACT:
+			return canInteract();
 		default:return false;
 		}
 	}
@@ -47,7 +55,7 @@ public abstract class Interactions {
 	public void setLookAction(Runnable action) { this.lookAction = action; }
 	public void setUseAction(Runnable action) { this.useAction = action; }
 	public void setGrabAction(Consumer<Interface> action) { this.grabAction = action; }
-	public void setSecondary(Runnable action) {this.secondaryAction=action;}
+	public void setSecondary(Runnable action) {this.canInteract = true; this.secondaryAction=action;}
 
 	public void setGrabText(String text) { this.grabText = text; }
 	public void setPushText(String text) { this.pushText = text; }
@@ -57,6 +65,7 @@ public abstract class Interactions {
 	public void setCanGrab(boolean canGrab) { this.canGrab = canGrab; }
 	public void setCanPush(boolean canPush) { this.canPush = canPush; }
 	public void setCanLook(boolean canLook) { this.canLook = canLook; }
+	public void setCanInteract(boolean canInteract) { this.canInteract = canInteract; }
 	
 	public String getText(Interactions.Action action) { 
 		switch(action){
@@ -64,11 +73,10 @@ public abstract class Interactions {
 			case LOOK : return lookText;
 			case PUSH : return pushText;
 			case USE : return useText;
+			case INTERACT : return secondaryText;
 			default : return "";
 		}
 	}
-	
-	public String getSecondaryText(){ return secondaryText; }
 	
 	public void push(){if(pushAction!=null)pushAction.run();}
 	public void grab(Interface intface){if(grabAction!=null)grabAction.accept(intface);}

@@ -30,7 +30,7 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 		return useBT;
 	}
 	private HBox botRow;
-	private Button toggleRow, grabBt, lookBt, pushBt,useBT;
+	private Button toggleRow, grabBt, lookBt, pushBt,useBT,interactBT;
 	private boolean rowExpanded;
 	private Label labelBox;
 	private Timeline stopDisplay;
@@ -84,9 +84,7 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 		pushBt.setOnAction(e->{
 			activeAction.setValue(activeAction.getValue()==Action.PUSH?Action.NONE:Action.PUSH);
 		});
-		useBT = new Button("Kombinieren");
-		useBT.setFont(font);
-		useBT.prefWidthProperty().bind((prefWidthProperty().multiply(inventoryScaling)).divide(6));
+		
 		Runnable useDarkOpen=()->{
 			if(activeAction.getValue()==Action.USE&&!inventory.isOneElementAktive()){
 				if(!getChildren().contains(dark))getChildren().add(dark);
@@ -110,15 +108,27 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 				InventoryElement.aktive.set(null);
 			}
 		};
+		
+		useBT = new Button("Kombinieren");
+		useBT.setFont(font);
+		useBT.prefWidthProperty().bind((prefWidthProperty().multiply(inventoryScaling)).divide(5));
 		useBT.setOnAction(e->{
 			activeAction.setValue(activeAction.getValue()==Action.USE?Action.NONE:Action.USE);
 			useDarkOpen.run();			
+		});
+		
+		interactBT = new Button("Interagieren");
+		interactBT.setFont(font);
+		interactBT.prefWidthProperty().bind((prefWidthProperty().multiply(inventoryScaling)).divide(5));
+		interactBT.setOnAction(e->{
+			activeAction.setValue(activeAction.getValue()==Action.INTERACT?Action.NONE:Action.INTERACT);		
 		});
 		InventoryElement.aktive.addListener((ObservableValue<? extends Object> obValue, Object oldValue, Object newValue)->{
 			if(newValue==null){
 				useDarkOpen.run();				
 			}
 		});
+		
 		toggleRow = new Button("❰");
 		toggleRow.setFont(font);
 		//toggleRow.prefWidthProperty().bind((prefWidthProperty().multiply(inventoryScaling)).divide(7));
@@ -146,6 +156,10 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 					useBT.setStyle(cssButtonAktive);
 				else 
 					useBT.setStyle(cssButtonInAKtive);
+				if(newValue==Action.INTERACT)
+					interactBT.setStyle(cssButtonAktive);
+				else 
+					interactBT.setStyle(cssButtonInAKtive);
 			}
 		});
 		activeAction.setValue(Action.PUSH);activeAction.setValue(Action.NONE);
@@ -174,7 +188,7 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 		}));
 		
 		labelBox.setStyle("-fx-background-radius:15; -fx-background-color: rgba(20,20,20,0.8);-fx-text-fill:white;-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 15, 0.5, 0.0, 0.0);");
-		botRow.getChildren().addAll(pushBt,grabBt,lookBt,useBT,toggleRow);
+		botRow.getChildren().addAll(pushBt,grabBt,lookBt,useBT,interactBT,toggleRow);
 		
 		dark = new Pane();
 		dark.prefWidthProperty().bind(prefWidthProperty().subtract(inventory.prefWidthProperty()));
@@ -268,6 +282,7 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 	@SuppressWarnings("incomplete-switch")
 	public Action action(Object object) {
 		displayText(object.getText(getActiveAction()));
+		System.out.println("HALLO: "+getActiveAction().toString());
 		if(object.can(getActiveAction())){
 			switch(getActiveAction()){
 			case GRAB:
@@ -278,7 +293,11 @@ public class Interface extends Pane implements objects.interfaces.Timer{
 				break;
 			case PUSH:
 				object.push();
-				break;			
+				break;
+			case INTERACT:
+				System.out.println("INTERACT");
+				object.secondaryAction();
+				break;
 			}
 			Action executedAction = getActiveAction();
 			resetActiveAction();

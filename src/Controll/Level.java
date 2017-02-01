@@ -135,7 +135,7 @@ public class Level implements Drawable,Timer{
 				tuer.setSecondaryText("Offen! Oh in der Kommode lag eine Schlüsselkarte. Für die finde ich bestimmt noch das richtige Schloss.");
 				tuer.setPushText("So funktioniert das nicht.. Wenn ich nur wüsste, wie ich Türen *benutzen* kannn!");
 				tuer.setSecondary(()->{
-					
+					System.out.println("KOMMODE SECONDARY");
 					if(tuerOpen.get()){ 
 						tuer.setImg(new Image("schrank/tuer_zu.png"));
 						tuer.setSecondaryText("Und wieder zu.");
@@ -194,7 +194,7 @@ public class Level implements Drawable,Timer{
 					schublade_unten.setPushText("Die Schublade ist mit einem ruck aufgegangen.\nOh da war ein weiterer Bauklotz drin! Ab ins Inventar damit.");
 					schublade_unten.setLookText("Eine aufgeschlossende Schublade.");
 					schublade_unten.setCanPush(true);
-					schublade_unten.setPushAction(()->{
+					schublade_unten.setSecondary(()->{
 						schublade_unten.setImg(new Image("schrank/schub_auf2.png"));
 						parent.getIntface().getInventory().add(toyBriegeF);
 					});
@@ -265,31 +265,26 @@ public class Level implements Drawable,Timer{
 			Optional<Object> object=getClickedObjekt(x, y);
 			if(object.isPresent()){
 				Object obj = object.get().whichChildHit(x,y,totalHeight,lastXOffsetWindow);
-				if(mouseButton==MouseButton.SECONDARY){
-					obj.secondaryAction();
-					parent.getIntface().displayText(obj.getSecondaryText());
-				}else{
-					if(parent.getIntface().getActiveAction()==Action.USE){
-						if(getCombination(InventoryElement.aktive.get(),obj).isPresent()){
-							Combination combination=getCombination(InventoryElement.aktive.get(),obj).get();
-							if(combination.condition.get()){
-								parent.getIntface().displayText(combination.success);
-								if(combination.f!=null)combination.f.run();								
-							}else{
-								parent.getIntface().displayText(combination.error);
-							}
+				if(parent.getIntface().getActiveAction()==Action.USE){
+					if(getCombination(InventoryElement.aktive.get(),obj).isPresent()){
+						Combination combination=getCombination(InventoryElement.aktive.get(),obj).get();
+						if(combination.condition.get()){
+							parent.getIntface().displayText(combination.success);
+							if(combination.f!=null)combination.f.run();								
 						}else{
-							if(InventoryElement.aktive.get()!=null)
-								parent.getIntface().displayText("Ich glaube das kann ich so nicht benutzen.");
-							else
-								parent.getIntface().displayText("Nichts mit etwas zu verbinden, bleibt etwas!");								
+							parent.getIntface().displayText(combination.error);
 						}
 					}else{
-						Action action = parent.getIntface().action(obj);
-						if(action!=null && action.equals(Action.GRAB)) {
-							partikelEffekts.add(new PartikelEffekt(obj,lastWindowHeight, lastXOffsetWindow));
-							objects.remove(obj);
-						}
+						if(InventoryElement.aktive.get()!=null)
+							parent.getIntface().displayText("Ich glaube das kann ich so nicht benutzen.");
+						else
+							parent.getIntface().displayText("Nichts mit etwas zu verbinden, bleibt etwas!");								
+					}
+				}else{
+					Action action = parent.getIntface().action(obj);
+					if(action!=null && action.equals(Action.GRAB)) {
+						partikelEffekts.add(new PartikelEffekt(obj,lastWindowHeight, lastXOffsetWindow));
+						objects.remove(obj);
 					}
 				}
 			}
